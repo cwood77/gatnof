@@ -17,12 +17,34 @@ public:
 // used to locate images/screens
 class iFactory {
 public:
-   virtual iObject& create(const std::string& id) = 0;
+   virtual ~iFactory() {}
+   template<class T> T& create(const std::string& id)
+   { return dynamic_cast<T&>(_create(typeid(T).name(),id)); }
+   virtual iObject& _create(const std::string& typeId, const std::string& id) = 0;
 };
 
 class iPlugInFactory {
 public:
-   virtual iObject *tryCreate(const std::string& id) = 0;
+   virtual ~iPlugInFactory() {}
+   virtual iObject *tryCreate(const std::string& typeId, const std::string& id) = 0;
+};
+
+template<class T, class I>
+class plugInFactoryT : public iPlugInFactory {
+public:
+   explicit plugInFactoryT(const std::string& id) : m_id(id) {}
+
+   virtual iObject *tryCreate(const std::string& typeId, const std::string& id)
+   {
+      if(typeId != typeid(I).name())
+         return NULL;
+      if(id != m_id)
+         return NULL;
+      return new T();
+   }
+
+private:
+   std::string m_id;
 };
 
 // --------------- simple atomics
@@ -49,11 +71,12 @@ public:
 
 class iImage : public iObject {
 public:
+   virtual void release() { delete this; }
    virtual void render() = 0;
    virtual pnt demandPnt(const std::string& id) = 0;
 };
 
-class iScreen {
+class iScreen : public iObject {
 public:
    virtual iObject& demand(const std::string& id) = 0;
 };

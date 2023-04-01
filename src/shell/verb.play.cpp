@@ -2,6 +2,7 @@
 #include "../cmn/autoPtr.hpp"
 #include "../console/arg.hpp"
 #include "../console/log.hpp"
+#include "../cui/api.hpp"
 #include "../file/api.hpp"
 #include "../file/manager.hpp"
 #include "../tcatlib/api.hpp"
@@ -50,10 +51,13 @@ void playCommand::run(console::iLog& l)
    l.writeLnDebug("loading db");
 
    l.writeLnDebug("initializing cui");
+   tcat::typePtr<cui::iFactory> sFac;
 
    l.writeLnDebug("contacting server for account info");
 
    l.writeLnDebug("switching to cui");
+   cmn::autoReleasePtr<cui::iImage> pScr(&sFac->create<cui::iImage>("home"));
+   pScr->render();
 }
 
 } // anonymous namespace

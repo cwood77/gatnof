@@ -54,6 +54,7 @@ int main(int argc, const char *argv[])
    out << "// *******************************" << std::endl;
    out << std::endl;
    out << "#include \"../../src/cui/api.hpp\"" << std::endl;
+   out << "#include \"../../src/tcatlib/api.hpp\"" << std::endl;
    out << "#include <iostream>" << std::endl;
    out << std::endl;
    out << "class " << name << "_image : public cui::iImage {" << std::endl;
@@ -66,7 +67,16 @@ int main(int argc, const char *argv[])
       out << "      std::cout << \"" << line << "\" << std::endl;" << std::endl;
    }
    out << "   }" << std::endl;
+   out << std::endl;
+   out << "   virtual cui::pnt demandPnt(const std::string& id) { throw 3.14; }" << std::endl;
    out << "};" << std::endl;
+   out << std::endl;
+   out << "class " << name << "_image_fac : public cui::plugInFactoryT<" << name << "_image,cui::iImage> {" << std::endl;
+   out << "public:" << std::endl;
+   out << "   " << name << "_image_fac() : cui::plugInFactoryT<" << name << "_image,cui::iImage>(\"" << name << "\") {}" << std::endl;
+   out << "};" << std::endl;
+   out << std::endl;
+   out << "tcatExposeTypeAs(" << name << "_image_fac,cui::iPlugInFactory);" << std::endl;
 
    return 0;
 }
