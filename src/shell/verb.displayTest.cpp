@@ -68,6 +68,7 @@ void displayTestCommand::run(console::iLog& l)
     {
        pen::object p(std::cout);
        p.str() << pen::clearScreen();
+       p.str() << pen::moveTo(cui::pnt(2,3));
        p.str() << pen::fgcol(pen::kYellow) << "hello " << pen::bgcol(pen::kBlue) << "world" << std::endl;
     }
 

@@ -28,6 +28,11 @@ public:
 // --------------- simple atomics
 
 class pnt {
+public:
+   pnt(size_t x, size_t y) : x(x), y(y) {}
+
+   size_t x;
+   size_t y;
 };
 
 // --------------- toolbox of controls, etc.

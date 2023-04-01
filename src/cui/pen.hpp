@@ -1,6 +1,7 @@
 #ifndef ___cui_pen___
 #define ___cui_pen___
 
+#include "api.hpp"
 #include <iostream>
 
 namespace pen {
@@ -40,21 +41,33 @@ private:
 
 class fgcol : public colorBase {
 public:
-   fgcol(colors c, bool bright = false);
+   explicit fgcol(colors c, bool bright = false);
 };
 
 class bgcol : public colorBase {
 public:
-   bgcol(colors c, bool bright = false);
+   explicit bgcol(colors c, bool bright = false);
 };
 
-class moveTo;
+class moveTo {
+public:
+   explicit moveTo(const cui::pnt& p) : m_p(p) {}
+
+public:
+   void insert(std::ostream& s) const { s << "\x1b[" << m_p.y << ";" << m_p.x << "H"; }
+
+private:
+   cui::pnt m_p;
+};
 
 class clearScreen {};
 
 } // namespace pen
 
 inline std::ostream& operator<<(std::ostream& s, const pen::colorBase& v)
+{ v.insert(s); return s; }
+
+inline std::ostream& operator<<(std::ostream& s, const pen::moveTo& v)
 { v.insert(s); return s; }
 
 inline std::ostream& operator<<(std::ostream& s, const pen::clearScreen&)
