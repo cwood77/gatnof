@@ -63,6 +63,7 @@ void playCommand::run(console::iLog& l)
    l.writeLnDebug("contacting server for account info");
 
    l.writeLnDebug("switching to cui");
+   pen::object::setupStdOut();
    cmn::autoReleasePtr<cui::iImage> pScr(&sFac->create<cui::iImage>("home"));
    pScr->render();
 }

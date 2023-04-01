@@ -8,6 +8,8 @@ namespace pen {
 
 class object {
 public:
+   static void setupStdOut();
+
    explicit object(std::ostream& s) : m_s(s) {}
 
    std::ostream& str() { return m_s; }
