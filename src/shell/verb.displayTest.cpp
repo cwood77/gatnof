@@ -70,6 +70,17 @@ void displayTestCommand::run(console::iLog& l)
        p.str() << pen::clearScreen();
        p.str() << pen::fgcol(pen::kYellow) << "hello " << pen::bgcol(pen::kBlue) << "world" << std::endl;
     }
+
+    for(size_t i=0;i<11;i++)
+       for(size_t j=0;j<10;j++)
+          std::cout << j;
+    std::cout << std::endl;
+    for(size_t i=0;i<11;i++)
+    {
+       std::cout << i;
+       for(size_t j=0;j<9;j++)
+          std::cout << " ";
+    }
 }
 
 } // anonymous namespace
