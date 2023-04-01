@@ -352,6 +352,7 @@ $(SERVER_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 
 SHELL_SRC = \
 	src/shell/main.cpp \
+	src/shell/verb.displayTest.cpp \
 
 SHELL_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SHELL_SRC)))
 
