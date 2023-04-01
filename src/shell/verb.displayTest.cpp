@@ -1,7 +1,9 @@
 #define WIN32_LEAN_AND_MEAN
 #include "../console/arg.hpp"
 #include "../console/log.hpp"
+#include "../cui/pen.hpp"
 #include "../tcatlib/api.hpp"
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <stdio.h>
@@ -63,13 +65,11 @@ void displayTestCommand::run(console::iLog& l)
 
     // https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
 
-    wprintf(L"\x1b[s");
-    for(size_t i=0;i<10;i++)
     {
-       wprintf(L"\x1b[3;%ldH*",2+i);
-       ::Sleep(1000);
+       pen::object p(std::cout);
+       p.str() << pen::clearScreen();
+       p.str() << pen::fgcol(pen::kYellow) << "hello " << pen::bgcol(pen::kBlue) << "world" << std::endl;
     }
-    wprintf(L"\x1b[uDone\r\n");
 }
 
 } // anonymous namespace
