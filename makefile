@@ -18,6 +18,7 @@ all: \
 	$(OUT_DIR)/debug/file.dll \
 	$(OUT_DIR)/debug/file.test.dll \
 	$(OUT_DIR)/debug/net.dll \
+	$(OUT_DIR)/debug/screen.dll \
 	$(OUT_DIR)/debug/server.exe \
 	$(OUT_DIR)/debug/shell.exe \
 	$(OUT_DIR)/debug/tcatbin.dll \
@@ -28,6 +29,7 @@ all: \
 	$(OUT_DIR)/release/file.dll \
 	$(OUT_DIR)/release/file.test.dll \
 	$(OUT_DIR)/release/net.dll \
+	$(OUT_DIR)/release/screen.dll \
 	$(OUT_DIR)/release/server.exe \
 	$(OUT_DIR)/release/shell.exe \
 	$(OUT_DIR)/release/tcatbin.dll \
@@ -149,7 +151,7 @@ $(OUT_DIR)/debug/pen.lib: $(PEN_DEBUG_OBJ)
 
 $(PEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
 	$(info $< --> $@)
-	@mkdir -p $(OBJ_DIR)/debug/pen
+	@mkdir -p $(OBJ_DIR)/debug/cui
 	@$(COMPILE_CMD) $(DEBUG_CC_FLAGS) $< -o $@
 
 PEN_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(PEN_SRC)))
@@ -161,7 +163,7 @@ $(OUT_DIR)/release/pen.lib: $(PEN_RELEASE_OBJ)
 
 $(PEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 	$(info $< --> $@)
-	@mkdir -p $(OBJ_DIR)/release/pen
+	@mkdir -p $(OBJ_DIR)/release/cui
 	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
 
 # ----------------------------------------------------------------------
@@ -416,10 +418,10 @@ COML_SRC = \
 
 COML_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(COML_SRC)))
 
-$(OUT_DIR)/debug/coml.exe: $(COML_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib $(OUT_DIR)/debug/pen.lib
+$(OUT_DIR)/debug/coml.exe: $(COML_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/debug
-	@$(LINK_CMD) -o $@ $(COML_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lole32 -lpen
+	@$(LINK_CMD) -o $@ $(COML_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lole32
 
 $(COML_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
 	$(info $< --> $@)
@@ -428,10 +430,10 @@ $(COML_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
 
 COML_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(COML_SRC)))
 
-$(OUT_DIR)/release/coml.exe: $(COML_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib $(OUT_DIR)/release/pen.lib
+$(OUT_DIR)/release/coml.exe: $(COML_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/release
-	@$(LINK_CMD) -o $@ $(COML_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lole32 -lpen
+	@$(LINK_CMD) -o $@ $(COML_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lole32
 
 $(COML_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 	$(info $< --> $@)
@@ -439,30 +441,59 @@ $(COML_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
 
 # ----------------------------------------------------------------------
-# screens
+# screen
 
-SCREEN_SRC = \
-	src/shell/screen.home.coml \
+SCREEN_COML = \
+	src/screen/screen.home.coml \
 
-SCREEN_DEBUG_CPP = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_SRC)))
+SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 
-$(SCREEN_DEBUG_CPP): gen/%.cpp: src/%.coml bin/out/debug/coml.exe
+$(SCREEN_GEN): gen/%.cpp: src/%.coml bin/out/debug/coml.exe
 	$(info $< --> $@)
-	@mkdir -p gen/shell
+	@mkdir -p gen/screen
 	@bin/out/debug/coml.exe $< $@
 
-SCREEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.coml,%.o,$(SCREEN_SRC)))
+SCREEN_DEBUG_GEN_OBJ = $(subst gen,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_GEN)))
 
-$(SCREEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: gen/%.cpp
+$(SCREEN_DEBUG_GEN_OBJ): $(OBJ_DIR)/debug/%.o: gen/%.cpp
 	$(info $< --> $@)
-	@mkdir -p $(OBJ_DIR)/debug/shell
+	@mkdir -p $(OBJ_DIR)/debug/screen
 	@$(COMPILE_CMD) $(DEBUG_CC_FLAGS) $< -o $@
 
-SCREEN_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.coml,%.o,$(SCREEN_SRC)))
+SCREEN_RELEASE_GEN_OBJ = $(subst gen,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(SCREEN_GEN)))
 
-$(SCREEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: gen/%.cpp
+$(SCREEN_RELEASE_GEN_OBJ): $(OBJ_DIR)/release/%.o: gen/%.cpp
 	$(info $< --> $@)
-	@mkdir -p $(OBJ_DIR)/release/shell
+	@mkdir -p $(OBJ_DIR)/release/screen
+	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
+
+# -- above is codegen --
+
+SCREEN_SRC = \
+	src/screen/main.cpp \
+
+SCREEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_SRC)))
+
+$(OUT_DIR)/debug/screen.dll: $(SCREEN_DEBUG_OBJ) $(SCREEN_DEBUG_GEN_OBJ) $(OUT_DIR)/debug/tcatlib.lib $(OUT_DIR)/debug/pen.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/debug
+	@$(LINK_CMD) -shared -o $@ $(SCREEN_DEBUG_OBJ) $(SCREEN_DEBUG_GEN_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lpen
+
+$(SCREEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/debug/screen
+	@$(COMPILE_CMD) $(DEBUG_CC_FLAGS) $< -o $@
+
+SCREEN_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(SCREEN_SRC)))
+
+$(OUT_DIR)/release/screen.dll: $(SCREEN_RELEASE_OBJ) $(SCREEN_RELEASE_GEN_OBJ) $(OUT_DIR)/release/tcatlib.lib $(OUT_DIR)/release/pen.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/release
+	@$(LINK_CMD) -shared -o $@ $(SCREEN_RELEASE_OBJ) $(SCREEN_RELEASE_GEN_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lpen
+
+$(SCREEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/release/screen
 	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
 
 # ----------------------------------------------------------------------
@@ -475,10 +506,10 @@ SHELL_SRC = \
 
 SHELL_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SHELL_SRC)))
 
-$(OUT_DIR)/debug/shell.exe: $(SHELL_DEBUG_OBJ) $(SCREEN_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib $(OUT_DIR)/debug/pen.lib
+$(OUT_DIR)/debug/shell.exe: $(SHELL_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib $(OUT_DIR)/debug/pen.lib
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/debug
-	@$(LINK_CMD) -o $@ $(SHELL_DEBUG_OBJ) $(SCREEN_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lole32 -lpen
+	@$(LINK_CMD) -o $@ $(SHELL_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lole32 -lpen
 
 $(SHELL_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
 	$(info $< --> $@)
@@ -487,10 +518,10 @@ $(SHELL_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
 
 SHELL_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(SHELL_SRC)))
 
-$(OUT_DIR)/release/shell.exe: $(SHELL_RELEASE_OBJ) $(SCREEN_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib $(OUT_DIR)/release/pen.lib
+$(OUT_DIR)/release/shell.exe: $(SHELL_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib $(OUT_DIR)/release/pen.lib
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/release
-	@$(LINK_CMD) -o $@ $(SHELL_RELEASE_OBJ) $(SCREEN_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lole32 -lpen
+	@$(LINK_CMD) -o $@ $(SHELL_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lole32 -lpen
 
 $(SHELL_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 	$(info $< --> $@)
