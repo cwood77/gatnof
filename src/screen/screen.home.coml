@@ -21,12 +21,12 @@ coml v1 20
 +------------------------------------------------------------------------------------------------------------+
 1=txt:" << pen::clearScreen() << pen::moveTo(cui::pnt(1,1)) << "
 2=txt:" << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue) << "
-3=ctl:aName/21/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)
-4=ctl:gems/5/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)
-5=ctl:gold/5/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)
-7=ctl:ip/15/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)
-8=ctl:year/4/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)
-9=ctl:error/106/ << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)
+3=str:aName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
+4=str:gems/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
+5=str:gold/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
+7=str:ip/15/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
+8=str:year/4/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
+9=str:error/106/1/ << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)/
 ; comment
 110 x 20
 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890

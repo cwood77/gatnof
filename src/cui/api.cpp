@@ -6,37 +6,57 @@
 
 namespace cui { 
 
-void control::initialize(pnt p, size_t l)
+void control::initialize(pnt p, size_t l, size_t h)
 {
    m_p = p;
    m_l = l;
-   update(std::string(l,' '));
+   m_h = h;
+
+   erase();
 }
 
-void control::update(const std::string& v)
+void control::erase()
 {
    tcat::typePtr<cmn::serviceManager> svcMan;
    auto& str = svcMan->demand<pen::object>().str();
 
    // clear
-   str << pen::moveTo(m_p);
-   formatText(str);
-   str << std::string(m_l,' ');
+   for(size_t y=0;y<m_h;y++)
+   {
+      str << pen::moveTo(cui::pnt(m_p.x,m_p.y+y));
+      formatText(str);
+      str << std::string(m_l,' ');
+   }
+}
+
+void control::formatText(std::ostream& o)
+{
+   if(m_i == 1)
+      formatText1(o);
+   else if(m_i == 2)
+      formatText2(o);
+}
+
+void stringControl::redraw(const std::string& v)
+{
+   tcat::typePtr<cmn::serviceManager> svcMan;
+   auto& str = svcMan->demand<pen::object>().str();
+
+   // clear
+   erase();
 
    // write
-   str << pen::moveTo(m_p);
+   str << pen::moveTo(getLoc());
    formatText(str);
    str << v;
 
    m_str = v;
 }
 
-void control::access(std::function<void(std::string&)> f)
+void stringControl::update(const std::string& v)
 {
-   std::string previous = m_str;
-   f(m_str);
-   if(previous != m_str)
-      update(m_str);
+   if(v != m_str)
+      redraw(v);
 }
 
 iObject& basicScreen::_demand(const std::string& id)

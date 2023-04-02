@@ -24,13 +24,16 @@ public:
 
 class controlObject : public iObject {
 public:
-   controlObject() : length(0), pnt(0,0) {}
+   controlObject() : length(0), height(0), pnt(0,0) {}
 
    virtual void place(cui::pnt p) { pnt = p; }
 
+   std::string baseType;
    std::string name;
    int length;
-   std::string formatting;
+   int height;
+   std::string format1;
+   std::string format2;
    cui::pnt pnt;
 };
 
@@ -91,15 +94,19 @@ void parseObject(const char*& pThumb, std::list<iObject*>& list)
       list.push_back(pObj);
       pObj->payload = pThumb + 4;
    }
-   else if(::strncmp(pThumb,"ctl:",4)==0)
+   else if(::strncmp(pThumb,"str:",4)==0)
    {
       auto *pObj = new controlObject();
       list.push_back(pObj);
-      char buffer[1024];
+      char buffer1[1024];
+      char buffer2[1024];
       int n = 0;
-      ::sscanf(pThumb,"ctl:%[^/]/%d/%n",buffer,&(pObj->length),&n);
-      pObj->name = buffer;
-      pObj->formatting = pThumb + n;
+      ::sscanf(pThumb,"str:%[^/]/%d/%d/%[^/]/%n",
+         buffer1,&(pObj->length),&(pObj->height),buffer2,&n);
+      pObj->name = buffer1;
+      pObj->format1 = buffer2;
+      pObj->format2 = pThumb + n;
+      pObj->baseType = "cui::stringControl";
    }
    else
    {
@@ -107,44 +114,6 @@ void parseObject(const char*& pThumb, std::list<iObject*>& list)
       stream << "unknown object '" << pThumb << "'";
       throw std::runtime_error(stream.str());
    }
-#if 0
-   while(*pThumb != 0)
-   {
-      if(::strncmp(pThumb,"clear(",6)==0)
-      {
-         list.push_back(new clearObject());
-         eatUntil(pThumb,')');
-      }
-      else if(::strncmp(pThumb,"fg(",3)==0)
-      {
-         auto *pObj = new fgObject();
-         list.push_back(pObj);
-         {
-            char buffer[100];
-            ::sscanf(pThumb,"fg(%[^)]",buffer);
-            pObj->setColor(buffer);
-         }
-         eatUntil(pThumb,')');
-      }
-      else if(::strncmp(pThumb,"bg(",3)==0)
-      {
-         auto *pObj = new bgObject();
-         list.push_back(pObj);
-         {
-            char buffer[100];
-            ::sscanf(pThumb,"bg(%[^)]",buffer);
-            pObj->setColor(buffer);
-         }
-         eatUntil(pThumb,')');
-      }
-      else
-      {
-         std::stringstream stream;
-         stream << "unknown object '" << pThumb << "'";
-         throw std::runtime_error(stream.str());
-      }
-   }
-#endif
 }
 
 void parseObjectLine(const std::string& line, bool& stop, objectTable& oTable)
@@ -289,16 +258,21 @@ int main(int argc, const char *argv[])
    // generate the image factory
    generateFactory(name + "_image","cui::iImage",out);
 
-   // generate any text object(s)
+   // generate any control object(s)
    oTable.foreach<controlObject>([&](auto& ctl)
    {
       out << std::endl;
-      out << "class " << name << "_" << ctl.name << "_ctl : public cui::control {" << std::endl;
+      out << "class " << name << "_" << ctl.name << "_ctl : public " << ctl.baseType << " {" << std::endl;
       out << "protected:" << std::endl;
-      out << "   virtual void formatText(std::ostream& o)" << std::endl;
+      out << "   virtual void formatText1(std::ostream& o)" << std::endl;
       out << "   {" << std::endl;
-      if(!ctl.formatting.empty())
-         out << "      o" << ctl.formatting << ";" << std::endl;
+      if(!ctl.format1.empty())
+         out << "      o" << ctl.format1 << ";" << std::endl;
+      out << "   }" << std::endl;
+      out << "   virtual void formatText2(std::ostream& o)" << std::endl;
+      out << "   {" << std::endl;
+      if(!ctl.format2.empty())
+         out << "      o" << ctl.format2 << ";" << std::endl;
       out << "   }" << std::endl;
       out << "};" << std::endl;
    });
@@ -328,7 +302,7 @@ int main(int argc, const char *argv[])
    out << "      m_image.render();" << std::endl;
    oTable.foreach<controlObject>([&](auto& ctl)
    {
-      out << "      m_" << ctl.name << ".initialize(cui::pnt(" << ctl.pnt.x << "," << ctl.pnt.y << ")," << ctl.length << ");" << std::endl;
+      out << "      m_" << ctl.name << ".initialize(cui::pnt(" << ctl.pnt.x << "," << ctl.pnt.y << ")," << ctl.length << "," << ctl.height << ");" << std::endl;
    });
    out << "   }" << std::endl;
    out << "};" << std::endl;

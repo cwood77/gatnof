@@ -12,22 +12,22 @@ public:
       pScr->render();
 
       // initialize some controls
-      auto& aName = pScr->demand<cui::control>("aName");
-      aName.access([](auto& s){ s = "EthanTheStinky"; });
+      auto& aName = pScr->demand<cui::stringControl>("aName");
+      aName.update("EthanTheStinky");
 
-      auto& gems = pScr->demand<cui::control>("gems");
-      gems.access([](auto& s){ s = "0"; });
+      auto& gems = pScr->demand<cui::stringControl>("gems");
+      gems.update("0");
 
-      auto& gold = pScr->demand<cui::control>("gold");
-      gold.access([](auto& s){ s = "0"; });
+      auto& gold = pScr->demand<cui::stringControl>("gold");
+      gold.update("0");
 
-      auto& ip = pScr->demand<cui::control>("ip");
-      ip.access([](auto& s){ s = "123.123.123.123"; });
+      auto& ip = pScr->demand<cui::stringControl>("ip");
+      ip.update("123.123.123.123");
 
-      auto& year = pScr->demand<cui::control>("year");
-      year.access([](auto& s){ s = "2023"; });
+      auto& year = pScr->demand<cui::stringControl>("year");
+      year.update("2023");
 
-      auto& error = pScr->demand<cui::control>("error");
+      auto& error = pScr->demand<cui::stringControl>("error");
 
       // wait for keyboard input
       while(true)
@@ -41,12 +41,12 @@ public:
             case 'l':
             case 'q':
             case 'a':
-               error.access([](auto& s){ s="Unimpled"; });
+               error.update("Unimpled");
                break;
             case 'e':
                return;
             default:
-               error.access([](auto& s){ s="Unrecognized command"; });
+               error.update("Unrecognized command");
                break;
          }
       }

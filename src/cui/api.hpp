@@ -62,22 +62,38 @@ public:
 
 class control : public iObject {
 public:
-   control() : m_p(0,0), m_l(0) {}
+   control() : m_p(0,0), m_l(0), m_h(0), m_i(1) {}
 
    virtual void release() { delete this; }
-   void initialize(pnt p, size_t l);
+   void initialize(pnt p, size_t l, size_t h);
 
-   std::string get() { return m_str; }
-   void update(const std::string& v);
+   const pnt& getLoc() const { return m_p; }
+   size_t getLength() const { return m_l; }
+   size_t getHeight() const { return m_h; }
 
-   void access(std::function<void(std::string&)> f);
+   void erase();
+   void setFormatMode(size_t i) { m_i = i; }
 
 protected:
-   virtual void formatText(std::ostream& o) {}
+   void formatText(std::ostream& o);
+   virtual void formatText1(std::ostream& o) {}
+   virtual void formatText2(std::ostream& o) {}
 
 private:
    pnt m_p;
    size_t m_l;
+   size_t m_h;
+   size_t m_i;
+};
+
+class stringControl : public control {
+public:
+   std::string get() { return m_str; }
+   void redraw(const std::string& v);
+
+   void update(const std::string& v);
+
+private:
    std::string m_str;
 };
 
