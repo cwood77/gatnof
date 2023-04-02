@@ -7,21 +7,26 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 | (i)dle income                                                                    3AlisterTheMagnificent     |
-| (s)ummon                                                                         Gems  -----               |
-| (c)haracters                                                                     Gold  -----               |
+| (s)ummon                                                                         Gems  4-----               |
+| (c)haracters                                                                     Gold  5-----               |
 | (l)ine-up                                                                                                  |
 |                                                                                                            |
 | (q)uest                                                                                                    |
-| (a)rena                                                                                                    |
+| 6(a)rena                                                                                                    |
 |                                                                                                            |
-| (q)uit                                                                                                     |
+| q(u)it                                                                                                     |
 |                                                                                                            |
 |                                                                                                            |
-|                                                                                    ooo.ooo.ooo.ooo   oooo  |
+|                                                                                    7ooo.ooo.ooo.ooo   8oooo  |
 +------------------------------------------------------------------------------------------------------------+
 1=txt:" << pen::clearScreen() << pen::moveTo(cui::pnt(1,1)) << "
 2=txt:" << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue) << "
 3=ctl:aName/21/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)
+4=ctl:gems/5/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)
+5=ctl:gold/5/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)
+6=ctl:arena/7/ << pen::fgcol(pen::kBlue,true) << pen::bgcol(pen::kBlue)
+7=ctl:ip/15/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)
+8=ctl:year/4/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)
 ; comment
 110 x 20
 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890

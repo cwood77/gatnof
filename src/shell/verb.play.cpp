@@ -64,10 +64,10 @@ void playCommand::run(console::iLog& l)
 
    l.writeLnDebug("switching to cui");
    pen::object::setupStdOut();
-   cmn::autoReleasePtr<cui::iImage> pScr(&sFac->create<cui::iImage>("home"));
-   pScr->render();
+   cmn::autoReleasePtr<cui::iLogic> pScr(&sFac->create<cui::iLogic>("home"));
+   pScr->run();
 
-   _pen.str() << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault);
+   _pen.str() << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::moveTo(cui::pnt(1,22));
 }
 
 } // anonymous namespace

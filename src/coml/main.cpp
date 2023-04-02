@@ -1,3 +1,4 @@
+#include "../cui/api.hpp"
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -10,14 +11,27 @@ class iObject {
 public:
    virtual ~iObject() {}
 
-   virtual void insert(std::ostream& o) = 0;
+   virtual void render(std::ostream& o) {}
+   virtual void place(cui::pnt p) {}
 };
 
 class textObject : public iObject {
 public:
-   virtual void insert(std::ostream& o) { o << payload; }
+   virtual void render(std::ostream& o) { o << payload; }
 
    std::string payload;
+};
+
+class controlObject : public iObject {
+public:
+   controlObject() : length(0), pnt(0,0) {}
+
+   virtual void place(cui::pnt p) { pnt = p; }
+
+   std::string name;
+   int length;
+   std::string formatting;
+   cui::pnt pnt;
 };
 
 class objectTable {
@@ -45,6 +59,20 @@ public:
       return l;
    }
 
+   template<class T>
+   void foreach(std::function<void(T&)> f)
+   {
+      for(auto it=m_objects.begin();it!=m_objects.end();++it)
+      {
+         for(auto *pObj : it->second)
+         {
+            T *pDObj = dynamic_cast<T*>(pObj);
+            if(pDObj)
+               f(*pDObj);
+         }
+      }
+   }
+
 private:
    std::map<size_t,std::list<iObject*> > m_objects;
 };
@@ -65,8 +93,13 @@ void parseObject(const char*& pThumb, std::list<iObject*>& list)
    }
    else if(::strncmp(pThumb,"ctl:",4)==0)
    {
-      auto *pObj = new textObject();
+      auto *pObj = new controlObject();
       list.push_back(pObj);
+      char buffer[1024];
+      int n = 0;
+      ::sscanf(pThumb,"ctl:%[^/]/%d/%n",buffer,&(pObj->length),&n);
+      pObj->name = buffer;
+      pObj->formatting = pThumb + n;
    }
    else
    {
@@ -129,6 +162,18 @@ void parseObjectLine(const std::string& line, bool& stop, objectTable& oTable)
 
    auto& list = oTable.create(number);
    parseObject(pThumb,list);
+}
+
+void generateFactory(const std::string& typeName, const std::string& cuiType, std::ostream& out)
+{
+   // generate the image factory
+   out << std::endl;
+   out << "class " << typeName << "_fac : public cui::plugInFactoryT<" << typeName << "," << cuiType << "> {" << std::endl;
+   out << "public:" << std::endl;
+   out << "   " << typeName << "_fac() : cui::plugInFactoryT<" << typeName << "," << cuiType << ">(\"" << typeName << "\") {}" << std::endl;
+   out << "};" << std::endl;
+   out << std::endl;
+   out << "tcatExposeTypeAs(" << typeName << "_fac,cui::iPlugInFactory);" << std::endl;
 }
 
 int main(int argc, const char *argv[])
@@ -198,6 +243,8 @@ int main(int argc, const char *argv[])
    out << "#include \"../../src/cui/pen.hpp\"" << std::endl;
    out << "#include \"../../src/tcatlib/api.hpp\"" << std::endl;
    out << "#include <iostream>" << std::endl;
+
+   // generate the image
    out << std::endl;
    out << "class " << name << "_image : public cui::iImage {" << std::endl;
    out << "public:" << std::endl;
@@ -206,10 +253,12 @@ int main(int argc, const char *argv[])
    out << "      tcat::typePtr<cmn::serviceManager> svcMan;" << std::endl;
    out << "      auto& pn = svcMan->demand<pen::object>();" << std::endl;
    out << std::endl;
+
    for(int i=0;i<height;i++)
    {
       out << "      pn.str() << \"";
 
+      size_t jObjs = 0;
       auto& line = lines[i+1];
       for(size_t j=0;j!=line.length();j++)
       {
@@ -220,24 +269,72 @@ int main(int argc, const char *argv[])
             id = (line.c_str()[j] - '0');
             auto& objs = oTable.demand(id);
             for(auto *pObj : objs)
-               pObj->insert(out);
+            {
+               pObj->place(cui::pnt(j+1-jObjs,i+1));
+               pObj->render(out);
+            }
+            jObjs++;
          }
          else
             out << std::string(1,line.c_str()[j]);
       }
       out << "\" << std::endl;" << std::endl;
    }
+
    out << "   }" << std::endl;
    out << std::endl;
    out << "   virtual cui::pnt demandPnt(const std::string& id) { throw 3.14; }" << std::endl;
    out << "};" << std::endl;
+
+   // generate the image factory
+   generateFactory(name + "_image","cui::iImage",out);
+
+   // generate any text object(s)
+   oTable.foreach<controlObject>([&](auto& ctl)
+   {
+      out << std::endl;
+      out << "class " << name << "_" << ctl.name << "_ctl : public cui::control {" << std::endl;
+      out << "protected:" << std::endl;
+      out << "   virtual void formatText(std::ostream& o)" << std::endl;
+      out << "   {" << std::endl;
+      if(!ctl.formatting.empty())
+         out << "      o" << ctl.formatting << ";" << std::endl;
+      out << "   }" << std::endl;
+      out << "};" << std::endl;
+   });
+
+   // generate the screen
    out << std::endl;
-   out << "class " << name << "_image_fac : public cui::plugInFactoryT<" << name << "_image,cui::iImage> {" << std::endl;
+   out << "class " << name << "_screen : public cui::basicScreen {" << std::endl;
+   out << "private:" << std::endl;
+   out << "   " << name << "_image m_image;" << std::endl;
+   oTable.foreach<controlObject>([&](auto& ctl)
+   {
+      out << "   " << name << "_" << ctl.name << "_ctl m_" << ctl.name << ";" << std::endl;
+   });
+   out << std::endl;
    out << "public:" << std::endl;
-   out << "   " << name << "_image_fac() : cui::plugInFactoryT<" << name << "_image,cui::iImage>(\"" << name << "\") {}" << std::endl;
-   out << "};" << std::endl;
+   out << "   " << name << "_screen()" << std::endl;
+   out << "   {" << std::endl;
+   out << "      publishObject(\"\",m_image);" << std::endl;
+   oTable.foreach<controlObject>([&](auto& ctl)
+   {
+      out << "      publishObject(\"" << ctl.name << "\",m_" << ctl.name << ");" << std::endl;
+   });
+   out << "   }" << std::endl;
    out << std::endl;
-   out << "tcatExposeTypeAs(" << name << "_image_fac,cui::iPlugInFactory);" << std::endl;
+   out << "   virtual void render()" << std::endl;
+   out << "   {" << std::endl;
+   out << "      m_image.render();" << std::endl;
+   oTable.foreach<controlObject>([&](auto& ctl)
+   {
+      out << "      m_" << ctl.name << ".initialize(cui::pnt(" << ctl.pnt.x << "," << ctl.pnt.y << ")," << ctl.length << ");" << std::endl;
+   });
+   out << "   }" << std::endl;
+   out << "};" << std::endl;
+
+   // generate the image factory
+   generateFactory(name + "_screen","cui::iScreen",out);
 
    return 0;
 }

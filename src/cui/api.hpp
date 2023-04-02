@@ -2,6 +2,7 @@
 #define ___cui_api___
 
 #include <functional>
+#include <map>
 #include <string>
 
 namespace cui { 
@@ -59,12 +60,25 @@ public:
 
 // --------------- toolbox of controls, etc.
 
-class iTextBox : public iObject {
+class control : public iObject {
 public:
-   virtual void initialize(pnt p, size_t l) = 0;
-   virtual std::string get() = 0;
-   virtual void set(const std::string& v) = 0;
+   control() : m_p(0,0), m_l(0) {}
+
+   virtual void release() { delete this; }
+   void initialize(pnt p, size_t l);
+
+   std::string get() { return m_str; }
+   void update(const std::string& v);
+
    void access(std::function<void(std::string&)> f);
+
+protected:
+   virtual void formatText(std::ostream& o) {}
+
+private:
+   pnt m_p;
+   size_t m_l;
+   std::string m_str;
 };
 
 // --------------- bases of codegened specifics
@@ -78,7 +92,28 @@ public:
 
 class iScreen : public iObject {
 public:
-   virtual iObject& demand(const std::string& id) = 0;
+   virtual void render() = 0;
+   virtual iObject& _demand(const std::string& id) = 0;
+   template<class T> T& demand(const std::string& id)
+   { return dynamic_cast<T&>(_demand(id)); }
+};
+
+class basicScreen : public iScreen {
+public:
+   virtual void release() { delete this; }
+   virtual iObject& _demand(const std::string& id);
+
+protected:
+   void publishObject(const std::string& id, iObject& o);
+
+private:
+   std::map<std::string,iObject*> m_map;
+};
+
+class iLogic : public iObject {
+public:
+   virtual void release() { delete this; }
+   virtual void run() = 0;
 };
 
 } // namespace cui

@@ -141,13 +141,16 @@ $(CONSOLE_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 # ----------------------------------------------------------------------
 # pen
 
-PEN_SRC = src/cui/pen.cpp
+PEN_SRC = \
+	src/cui/api.cpp \
+	src/cui/pen.cpp \
+
 PEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(PEN_SRC)))
 
 $(OUT_DIR)/debug/pen.lib: $(PEN_DEBUG_OBJ)
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/debug
-	@ar crs $@ $<
+	@ar crs $@ $(PEN_DEBUG_OBJ)
 
 $(PEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
 	$(info $< --> $@)
@@ -159,7 +162,7 @@ PEN_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(PEN_SRC)
 $(OUT_DIR)/release/pen.lib: $(PEN_RELEASE_OBJ)
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/release
-	@ar crs $@ $<
+	@ar crs $@ $(PEN_RELEASE_OBJ)
 
 $(PEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 	$(info $< --> $@)
@@ -470,6 +473,7 @@ $(SCREEN_RELEASE_GEN_OBJ): $(OBJ_DIR)/release/%.o: gen/%.cpp
 # -- above is codegen --
 
 SCREEN_SRC = \
+	src/screen/home.logic.cpp \
 	src/screen/main.cpp \
 
 SCREEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_SRC)))
