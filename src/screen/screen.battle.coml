@@ -1,0 +1,60 @@
+coml v1 20
++------------------------------------------------------------------------------------------------------------+
+| AlisterTheMagnificent                      --- F I G H T  ! ---                      AlisterTheMagnificent |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
+|     +--------------------------------------------+      +--------------------------------------------+     |
+|                                                                                                            |
+| ========================================================================================================== |
++------------------------------------------------------------------------------------------------------------+
+; comment
+
+current control requirements:
+  base class to derive from to implement formatText()
+  initialize() call that take point and length
+
+TODO
+
+switch to multi-byte glyphs
+
+panel
+  outlining needs pen access (not string access) -- also:is multiline
+  can contain other controls (matters for init only)
+
+health bar (based on control)
+  needs pen access
+  needs different base type (int not str)
+
+status bar
+  mixed formatting in the text
+
+
++ control
+| initialize(pnt,l,h)
+| getLoc
+| getLenth
+| getHeight
+| erase
+| formatTextOne
+| formatTextTwo
+| setFormatMode([0,1,2])
+|
++--+ panel
+|
++--+ textControl
+|    get/update/access
+|
++--+ guage
+     get/update/access
