@@ -1,7 +1,7 @@
 coml v1 20
 1_2+------------------------------------------------------------------------------------------------------------+
 | 3AlisterTheMagnificent                      --- F I G H T  ! ---                      4AlisterTheMagnificent |
-|     5                                                                                                       |
+|     5                                                   6                                                    |
 |       Drunken Sailor Donald Duck      XXXX------          Drunken Sailor Donald Duck      XXXX------       |
 |                                                                                                            |
 |     +--------------------------------------------+      +--------------------------------------------+     |
@@ -10,9 +10,9 @@ coml v1 20
 |     +--------------------------------------------+      +--------------------------------------------+     |
 |     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
 |     +--------------------------------------------+      +--------------------------------------------+     |
-|     +--------------------------------------------+      +--------------------------------------------+     |
-|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
-|     +--------------------------------------------+      +--------------------------------------------+     |
+|     7                                                    8                                                   |
+|       Drunken Sailor Donald Duck      XXXX------          Drunken Sailor Donald Duck      XXXX------       |
+|                                                                                                            |
 |     +--------------------------------------------+      +--------------------------------------------+     |
 |     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
 |     +--------------------------------------------+      +--------------------------------------------+     |
@@ -25,6 +25,10 @@ coml v1 20
 4=str:oName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
 
 5=str:p1/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
+6=str:o1/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
+
+7=str:p4/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
+8=str:o4/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
 
 ; comment
 

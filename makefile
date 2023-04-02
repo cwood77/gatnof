@@ -142,6 +142,7 @@ $(CONSOLE_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 # pen
 
 PEN_SRC = \
+	src/cui/ani.cpp \
 	src/cui/api.cpp \
 	src/cui/pen.cpp \
 
