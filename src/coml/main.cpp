@@ -1,7 +1,135 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <list>
+#include <map>
+#include <sstream>
 #include <vector>
+
+class iObject {
+public:
+   virtual ~iObject() {}
+
+   virtual void insert(std::ostream& o) = 0;
+};
+
+class textObject : public iObject {
+public:
+   virtual void insert(std::ostream& o) { o << payload; }
+
+   std::string payload;
+};
+
+class objectTable {
+public:
+   ~objectTable()
+   {
+      for(auto it = m_objects.begin();it!=m_objects.end();++it)
+         for(auto *pO : it->second)
+            delete pO;
+   }
+
+   std::list<iObject*>& create(size_t i)
+   {
+      std::list<iObject*>& l = m_objects[i];
+      if(l.size())
+         throw std::runtime_error("object multiply defined?");
+      return l;
+   }
+
+   std::list<iObject*>& demand(size_t i)
+   {
+      std::list<iObject*>& l = m_objects[i];
+      if(l.size() == 0)
+         throw std::runtime_error("object undefined?");
+      return l;
+   }
+
+private:
+   std::map<size_t,std::list<iObject*> > m_objects;
+};
+
+void eatUntil(const char*& pThumb, char c)
+{
+   for(;*pThumb!=c;++pThumb);
+   ++pThumb;
+}
+
+void parseObject(const char*& pThumb, std::list<iObject*>& list)
+{
+   if(::strncmp(pThumb,"txt:",4)==0)
+   {
+      auto *pObj = new textObject();
+      list.push_back(pObj);
+      pObj->payload = pThumb + 4;
+   }
+   else if(::strncmp(pThumb,"ctl:",4)==0)
+   {
+      auto *pObj = new textObject();
+      list.push_back(pObj);
+   }
+   else
+   {
+      std::stringstream stream;
+      stream << "unknown object '" << pThumb << "'";
+      throw std::runtime_error(stream.str());
+   }
+#if 0
+   while(*pThumb != 0)
+   {
+      if(::strncmp(pThumb,"clear(",6)==0)
+      {
+         list.push_back(new clearObject());
+         eatUntil(pThumb,')');
+      }
+      else if(::strncmp(pThumb,"fg(",3)==0)
+      {
+         auto *pObj = new fgObject();
+         list.push_back(pObj);
+         {
+            char buffer[100];
+            ::sscanf(pThumb,"fg(%[^)]",buffer);
+            pObj->setColor(buffer);
+         }
+         eatUntil(pThumb,')');
+      }
+      else if(::strncmp(pThumb,"bg(",3)==0)
+      {
+         auto *pObj = new bgObject();
+         list.push_back(pObj);
+         {
+            char buffer[100];
+            ::sscanf(pThumb,"bg(%[^)]",buffer);
+            pObj->setColor(buffer);
+         }
+         eatUntil(pThumb,')');
+      }
+      else
+      {
+         std::stringstream stream;
+         stream << "unknown object '" << pThumb << "'";
+         throw std::runtime_error(stream.str());
+      }
+   }
+#endif
+}
+
+void parseObjectLine(const std::string& line, bool& stop, objectTable& oTable)
+{
+   if(stop || line.empty())
+      return;
+   stop = (line == "; comment");
+   if(stop)
+      return;
+
+   int number = 0;
+   ::sscanf(line.c_str(),"%d=",&number);
+   const char *pThumb = line.c_str();
+   eatUntil(pThumb,'=');
+
+   auto& list = oTable.create(number);
+   parseObject(pThumb,list);
+}
 
 int main(int argc, const char *argv[])
 {
@@ -32,8 +160,8 @@ int main(int argc, const char *argv[])
    }
 
    // read index
-   int idx = 0;
-   ::sscanf(lines[0].c_str(),"coml v1 %d",&idx);
+   int height = 0;
+   ::sscanf(lines[0].c_str(),"coml v1 %d",&height);
 
    // compute name
    std::string name;
@@ -45,6 +173,18 @@ int main(int argc, const char *argv[])
          return -1;
       }
       name = std::string(pThumb,::strlen(pThumb) - 5);
+   }
+
+   // build object table
+   objectTable oTable;
+   for(size_t i=1+height;;i++)
+   {
+      if(i >= lines.size())
+         break; // done
+      bool stop = false;
+      parseObjectLine(lines[i],stop,oTable);
+      if(stop)
+         break; // rest are comments
    }
 
    // generate
@@ -66,10 +206,26 @@ int main(int argc, const char *argv[])
    out << "      tcat::typePtr<cmn::serviceManager> svcMan;" << std::endl;
    out << "      auto& pn = svcMan->demand<pen::object>();" << std::endl;
    out << std::endl;
-   for(int i=0;i<idx;i++)
+   for(int i=0;i<height;i++)
    {
+      out << "      pn.str() << \"";
+
       auto& line = lines[i+1];
-      out << "      pn.str() << \"" << line << "\" << std::endl;" << std::endl;
+      for(size_t j=0;j!=line.length();j++)
+      {
+         if(::isdigit(line.c_str()[j]))
+         {
+            int id = 0;
+            //::sscanf(line.c_str()+j,"%d",&id);
+            id = (line.c_str()[j] - '0');
+            auto& objs = oTable.demand(id);
+            for(auto *pObj : objs)
+               pObj->insert(out);
+         }
+         else
+            out << std::string(1,line.c_str()[j]);
+      }
+      out << "\" << std::endl;" << std::endl;
    }
    out << "   }" << std::endl;
    out << std::endl;

@@ -66,6 +66,8 @@ void playCommand::run(console::iLog& l)
    pen::object::setupStdOut();
    cmn::autoReleasePtr<cui::iImage> pScr(&sFac->create<cui::iImage>("home"));
    pScr->render();
+
+   _pen.str() << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault);
 }
 
 } // anonymous namespace

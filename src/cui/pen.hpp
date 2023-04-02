@@ -26,7 +26,8 @@ enum colors {
    kBlue,
    kMagenta,
    kCyan,
-   kWhite
+   kWhite,
+   kDefault
 };
 
 class colorBase {

@@ -13,7 +13,8 @@ static const size_t gFgColors[][2] = {
    /* kBlue    */ { 34, 94 },
    /* kMagenta */ { 35, 95 },
    /* kCyan    */ { 36, 96 },
-   /* kWhite   */ { 37, 97 }
+   /* kWhite   */ { 37, 97 },
+   /* kDefault */ { 39, 39 }
 };
 
 static const size_t gBgColors[][2] = {
@@ -24,7 +25,8 @@ static const size_t gBgColors[][2] = {
    /* kBlue    */ { 44, 104 },
    /* kMagenta */ { 45, 105 },
    /* kCyan    */ { 46, 106 },
-   /* kWhite   */ { 47, 107 }
+   /* kWhite   */ { 47, 107 },
+   /* kDefault */ { 49,  49 }
 };
 
 void object::setupStdOut()
