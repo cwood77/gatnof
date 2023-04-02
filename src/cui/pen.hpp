@@ -65,6 +65,13 @@ private:
 
 class clearScreen {};
 
+class showCursor {
+public:
+   explicit showCursor(bool mode = true) : mode(mode) {}
+
+   bool mode;
+};
+
 } // namespace pen
 
 inline std::ostream& operator<<(std::ostream& s, const pen::colorBase& v)
@@ -75,5 +82,8 @@ inline std::ostream& operator<<(std::ostream& s, const pen::moveTo& v)
 
 inline std::ostream& operator<<(std::ostream& s, const pen::clearScreen&)
 { s << "\x1b[2J"; return s; }
+
+inline std::ostream& operator<<(std::ostream& s, const pen::showCursor& v)
+{ s << "\x1b[?" << (v.mode ? "25h" : "25l"); return s; }
 
 #endif // ___cui_pen___

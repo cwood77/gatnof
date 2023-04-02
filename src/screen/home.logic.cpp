@@ -1,6 +1,7 @@
 #include "../cmn/autoPtr.hpp"
 #include "../cui/api.hpp"
 #include "../tcatlib/api.hpp"
+#include <conio.h>
 
 class logic : public cui::iLogic {
 public:
@@ -20,14 +21,35 @@ public:
       auto& gold = pScr->demand<cui::control>("gold");
       gold.access([](auto& s){ s = "0"; });
 
-      auto& arena = pScr->demand<cui::control>("arena");
-      arena.access([](auto& s){ s = "(a)rena"; });
-
       auto& ip = pScr->demand<cui::control>("ip");
       ip.access([](auto& s){ s = "123.123.123.123"; });
 
       auto& year = pScr->demand<cui::control>("year");
       year.access([](auto& s){ s = "2023"; });
+
+      auto& error = pScr->demand<cui::control>("error");
+
+      // wait for keyboard input
+      while(true)
+      {
+         char c = ::getch();
+         switch(c)
+         {
+            case 'i':
+            case 's':
+            case 'c':
+            case 'l':
+            case 'q':
+            case 'a':
+               error.access([](auto& s){ s="Unimpled"; });
+               break;
+            case 'u':
+               return;
+            default:
+               error.access([](auto& s){ s="Unrecognized command"; });
+               break;
+         }
+      }
    }
 };
 
