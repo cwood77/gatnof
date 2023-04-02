@@ -1,9 +1,9 @@
 coml v1 20
-+------------------------------------------------------------------------------------------------------------+
-| AlisterTheMagnificent                      --- F I G H T  ! ---                      AlisterTheMagnificent |
-|     +--------------------------------------------+      +--------------------------------------------+     |
-|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
-|     +--------------------------------------------+      +--------------------------------------------+     |
+1_2+------------------------------------------------------------------------------------------------------------+
+| 3AlisterTheMagnificent                      --- F I G H T  ! ---                      4AlisterTheMagnificent |
+|     5                                                                                                       |
+|       Drunken Sailor Donald Duck      XXXX------          Drunken Sailor Donald Duck      XXXX------       |
+|                                                                                                            |
 |     +--------------------------------------------+      +--------------------------------------------+     |
 |     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
 |     +--------------------------------------------+      +--------------------------------------------+     |
@@ -19,6 +19,13 @@ coml v1 20
 |                                                                                                            |
 | ========================================================================================================== |
 +------------------------------------------------------------------------------------------------------------+
+1=txt:" << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::clearScreen() << pen::moveTo(cui::pnt(1,1)) << "
+2=txt:" << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue) << "
+3=str:pName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
+4=str:oName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
+
+5=str:p1/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
+
 ; comment
 
 current control requirements:
