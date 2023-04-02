@@ -227,23 +227,26 @@ int main(int argc, const char *argv[])
    {
       out << "      pn.str() << \"";
 
-      size_t jObjs = 0;
+      size_t jOffset = 0;
       auto& line = lines[i+1];
       for(size_t j=0;j!=line.length();j++)
       {
          if(::isdigit(line.c_str()[j]))
          {
             int id = 0;
-            //::sscanf(line.c_str()+j,"%d",&id);
-            id = (line.c_str()[j] - '0');
+            int n = 0;
+            ::sscanf(line.c_str()+j,"%d%n",&id,&n);
             auto& objs = oTable.demand(id);
             for(auto *pObj : objs)
             {
-               pObj->place(cui::pnt(j+1-jObjs,i+1));
+               pObj->place(cui::pnt(j+1-jOffset,i+1));
                pObj->render(out);
             }
-            jObjs++;
+            jOffset += n;
+            j += (n-1);
          }
+         else if(line.c_str()[j] == '_')
+            ; // ignore this char
          else
             out << std::string(1,line.c_str()[j]);
       }
