@@ -43,7 +43,7 @@ public:
             case 'a':
                error.access([](auto& s){ s="Unimpled"; });
                break;
-            case 'u':
+            case 'e':
                return;
             default:
                error.access([](auto& s){ s="Unrecognized command"; });
