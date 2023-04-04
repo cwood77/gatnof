@@ -2,6 +2,8 @@
 #define ___cmn_win32___
 
 #define WIN32_LEAN_AND_MEAN
+#include <list>
+#include <map>
 #include <stdexcept>
 #include <string>
 #include <windows.h>
@@ -102,6 +104,35 @@ private:
 
    iThread& m_thrd;
    HANDLE m_hThread;
+};
+
+template<class T>
+class threadGroup {
+public:
+   T& allocate()
+   {
+      m_members.push_back(new poolMember());
+      auto *pPm = m_members.back();
+      m_table[&pPm->thread] = pPm;
+      return pPm->thread;
+   }
+
+   void run(T& t)
+   {
+      m_table[&t]->tc.start();
+   }
+
+private:
+   class poolMember {
+   public:
+      poolMember() : tc(thread) {}
+
+      T thread;
+      threadController tc;
+   };
+
+   std::list<poolMember*> m_members;
+   std::map<T*,poolMember*> m_table;
 };
 
 class autoFindHandle {
