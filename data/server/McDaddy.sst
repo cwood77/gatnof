@@ -6,7 +6,17 @@
          "amt": 20000,
          "reason": "New user account",
          "unit": "gems"
+      },
+      {
+         "amt": 100,
+         "reason": "Gem accural",
+         "unit": "gems"
+      },
+      {
+         "amt": 100,
+         "reason": "Gem accural",
+         "unit": "gems"
       }
    ],
-   "last-update-check": 1680697623
+   "last-update-check": 1680707687
 }

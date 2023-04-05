@@ -26,7 +26,8 @@ public:
          acct.reset(ch.recvSst());
 
          // --- draw
-         cmn::autoReleasePtr<cui::iScreen> pScr(&sFac->create<cui::iScreen>("home_screen"));
+         cmn::autoReleasePtr<cui::iScreen> pScr(
+            &sFac->create<cui::iScreen>("home_screen"));
          pScr->render();
 
          // initialize some controls
@@ -38,6 +39,17 @@ public:
 
          auto& gold = pScr->demand<cui::stringControl>("gold");
          gold.update((*acct)["gold"].as<sst::str>().get());
+
+         auto& inboxHint = pScr->demand<cui::intControl>("inboxHint");
+         inboxHint.userInitialize([&]()
+         {
+            inboxHint.setFormatter(
+               *new cui::bracketedIntFormatter(
+                  *new cui::maxValueIntFormatter()));
+         });
+         auto nInbox = (*acct)["inbox"].as<sst::array>().size();
+         inboxHint.setFormatMode(nInbox > 0 ? 2 : 1);
+         inboxHint.update(nInbox);
 
          auto& ip = pScr->demand<cui::stringControl>("ip");
          ip.update(svcMan->demand<shell::gameState>().serverIp);
@@ -63,7 +75,8 @@ public:
                   break;
                case 'a':
                   {
-                     cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
+                     cmn::autoReleasePtr<cui::iLogic> pL(
+                        &sFac->create<cui::iLogic>("battle"));
                      pL->run();
                      done = true;
                   }

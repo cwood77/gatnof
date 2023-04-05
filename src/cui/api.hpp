@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 
 namespace cui { 
@@ -62,10 +63,11 @@ public:
 
 class control : public iObject {
 public:
-   control() : m_p(0,0), m_l(0), m_h(0), m_i(1) {}
+   control() : m_p(0,0), m_l(0), m_h(0), m_i(1), m_userInit(false) {}
 
    virtual void release() { delete this; }
    void initialize(pnt p, size_t l, size_t h);
+   void userInitialize(std::function<void(void)> f);
 
    const pnt& getLoc() const { return m_p; }
    size_t getLength() const { return m_l; }
@@ -84,17 +86,53 @@ private:
    size_t m_l;
    size_t m_h;
    size_t m_i;
+   bool m_userInit;
 };
 
 class stringControl : public control {
 public:
-   std::string get() { return m_str; }
+   std::string get() { return m_cache; }
    void redraw(const std::string& v);
 
    void update(const std::string& v);
 
 private:
-   std::string m_str;
+   std::string m_cache;
+};
+
+class iIntFormatter {
+public:
+   virtual std::string formatValue(int v, size_t l) const = 0;
+};
+
+class intControl : public control {
+public:
+   intControl();
+   int get() { return m_cache; }
+   void redraw(int v);
+
+   void update(int v);
+
+   void setFormatter(iIntFormatter& f) { m_pFmt.reset(&f); }
+
+private:
+   int m_cache;
+   std::unique_ptr<iIntFormatter> m_pFmt;
+};
+
+class maxValueIntFormatter : public iIntFormatter {
+public:
+   virtual std::string formatValue(int v, size_t l) const;
+};
+
+class bracketedIntFormatter : public iIntFormatter {
+public:
+   explicit bracketedIntFormatter(iIntFormatter& next) : m_pNext(&next) {}
+
+   virtual std::string formatValue(int v, size_t l) const;
+
+private:
+   std::unique_ptr<iIntFormatter> m_pNext;
 };
 
 // --------------- bases of codegened specifics

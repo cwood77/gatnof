@@ -108,6 +108,20 @@ void parseObject(const char*& pThumb, std::list<iObject*>& list)
       pObj->format2 = pThumb + n;
       pObj->baseType = "cui::stringControl";
    }
+   else if(::strncmp(pThumb,"int:",4)==0)
+   {
+      auto *pObj = new controlObject();
+      list.push_back(pObj);
+      char buffer1[1024];
+      char buffer2[1024];
+      int n = 0;
+      ::sscanf(pThumb,"int:%[^/]/%d/%d/%[^/]/%n",
+         buffer1,&(pObj->length),&(pObj->height),buffer2,&n);
+      pObj->name = buffer1;
+      pObj->format1 = buffer2;
+      pObj->format2 = pThumb + n;
+      pObj->baseType = "cui::intControl";
+   }
    else
    {
       std::stringstream stream;
