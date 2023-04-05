@@ -8,6 +8,7 @@
 #include "../file/api.hpp"
 #include "../file/manager.hpp"
 #include "../net/api.hpp"
+#include "../shell/gameState.hpp"
 #include "../tcatlib/api.hpp"
 #include <memory>
 
@@ -55,6 +56,8 @@ void playCommand::run(console::iLog& l)
    tcat::typePtr<cmn::serviceManager> svcMan;
    pen::object _pen(std::cout);
    cmn::autoService<pen::object> _penSvc(*svcMan,_pen);
+   shell::gameState gState(oAccount,oServerAddr);
+   cmn::autoService<shell::gameState> _gStateSvc(*svcMan,gState);
 
    l.writeLnDebug("loading db");
 
@@ -66,6 +69,7 @@ void playCommand::run(console::iLog& l)
    nProto->tie(pFile->dict(),l);
    cmn::autoReleasePtr<net::iAllocChannel> pAChan(&nProto->createPeerChannelClient(oServerAddr));
    cmn::autoReleasePtr<net::iChannel> pChan(&nProto->wrap(*pAChan.abdicate()));
+   cmn::autoService<net::iChannel> _pChanSvc(*svcMan,pChan.get());
    pChan->sendString("login");
    {
       sst::dict info;
@@ -76,8 +80,6 @@ void playCommand::run(console::iLog& l)
    std::unique_ptr<sst::dict> pAccount(pChan->recvSst());
    if(pAccount->has("error"))
       throw std::runtime_error((*pAccount)["error"].as<sst::str>().get().c_str());
-   (*pAccount).add<sst::str>("accountName") = oAccount;
-   (*pAccount).add<sst::str>("server-ip") = oServerAddr;
    cmn::autoService<std::unique_ptr<sst::dict> > _acnt(*svcMan,pAccount);
 
    l.writeLnDebug("switching to cui");

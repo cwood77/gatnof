@@ -75,6 +75,8 @@ public:
    virtual void scheduleFor(iFileManager::closeTypes onClose) = 0;
 
    virtual void tie(console::iLog& l) = 0;
+
+   virtual void flush() = 0;
 };
 
 class iSstFile : public virtual iFile {

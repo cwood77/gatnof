@@ -1,4 +1,12 @@
 {
    "gems": "2",
-   "gold": "0"
+   "gold": "0",
+   "inbox": [
+      {
+         "amt": 20000,
+         "reason": "New user account",
+         "unit": "gems"
+      }
+   ],
+   "last-update-check": 1680697623
 }
