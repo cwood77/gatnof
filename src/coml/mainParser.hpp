@@ -16,17 +16,39 @@ protected:
    static void eatUntil(const char*& pThumb, char c);
 };
 
-class mainParser : public parserBase {
+class styleParser : public parserBase {
 public:
-   void loadAndVerify(const std::string& path, std::vector<std::string>& lines, int& height);
+   explicit styleParser(styleIr& ir) : m_ir(ir) {}
 
-   void loadAndVerify(const std::string& path, ir& i)
-   { loadAndVerify(path,i.lines,i.height); }
-
-   void parseObjectLine(const std::string& line, bool& stop, objectTable& oTable);
+   void parse(const std::string& inputPath);
 
 private:
+   void parseLine();
+
+   styleIr& m_ir;
+};
+
+class mainParser : public parserBase {
+public:
+   explicit mainParser(ir& ir) : m_ir(ir) {}
+
+   void parse(const std::string& inputPath)
+   {
+      loadLines(inputPath);
+      readHeader();
+      buildObjectTable();
+   }
+
+private:
+   void loadLines(const std::string& inputPath);
+   void readHeader();
+
+   void buildObjectTable();
+   void parseObjectLine(const std::string& line, bool& stop);
    void parseObject(const char*& pThumb, std::list<iObject*>& list);
+   void parseControlObject(const char *pThumb, controlObject& o);
+
+   ir& m_ir;
 };
 
 } // namespace coml

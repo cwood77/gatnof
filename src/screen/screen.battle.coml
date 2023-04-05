@@ -30,7 +30,7 @@ coml v1 20
 7=str:p4/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
 8=str:o4/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
 
-; comment
+; begin comments
 
 current control requirements:
   base class to derive from to implement formatText()

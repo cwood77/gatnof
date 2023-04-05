@@ -88,8 +88,28 @@ private:
    std::map<size_t,std::list<iObject*> > m_objects;
 };
 
+class controlStyleDefault {
+public:
+   std::string format1;
+   std::string format2;
+   std::string format3;
+   std::string format4;
+};
+
+class styleIr {
+public:
+   std::map<std::string,std::string> vars;
+   controlStyleDefault str;
+   controlStyleDefault btn;
+};
+
 class ir {
 public:
+   ir() : height(0) {}
+
+   void computeName(const std::string& comlPath);
+
+   std::string name;
    std::vector<std::string> lines;
    int height;
    objectTable oTable;

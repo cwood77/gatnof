@@ -1,8 +1,8 @@
 #ifndef ___coml_generator___
 #define ___coml_generator___
 
-#include <string>
 #include <ostream>
+#include <string>
 
 namespace coml {
 
@@ -10,10 +10,22 @@ class ir;
 
 class generator {
 public:
-   void generate(const std::string& name, const std::string& outPath, ir& ir);
+   explicit generator(ir& ir) : m_ir(ir) {}
+
+   void generate(std::ostream& out);
 
 private:
+   void genHeaders(std::ostream& out);
+
+   void genImage(std::ostream& out);
+
+   void genDerivedControlObjects(std::ostream& out);
+
+   void genScreen(std::ostream& out);
+
    void generateFactory(const std::string& typeName, const std::string& cuiType, std::ostream& out);
+
+   ir& m_ir;
 };
 
 } // namespace coml

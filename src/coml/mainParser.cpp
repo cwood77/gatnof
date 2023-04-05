@@ -11,34 +11,52 @@ void parserBase::eatUntil(const char*& pThumb, char c)
    ++pThumb;
 }
 
-void mainParser::loadAndVerify(const std::string& path, std::vector<std::string>& lines, int& height)
+void mainParser::loadLines(const std::string& inputPath)
 {
-   // load all the lines
+   std::ifstream in(inputPath.c_str());
+   while(in.good())
    {
-      std::ifstream in(path.c_str());
-      while(in.good())
-      {
-         std::string line;
-         std::getline(in,line);
-         lines.push_back(line);
-      }
+      std::string line;
+      std::getline(in,line);
+      m_ir.lines.push_back(line);
    }
+}
 
+void mainParser::readHeader()
+{
    // enforce ID
-   if(::strncmp(lines[0].c_str(),"coml v1 ",8) != 0)
+   if(::strncmp(m_ir.lines[0].c_str(),"coml v1 ",8) != 0)
       throw std::runtime_error("bad coml header");
 
    // read index
-   height = 0;
-   ::sscanf(lines[0].c_str(),"coml v1 %d",&height);
+   ::sscanf(m_ir.lines[0].c_str(),"coml v1 %d",&m_ir.height);
 }
 
-void mainParser::parseObjectLine(const std::string& line, bool& stop, objectTable& oTable)
+void mainParser::buildObjectTable()
 {
-   if(stop || line.empty())
+   for(size_t i=1+m_ir.height;;i++)
+   {
+      if(i >= m_ir.lines.size())
+         break; // done
+
+      bool stop = false;
+      parseObjectLine(m_ir.lines[i],stop);
+
+      if(stop)
+         break; // rest are comments
+   }
+}
+
+void mainParser::parseObjectLine(const std::string& line, bool& stop)
+{
+   if(line.empty())
       return;
-   stop = (line == "; comment");
+
+   stop = (line == "; begin comments");
    if(stop)
+      return;
+
+   if(line.c_str()[0] == ';')
       return;
 
    int number = 0;
@@ -46,7 +64,7 @@ void mainParser::parseObjectLine(const std::string& line, bool& stop, objectTabl
    const char *pThumb = line.c_str();
    eatUntil(pThumb,'=');
 
-   auto& list = oTable.create(number);
+   auto& list = m_ir.oTable.create(number);
    parseObject(pThumb,list);
 }
 
@@ -62,47 +80,33 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
    {
       auto *pObj = new controlObject();
       list.push_back(pObj);
-      char buffer1[1024];
-      char buffer2[1024];
-      int n = 0;
-      ::sscanf(pThumb,"str:%[^/]/%d/%d/%[^/]/%n",
-         buffer1,&(pObj->length),&(pObj->height),buffer2,&n);
-      pObj->name = buffer1;
-      pObj->format1 = buffer2;
-      pObj->format2 = pThumb + n;
       pObj->baseType = "cui::stringControl";
+      parseControlObject(pThumb+4,*pObj);
    }
    else if(::strncmp(pThumb,"int:",4)==0)
    {
       auto *pObj = new controlObject();
       list.push_back(pObj);
-      char buffer1[1024];
-      char buffer2[1024];
-      int n = 0;
-      ::sscanf(pThumb,"int:%[^/]/%d/%d/%[^/]/%n",
-         buffer1,&(pObj->length),&(pObj->height),buffer2,&n);
-      pObj->name = buffer1;
-      pObj->format1 = buffer2;
-      pObj->format2 = pThumb + n;
       pObj->baseType = "cui::intControl";
+      parseControlObject(pThumb+4,*pObj);
    }
    else if(::strncmp(pThumb,"btn:",4)==0)
    {
       auto *pObj = new buttonControlObject();
       list.push_back(pObj);
-      char buffer1[1024];
-      char buffer2[1024];
-      char buffer3[1024];
-      char buffer4[1024];
-      char buffer5[1024];
+      char name[1024];
+      char face[1024];
+      char fmt1[1024];
+      char fmt2[1024];
+      char fmt3[1024];
       int n = 0;
       ::sscanf(pThumb,"btn:%[^/]/%d/%d/%[^/]/%[^/]/%[^/]/%[^/]/%n",
-         buffer1,&(pObj->length),&(pObj->height),buffer2,buffer3,buffer4,buffer5,&n);
-      pObj->name = buffer1;
-      pObj->face = buffer2;
-      pObj->format1 = buffer3;
-      pObj->format2 = buffer4;
-      pObj->format3 = buffer5;
+         name,&(pObj->length),&(pObj->height),face,fmt1,fmt2,fmt3,&n);
+      pObj->name = name;
+      pObj->face = face;
+      pObj->format1 = fmt1;
+      pObj->format2 = fmt2;
+      pObj->format3 = fmt3;
       pObj->format4 = pThumb + n;
       pObj->baseType = "cui::buttonControl";
    }
@@ -112,6 +116,18 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       stream << "unknown object '" << pThumb << "'";
       throw std::runtime_error(stream.str());
    }
+}
+
+void mainParser::parseControlObject(const char *pThumb, controlObject& o)
+{
+   char name[1024];
+   char fmt1[1024];
+   int n = 0;
+   ::sscanf(pThumb,"%[^/]/%d/%d/%[^/]/%n",
+      name,&(o.length),&(o.height),fmt1,&n);
+   o.name = name;
+   o.format1 = fmt1;
+   o.format2 = pThumb + n;
 }
 
 } // namespace coml

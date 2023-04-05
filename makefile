@@ -426,13 +426,15 @@ $(SERVER_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 # coml
 
 COML_SRC = \
+	src/coml/generator.cpp \
+	src/coml/ir.cpp \
 	src/coml/main.cpp \
 	src/coml/mainParser.cpp \
-	src/coml/generator.cpp \
+	src/coml/verb.generate.cpp \
 
 COML_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(COML_SRC)))
 
-$(OUT_DIR)/debug/coml.exe: $(COML_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib
+$(OUT_DIR)/debug/coml.exe: $(COML_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib $(OUT_DIR)/debug/tcatbin.dll
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/debug
 	@$(LINK_CMD) -o $@ $(COML_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lole32
@@ -444,7 +446,7 @@ $(COML_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
 
 COML_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(COML_SRC)))
 
-$(OUT_DIR)/release/coml.exe: $(COML_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib
+$(OUT_DIR)/release/coml.exe: $(COML_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib $(OUT_DIR)/release/tcatbin.dll
 	$(info $< --> $@)
 	@mkdir -p $(OUT_DIR)/release
 	@$(LINK_CMD) -o $@ $(COML_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lole32
@@ -464,9 +466,9 @@ SCREEN_COML = \
 SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 
 $(SCREEN_GEN): gen/%.cpp: src/%.coml bin/out/debug/coml.exe
-	$(info $< --> $@)
+	$(info $< ===>>> $@)
 	@mkdir -p gen/screen
-	@bin/out/debug/coml.exe $< $@
+	@bin/out/debug/coml.exe --generate $< $@
 
 SCREEN_DEBUG_GEN_OBJ = $(subst gen,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_GEN)))
 
