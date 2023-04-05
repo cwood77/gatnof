@@ -427,6 +427,8 @@ $(SERVER_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 
 COML_SRC = \
 	src/coml/main.cpp \
+	src/coml/mainParser.cpp \
+	src/coml/generator.cpp \
 
 COML_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(COML_SRC)))
 
