@@ -16,7 +16,23 @@ public:
    {
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
+
+      // fetch controls
       tcat::typePtr<cui::iFactory> sFac;
+      cmn::autoReleasePtr<cui::iScreen> pScr(&sFac->create<cui::iScreen>("home_screen"));
+      auto& aName = pScr->demand<cui::stringControl>("aName");
+      auto& gems = pScr->demand<cui::stringControl>("gems");
+      auto& gold = pScr->demand<cui::stringControl>("gold");
+      auto& inboxHint = pScr->demand<cui::intControl>("inboxHint");
+      inboxHint.userInitialize([&]()
+      {
+         inboxHint.setFormatter(
+            *new cui::bracketedIntFormatter(
+               *new cui::maxValueIntFormatter()));
+      });
+      auto& error = pScr->demand<cui::stringControl>("error");
+      auto& ip = pScr->demand<cui::stringControl>("ip");
+      auto& year = pScr->demand<cui::stringControl>("year");
 
       while(true)
       {
@@ -25,39 +41,20 @@ public:
          ch.sendString("update");
          acct.reset(ch.recvSst());
 
-         // --- draw
-         cmn::autoReleasePtr<cui::iScreen> pScr(
-            &sFac->create<cui::iScreen>("home_screen"));
+         // whole screen re-draw
          pScr->render();
 
-         // initialize some controls
-         auto& aName = pScr->demand<cui::stringControl>("aName");
-         aName.update(svcMan->demand<shell::gameState>().accountName);
+         // static controls
+         aName.redraw(svcMan->demand<shell::gameState>().accountName);
+         ip.redraw(svcMan->demand<shell::gameState>().serverIp);
+         year.redraw("2023");
 
-         auto& gems = pScr->demand<cui::stringControl>("gems");
-         gems.update((*acct)["gems"].as<sst::str>().get());
-
-         auto& gold = pScr->demand<cui::stringControl>("gold");
-         gold.update((*acct)["gold"].as<sst::str>().get());
-
-         auto& inboxHint = pScr->demand<cui::intControl>("inboxHint");
-         inboxHint.userInitialize([&]()
-         {
-            inboxHint.setFormatter(
-               *new cui::bracketedIntFormatter(
-                  *new cui::maxValueIntFormatter()));
-         });
+         // dynamic controls
+         gems.redraw((*acct)["gems"].as<sst::str>().get());
+         gold.redraw((*acct)["gold"].as<sst::str>().get());
          auto nInbox = (*acct)["inbox"].as<sst::array>().size();
          inboxHint.setFormatMode(nInbox > 0 ? 2 : 1);
-         inboxHint.update(nInbox);
-
-         auto& ip = pScr->demand<cui::stringControl>("ip");
-         ip.update(svcMan->demand<shell::gameState>().serverIp);
-
-         auto& year = pScr->demand<cui::stringControl>("year");
-         year.update("2023");
-
-         auto& error = pScr->demand<cui::stringControl>("error");
+         inboxHint.redraw(nInbox);
 
          // wait for keyboard input
          bool done = false;
@@ -71,7 +68,7 @@ public:
                case 'c':
                case 'l':
                case 'q':
-                  error.update("Unimpled");
+                  error.redraw("Unimpled");
                   break;
                case 'a':
                   {
@@ -84,7 +81,7 @@ public:
                case 'e':
                   return;
                default:
-                  error.update("Unrecognized command");
+                  error.redraw("Unrecognized command");
                   break;
             }
          }
