@@ -10,7 +10,7 @@ namespace {
 
 class logic : public cui::iLogic {
 public:
-   virtual void run()
+   virtual void run(bool)
    {
       tcat::typePtr<cui::iFactory> sFac;
       cmn::autoReleasePtr<cui::iScreen> pScr(&sFac->create<cui::iScreen>("battle_screen"));

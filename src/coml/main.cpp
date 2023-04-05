@@ -34,7 +34,14 @@ public:
    int height;
    std::string format1;
    std::string format2;
+   std::string format3;
+   std::string format4;
    cui::pnt pnt;
+};
+
+class buttonControlObject : public controlObject {
+public:
+   std::string face;
 };
 
 class objectTable {
@@ -121,6 +128,26 @@ void parseObject(const char*& pThumb, std::list<iObject*>& list)
       pObj->format1 = buffer2;
       pObj->format2 = pThumb + n;
       pObj->baseType = "cui::intControl";
+   }
+   else if(::strncmp(pThumb,"btn:",4)==0)
+   {
+      auto *pObj = new buttonControlObject();
+      list.push_back(pObj);
+      char buffer1[1024];
+      char buffer2[1024];
+      char buffer3[1024];
+      char buffer4[1024];
+      char buffer5[1024];
+      int n = 0;
+      ::sscanf(pThumb,"btn:%[^/]/%d/%d/%[^/]/%[^/]/%[^/]/%[^/]/%n",
+         buffer1,&(pObj->length),&(pObj->height),buffer2,buffer3,buffer4,buffer5,&n);
+      pObj->name = buffer1;
+      pObj->face = buffer2;
+      pObj->format1 = buffer3;
+      pObj->format2 = buffer4;
+      pObj->format3 = buffer5;
+      pObj->format4 = pThumb + n;
+      pObj->baseType = "cui::buttonControl";
    }
    else
    {
@@ -291,6 +318,16 @@ int main(int argc, const char *argv[])
       if(!ctl.format2.empty())
          out << "      o" << ctl.format2 << ";" << std::endl;
       out << "   }" << std::endl;
+      out << "   virtual void formatText3(std::ostream& o)" << std::endl;
+      out << "   {" << std::endl;
+      if(!ctl.format3.empty())
+         out << "      o" << ctl.format3 << ";" << std::endl;
+      out << "   }" << std::endl;
+      out << "   virtual void formatText4(std::ostream& o)" << std::endl;
+      out << "   {" << std::endl;
+      if(!ctl.format4.empty())
+         out << "      o" << ctl.format4 << ";" << std::endl;
+      out << "   }" << std::endl;
       out << "};" << std::endl;
    });
 
@@ -311,6 +348,10 @@ int main(int argc, const char *argv[])
    oTable.foreach<controlObject>([&](auto& ctl)
    {
       out << "      publishObject(\"" << ctl.name << "\",m_" << ctl.name << ");" << std::endl;
+   });
+   oTable.foreach<buttonControlObject>([&](auto& ctl)
+   {
+      out << "      m_" << ctl.name << ".setFaceText(\"" << ctl.face << "\");" << std::endl;
    });
    out << "   }" << std::endl;
    out << std::endl;

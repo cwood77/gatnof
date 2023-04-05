@@ -12,7 +12,7 @@ namespace {
 
 class logic : public cui::iLogic {
 public:
-   virtual void run()
+   virtual void run(bool)
    {
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();

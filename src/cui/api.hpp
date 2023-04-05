@@ -75,11 +75,16 @@ public:
 
    void erase();
    void setFormatMode(size_t i) { m_i = i; }
+   size_t getFormatMode() { return m_i; }
 
 protected:
+   virtual void onInitialize() { erase(); }
+
    void formatText(std::ostream& o);
    virtual void formatText1(std::ostream& o) {}
    virtual void formatText2(std::ostream& o) {}
+   virtual void formatText3(std::ostream& o) {}
+   virtual void formatText4(std::ostream& o) {}
 
 private:
    pnt m_p;
@@ -135,6 +140,26 @@ private:
    std::unique_ptr<iIntFormatter> m_pNext;
 };
 
+class buttonControl : public control {
+public:
+   void setFaceText(const std::string& t);
+   //void setDimReason(const std::string& t);
+
+   //bool isEnabled() const;
+   //char getCmd() const;
+
+   void redraw();
+
+protected:
+   virtual void onInitialize() { redraw(); }
+
+private:
+   std::string m_beforeCmdText;
+   std::string m_cmdText;
+   std::string m_afterCmdText;
+   char m_cmd;
+};
+
 // --------------- bases of codegened specifics
 
 class iImage : public iObject {
@@ -164,10 +189,26 @@ private:
    std::map<std::string,iObject*> m_map;
 };
 
+// --------------- input
+
+class iKeybdInput {
+public:
+   virtual char waitForNext() = 0;
+};
+
+class buttonHandler {
+public:
+   buttonHandler(stringControl& error);
+   void add(buttonControl& b, std::function<void(void)> f);
+   buttonControl &run(iKeybdInput& keys);
+};
+
+// --------------- hand-written top-levels
+
 class iLogic : public iObject {
 public:
    virtual void release() { delete this; }
-   virtual void run() = 0;
+   virtual void run(bool interactive = true) = 0;
 };
 
 } // namespace cui

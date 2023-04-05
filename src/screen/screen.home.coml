@@ -12,7 +12,7 @@ coml v1 20
 | (l)ine-up                                                                                                  |
 |                                                                                                            |
 | (q)uest                                                                                                    |
-| (a)rena                                                                                                    |
+| 11(a)rena                                                                                                    |
 |                                                                                                            |
 | (e)xit                                                                                                     |
 |                                                                                                            |
@@ -28,6 +28,7 @@ coml v1 20
 8=str:year/4/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
 9=str:error/106/1/ << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)/
 10=int:inboxHint/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite,true) << pen::bgcol(pen::kBlue,true)
+11=btn:arenaBtn/7/1/(a)rena/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
 ; comment
 110 x 20
 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890

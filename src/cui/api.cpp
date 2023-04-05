@@ -13,7 +13,7 @@ void control::initialize(pnt p, size_t l, size_t h)
    m_l = l;
    m_h = h;
 
-   erase();
+   onInitialize();
 }
 
 void control::userInitialize(std::function<void(void)> f)
@@ -43,6 +43,10 @@ void control::formatText(std::ostream& o)
       formatText1(o);
    else if(m_i == 2)
       formatText2(o);
+   else if(m_i == 3)
+      formatText3(o);
+   else if(m_i == 4)
+      formatText4(o);
 }
 
 void stringControl::redraw(const std::string& v)
@@ -131,6 +135,47 @@ std::string bracketedIntFormatter::formatValue(int v, size_t l) const
    std::stringstream stream;
    stream << "[" << std::string(nPad,' ') << num << "]";
    return stream.str();
+}
+
+void buttonControl::setFaceText(const std::string& t)
+{
+   std::string *pBucket = &m_beforeCmdText;
+   const char *pThumb = t.c_str();
+   for(;;++pThumb)
+   {
+      if(*pThumb == '(')
+         pBucket = &m_cmdText;
+      else if(*pThumb == ')')
+         pBucket = &m_afterCmdText;
+      else if(*pThumb == 0)
+         break;
+      else
+         (*pBucket) += std::string(1,*pThumb);
+   }
+}
+
+void buttonControl::redraw()
+{
+   tcat::typePtr<cmn::serviceManager> svcMan;
+   auto& str = svcMan->demand<pen::object>().str();
+
+   // clear
+   erase();
+
+   // write
+   str << pen::moveTo(getLoc());
+   if(getFormatMode() == 1)
+   {
+      formatText1(str); str << m_beforeCmdText;
+      formatText2(str); str << m_cmdText;
+      formatText1(str); str << m_afterCmdText;
+   }
+   else if(getFormatMode() == 2)
+   {
+      formatText3(str); str << m_beforeCmdText;
+      formatText4(str); str << m_cmdText;
+      formatText3(str); str << m_afterCmdText;
+   }
 }
 
 iObject& basicScreen::_demand(const std::string& id)
