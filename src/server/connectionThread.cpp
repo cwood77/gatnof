@@ -1,10 +1,13 @@
+#include "../console/log.hpp"
 #include "connectionThread.hpp"
+#include "msg.hpp"
 
 namespace server {
 
 void connectionThread::run()
 {
-   while(true)
+   connectionContext ctxt;
+   while(!ctxt.quit)
    {
       std::string cmd = m_cmd;
       m_cmd = "";
@@ -15,8 +18,10 @@ void connectionThread::run()
          if(wasStopped)
             return;
       }
+      log().writeLnVerbose("(%d) handling command '%s'",::GetCurrentThreadId(),cmd.c_str());
 
-      m_pChan->sendString("awk");
+      auto& mh = msgRegistry::get().demand(cmd);
+      tie(mh).run(*m_pChan,ctxt);
    }
 }
 

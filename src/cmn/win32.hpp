@@ -55,6 +55,26 @@ private:
    HANDLE m_hEvent;
 };
 
+class mutex {
+public:
+   mutex() : m_h(::CreateMutex(NULL,FALSE,NULL)) {}
+   ~mutex() { ::CloseHandle(m_h); }
+   void lock() { ::WaitForSingleObject(m_h,INFINITE); }
+   void unlock() { ::ReleaseMutex(m_h); }
+
+private:
+   HANDLE m_h;
+};
+
+class autoLock {
+public:
+   explicit autoLock(mutex& m) : m_m(m) { m_m.lock(); }
+   ~autoLock() { m_m.unlock(); }
+
+private:
+   mutex& m_m;
+};
+
 class iThread {
 public:
    virtual void run() = 0;
@@ -120,6 +140,15 @@ public:
    void run(T& t)
    {
       m_table[&t]->tc.start();
+   }
+
+   void join()
+   {
+      for(auto *pPm : m_members)
+      {
+         pPm->tc.join();
+         delete pPm;
+      }
    }
 
 private:

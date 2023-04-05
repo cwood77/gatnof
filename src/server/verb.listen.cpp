@@ -42,26 +42,24 @@ void listenCommand::run(console::iLog& l)
    pFile->tie(l);
 
    l.writeLnVerbose("starting up");
-   cmn::osEvent stopSignal;
+   // needs to be a manual event to release multiple things
+   cmn::osEvent stopSignal("",false);
    tcat::typePtr<net::iNetProto> nProto;
    nProto->tie(pFile->dict(),l);
 
-   l.writeLnVerbose("create and start listener");
+   l.writeLnVerbose("create and start listener threads");
    cmn::threadGroup<server::connectionThread> workers;
    server::listenThread listener(*nProto,stopSignal,workers);
    listener.tie(pFile->dict(),l);
    cmn::threadController listenerTc(listener);
    listenerTc.start();
 
-   // in a listener thread
-   //   create channel
-   //   recvString command
-   //     hand off to threadpool
-
    ::getch();
-   l.writeLnVerbose("stopping and joining threads");
+   l.writeLnVerbose("stopping and joining threads threads");
    stopSignal.set();
    listenerTc.join();
+   workers.join();
+   l.writeLnVerbose("bye");
 }
 
 } // anonymous namespace

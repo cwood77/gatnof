@@ -391,6 +391,8 @@ SERVER_SRC = \
 	src/server/connectionThread.cpp \
 	src/server/listenThread.cpp \
 	src/server/main.cpp \
+	src/server/msg.cpp \
+	src/server/msg.login.cpp \
 	src/server/verb.listen.cpp \
 	src/server/verb.test.cpp \
 

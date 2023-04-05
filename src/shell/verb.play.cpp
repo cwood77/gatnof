@@ -7,6 +7,7 @@
 #include "../cui/pen.hpp"
 #include "../file/api.hpp"
 #include "../file/manager.hpp"
+#include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
 #include <memory>
 
@@ -61,6 +62,17 @@ void playCommand::run(console::iLog& l)
    tcat::typePtr<cui::iFactory> sFac;
 
    l.writeLnDebug("contacting server for account info");
+   tcat::typePtr<net::iNetProto> nProto;
+   nProto->tie(pFile->dict(),l);
+   cmn::autoReleasePtr<net::iAllocChannel> pAChan(&nProto->createPeerChannelClient("localhost"));
+   cmn::autoReleasePtr<net::iChannel> pChan(&nProto->wrap(*pAChan.abdicate()));
+   pChan->sendString("login");
+   {
+      sst::dict info;
+      info.add<sst::str>("accountName") = "McDaddy";
+      info.add<sst::mint>("version") = 0;
+      pChan->sendSst(info);
+   }
 
    l.writeLnDebug("switching to cui");
    pen::object::setupStdOut();

@@ -1,4 +1,5 @@
 #include "../cmn/autoPtr.hpp"
+#include "../console/log.hpp"
 #include "listenThread.hpp"
 
 namespace server {
@@ -16,6 +17,7 @@ void listenThread::run()
          return; // shutting down
       else
       {
+         log().writeLnVerbose("allocating connection");
          auto& conTh = m_workers.allocate();
          tie(conTh);
          conTh.initialize(*pChan.abdicate(),m_stopSignal,cmd);
