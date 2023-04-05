@@ -1,6 +1,6 @@
 #include "../console/log.hpp"
 #include "connectionThread.hpp"
-#include "msg.hpp"
+#include "message.hpp"
 
 namespace server {
 
@@ -23,6 +23,7 @@ void connectionThread::run()
       auto& mh = msgRegistry::get().demand(cmd);
       tie(mh).run(*m_pChan,ctxt);
    }
+   log().writeLnVerbose("(%d) closing connection thread",::GetCurrentThreadId());
 }
 
 } // namespace server

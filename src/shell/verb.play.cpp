@@ -64,15 +64,21 @@ void playCommand::run(console::iLog& l)
    l.writeLnDebug("contacting server for account info");
    tcat::typePtr<net::iNetProto> nProto;
    nProto->tie(pFile->dict(),l);
-   cmn::autoReleasePtr<net::iAllocChannel> pAChan(&nProto->createPeerChannelClient("localhost"));
+   cmn::autoReleasePtr<net::iAllocChannel> pAChan(&nProto->createPeerChannelClient(oServerAddr));
    cmn::autoReleasePtr<net::iChannel> pChan(&nProto->wrap(*pAChan.abdicate()));
    pChan->sendString("login");
    {
       sst::dict info;
-      info.add<sst::str>("accountName") = "McDaddy";
+      info.add<sst::str>("accountName") = oAccount;
       info.add<sst::mint>("version") = 0;
       pChan->sendSst(info);
    }
+   std::unique_ptr<sst::dict> pAccount(pChan->recvSst());
+   if(pAccount->has("error"))
+      throw std::runtime_error((*pAccount)["error"].as<sst::str>().get().c_str());
+   (*pAccount).add<sst::str>("accountName") = oAccount;
+   (*pAccount).add<sst::str>("server-ip") = oServerAddr;
+   cmn::autoService<std::unique_ptr<sst::dict> > _acnt(*svcMan,pAccount);
 
    l.writeLnDebug("switching to cui");
    pen::object::setupStdOut();
@@ -82,6 +88,7 @@ void playCommand::run(console::iLog& l)
 
    // return to normalcy
    _pen.str() << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::moveTo(cui::pnt(1,22)) << pen::showCursor();
+   pChan->sendString("logout");
 }
 
 } // anonymous namespace
