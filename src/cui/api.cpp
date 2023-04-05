@@ -152,6 +152,10 @@ void buttonControl::setFaceText(const std::string& t)
       else
          (*pBucket) += std::string(1,*pThumb);
    }
+
+   m_cmd = m_cmdText.c_str()[0];
+   if('A' <= m_cmd && m_cmd <= 'Z')
+      m_cmd += ('a' - 'A');
 }
 
 void buttonControl::redraw()
@@ -192,6 +196,40 @@ void basicScreen::publishObject(const std::string& id, iObject& o)
    if(pObj)
       throw std::runtime_error("multiply defined object");
    pObj = &o;
+}
+
+void buttonHandler::add(buttonControl& b, std::function<void(buttonControl&,bool&)> f)
+{
+   m_btns[b.getCmdKey()] = &b;
+   m_callbacks[b.getCmdKey()] = f;
+}
+
+void buttonHandler::unimpled(buttonControl& b)
+{
+   add(b,[&](auto&,bool&){ m_error.redraw("Unimplemented"); });
+}
+
+buttonControl &buttonHandler::run(iUserInput& in)
+{
+   while(true)
+   {
+      auto k = in.getKey();
+      auto bit = m_btns.find(k);
+      if(bit == m_btns.end())
+         m_error.redraw("Unrecognized command");
+      else
+      {
+         if(bit->second->isEnabled())
+         {
+            bool stop = false;
+            m_callbacks[k](*bit->second,stop);
+            if(stop)
+               return *bit->second;
+         }
+         else
+            m_error.redraw(bit->second->getDimReason());
+      }
+   }
 }
 
 } // namespace cui

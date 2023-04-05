@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include "../tcatlib/api.hpp"
 #include "api.hpp"
+#include <conio.h>
 #include <stdexcept>
 #include <windows.h>
 
@@ -23,6 +24,13 @@ public:
 };
 
 tcatExposeTypeAs(factory,iFactory);
+
+class userInput : public iUserInput {
+public:
+   virtual char getKey() { return ::getch(); }
+};
+
+tcatExposeTypeAs(userInput,iUserInput);
 
 } // namespace cui
 

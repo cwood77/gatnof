@@ -58,6 +58,8 @@ void playCommand::run(console::iLog& l)
    cmn::autoService<pen::object> _penSvc(*svcMan,_pen);
    shell::gameState gState(oAccount,oServerAddr);
    cmn::autoService<shell::gameState> _gStateSvc(*svcMan,gState);
+   tcat::typePtr<cui::iUserInput> _in;
+   cmn::autoService<cui::iUserInput> _inSvc(*svcMan,*_in);
 
    l.writeLnDebug("loading db");
 

@@ -7,14 +7,14 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 | (i)nbox      10[oo+]                                                               3AlisterTheMagnificent     |
-| (s)ummon                                                                         Gems  4-----               |
+| 13(s)ummon                                                                         Gems  4-----               |
 | (c)haracters                                                                     Gold  5-----               |
 | (l)ine-up                                                                                                  |
 |                                                                                                            |
 | (q)uest                                                                                                    |
 | 11(a)rena                                                                                                    |
 |                                                                                                            |
-| (e)xit                                                                                                     |
+| 12(e)xit                                                                                                     |
 |                                                                                                            |
 | 9                                                                                                           |
 |                                                                                    7ooo.ooo.ooo.ooo   8oooo  |
@@ -27,8 +27,13 @@ coml v1 20
 7=str:ip/15/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
 8=str:year/4/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
 9=str:error/106/1/ << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)/
+
 10=int:inboxHint/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite,true) << pen::bgcol(pen::kBlue,true)
-11=btn:arenaBtn/7/1/(a)rena/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
+
+11=btn:arenaBtn/8/1/(a)rena/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
+12=btn:exitBtn/8/1/(e)xit/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
+13=btn:summonBtn/8/1/(s)ummon/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
+
 ; comment
 110 x 20
 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890

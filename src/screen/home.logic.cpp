@@ -34,6 +34,12 @@ public:
       auto& ip = pScr->demand<cui::stringControl>("ip");
       auto& year = pScr->demand<cui::stringControl>("year");
 
+      // fetch buttons
+      auto& arenaBtn = pScr->demand<cui::buttonControl>("arenaBtn");
+      auto& exitBtn = pScr->demand<cui::buttonControl>("exitBtn");
+      auto& summonBtn = pScr->demand<cui::buttonControl>("summonBtn");
+      summonBtn.dim("not yet implemented");
+
       while(true)
       {
          // check for updates
@@ -56,35 +62,19 @@ public:
          inboxHint.setFormatMode(nInbox > 0 ? 2 : 1);
          inboxHint.redraw(nInbox);
 
-         // wait for keyboard input
-         bool done = false;
-         while(!done)
+         // handle user input
+         cui::buttonHandler handler(error);
+         handler.add(arenaBtn,[&](auto& bnt, bool& stop)
          {
-            char c = ::getch();
-            switch(c)
-            {
-               case 'i':
-               case 's':
-               case 'c':
-               case 'l':
-               case 'q':
-                  error.redraw("Unimpled");
-                  break;
-               case 'a':
-                  {
-                     cmn::autoReleasePtr<cui::iLogic> pL(
-                        &sFac->create<cui::iLogic>("battle"));
-                     pL->run();
-                     done = true;
-                  }
-                  break;
-               case 'e':
-                  return;
-               default:
-                  error.redraw("Unrecognized command");
-                  break;
-            }
-         }
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
+            pL->run();
+            stop = true; // redraw home
+         });
+         handler.add(exitBtn,[&](auto& bnt, bool& stop){ stop = true; });
+         handler.add(summonBtn,[&](auto& bnt, bool&){ });
+         auto& ans = handler.run(svcMan->demand<cui::iUserInput>());
+         if(&ans == &exitBtn)
+            return;
       }
    }
 };

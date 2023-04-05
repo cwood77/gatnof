@@ -75,7 +75,7 @@ public:
 
    void erase();
    void setFormatMode(size_t i) { m_i = i; }
-   size_t getFormatMode() { return m_i; }
+   size_t getFormatMode() const { return m_i; }
 
 protected:
    virtual void onInitialize() { erase(); }
@@ -143,10 +143,11 @@ private:
 class buttonControl : public control {
 public:
    void setFaceText(const std::string& t);
-   //void setDimReason(const std::string& t);
+   void dim(const std::string& reason) { setFormatMode(2); m_dimReason = reason; }
 
-   //bool isEnabled() const;
-   //char getCmd() const;
+   bool isEnabled() const { return getFormatMode() == 1; }
+   char getCmdKey() const { return m_cmd; }
+   const std::string getDimReason() const { return m_dimReason; }
 
    void redraw();
 
@@ -158,6 +159,7 @@ private:
    std::string m_cmdText;
    std::string m_afterCmdText;
    char m_cmd;
+   std::string m_dimReason;
 };
 
 // --------------- bases of codegened specifics
@@ -191,16 +193,26 @@ private:
 
 // --------------- input
 
-class iKeybdInput {
+class iUserInput {
 public:
-   virtual char waitForNext() = 0;
+   virtual ~iUserInput() {}
+   virtual char getKey() = 0;
 };
 
 class buttonHandler {
 public:
-   buttonHandler(stringControl& error);
-   void add(buttonControl& b, std::function<void(void)> f);
-   buttonControl &run(iKeybdInput& keys);
+   explicit buttonHandler(stringControl& error) : m_error(error) {}
+
+   // return true to stop
+   void add(buttonControl& b, std::function<void(buttonControl&,bool&)> f);
+   void unimpled(buttonControl& b);
+
+   buttonControl &run(iUserInput& in);
+
+private:
+   stringControl& m_error;
+   std::map<char,buttonControl*> m_btns;
+   std::map<char,std::function<void(buttonControl&,bool&)> > m_callbacks;
 };
 
 // --------------- hand-written top-levels
