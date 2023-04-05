@@ -2,6 +2,8 @@
 #define ___cmn_win32___
 
 #define WIN32_LEAN_AND_MEAN
+#include <list>
+#include <map>
 #include <stdexcept>
 #include <string>
 #include <windows.h>
@@ -53,6 +55,26 @@ private:
    HANDLE m_hEvent;
 };
 
+class mutex {
+public:
+   mutex() : m_h(::CreateMutex(NULL,FALSE,NULL)) {}
+   ~mutex() { ::CloseHandle(m_h); }
+   void lock() { ::WaitForSingleObject(m_h,INFINITE); }
+   void unlock() { ::ReleaseMutex(m_h); }
+
+private:
+   HANDLE m_h;
+};
+
+class autoLock {
+public:
+   explicit autoLock(mutex& m) : m_m(m) { m_m.lock(); }
+   ~autoLock() { m_m.unlock(); }
+
+private:
+   mutex& m_m;
+};
+
 class iThread {
 public:
    virtual void run() = 0;
@@ -102,6 +124,44 @@ private:
 
    iThread& m_thrd;
    HANDLE m_hThread;
+};
+
+template<class T>
+class threadGroup {
+public:
+   T& allocate()
+   {
+      m_members.push_back(new poolMember());
+      auto *pPm = m_members.back();
+      m_table[&pPm->thread] = pPm;
+      return pPm->thread;
+   }
+
+   void run(T& t)
+   {
+      m_table[&t]->tc.start();
+   }
+
+   void join()
+   {
+      for(auto *pPm : m_members)
+      {
+         pPm->tc.join();
+         delete pPm;
+      }
+   }
+
+private:
+   class poolMember {
+   public:
+      poolMember() : tc(thread) {}
+
+      T thread;
+      threadController tc;
+   };
+
+   std::list<poolMember*> m_members;
+   std::map<T*,poolMember*> m_table;
 };
 
 class autoFindHandle {

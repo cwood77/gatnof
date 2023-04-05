@@ -1,4 +1,5 @@
 #define WIN32_LEAN_AND_MEAN
+#include "../cmn/win32.hpp"
 #include "../file/api.hpp"
 #include "../tcatlib/api.hpp"
 #include "log.hpp"
@@ -90,6 +91,8 @@ public:
 private:
    void write(level l, const std::string& text, bool line)
    {
+      cmn::autoLock _l(m_m);
+
       std::string fulltext;
 
       if(m_freshLine)
@@ -134,6 +137,8 @@ private:
             m_pSink->flush();
       }
    }
+
+   cmn::mutex m_m;
 
    iLogSink *m_pSink;
    size_t m_indent;
