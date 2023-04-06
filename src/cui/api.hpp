@@ -162,6 +162,25 @@ private:
    std::string m_dimReason;
 };
 
+template<class T>
+class listControl : public iObject {
+public:
+   virtual void release() { delete this; }
+
+   void initialize(pnt, size_t, size_t nRows)
+   {
+      m_rows.resize(nRows);
+      for(size_t i=0;i<nRows;i++)
+         m_rows[i].initialize(i);
+   }
+
+   size_t size() const { return m_rows.size(); }
+   T& operator[](size_t i) { return m_rows[i]; }
+
+private:
+   std::vector<T> m_rows;
+};
+
 // --------------- bases of codegened specifics
 
 class iImage : public iObject {

@@ -25,7 +25,8 @@ public:
 
 class controlObject : public iObject {
 public:
-   controlObject() : length(0), height(0), pnt(0,0) {}
+   controlObject()
+   : length(0), height(0), pnt(0,0), isTableElt(false) {}
 
    virtual void place(cui::pnt p) { pnt = p; }
 
@@ -38,11 +39,17 @@ public:
    std::string format3;
    std::string format4;
    cui::pnt pnt;
+   bool isTableElt;
 };
 
 class buttonControlObject : public controlObject {
 public:
    std::string face;
+};
+
+class listControlObject : public controlObject {
+public:
+   std::vector<size_t> elts;
 };
 
 class objectTable {

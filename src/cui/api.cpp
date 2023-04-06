@@ -130,7 +130,7 @@ std::string maxValueIntFormatter::formatValue(int v, size_t l) const
 std::string bracketedIntFormatter::formatValue(int v, size_t l) const
 {
    auto num = m_pNext->formatValue(v,l-2);
-   size_t nPad = l - num.length();
+   size_t nPad = l - num.length() - 2;
 
    std::stringstream stream;
    stream << "[" << std::string(nPad,' ') << num << "]";

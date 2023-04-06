@@ -61,7 +61,7 @@ void generator::genImage(std::ostream& out)
             j += (n-1);
          }
          else if(line.c_str()[j] == '_')
-            ; // ignore this char
+            jOffset++; // ignore this char
          else
             out << std::string(1,line.c_str()[j]);
       }
@@ -81,6 +81,10 @@ void generator::genDerivedControlObjects(std::ostream& out)
 {
    m_ir.oTable.foreach<controlObject>([&](auto& ctl)
    {
+      if(dynamic_cast<listControlObject*>(&ctl))
+         // lists do special generation in a second
+         return;
+
       out << std::endl;
       out << "class " << m_ir.name << "_" << ctl.name << "_ctl : public " << ctl.baseType << " {" << std::endl;
       out << "protected:" << std::endl;
@@ -106,6 +110,33 @@ void generator::genDerivedControlObjects(std::ostream& out)
       out << "   }" << std::endl;
       out << "};" << std::endl;
    });
+
+   m_ir.oTable.foreach<listControlObject>([&](auto& ctl)
+   {
+      out << std::endl;
+      out << "class " << m_ir.name << "_" << ctl.name << "_row_ctl {" << std::endl;
+      out << "public:" << std::endl;
+      for(size_t eltId : ctl.elts)
+      {
+         auto& oList = m_ir.oTable.demand(eltId);
+         auto *pCtl = dynamic_cast<controlObject*>(*oList.begin());
+         pCtl->isTableElt = true;
+
+         out << "   " << m_ir.name << "_" << pCtl->name << "_ctl " << pCtl->name << ";" << std::endl;
+      }
+      out << std::endl;
+      out << "   void initialize(size_t yOffset)" << std::endl;
+      out << "   {" << std::endl;
+      for(size_t eltId : ctl.elts)
+      {
+         auto& oList = m_ir.oTable.demand(eltId);
+         auto *pCtl = dynamic_cast<controlObject*>(*oList.begin());
+
+         out << "      " << pCtl->name << ".initialize(cui::pnt(" << pCtl->pnt.x << "," << pCtl->pnt.y << "+yOffset)," << pCtl->length << "," << pCtl->height << ");" << std::endl;
+      }
+      out << "   }" << std::endl;
+      out << "};" << std::endl;
+   });
 }
 
 void generator::genScreen(std::ostream& out)
@@ -116,7 +147,13 @@ void generator::genScreen(std::ostream& out)
    out << "   " << m_ir.name << "_image m_image;" << std::endl;
    m_ir.oTable.foreach<controlObject>([&](auto& ctl)
    {
-      out << "   " << m_ir.name << "_" << ctl.name << "_ctl m_" << ctl.name << ";" << std::endl;
+      if(ctl.isTableElt) return;
+      if(dynamic_cast<listControlObject*>(&ctl))
+         out << "   cui::listControl<" << m_ir.name << "_" << ctl.name << "_row_ctl> m_"
+            << ctl.name << ";" << std::endl;
+      else
+         out << "   " << m_ir.name << "_" << ctl.name << "_ctl m_"
+            << ctl.name << ";" << std::endl;
    });
    out << std::endl;
    out << "public:" << std::endl;
@@ -125,6 +162,7 @@ void generator::genScreen(std::ostream& out)
    out << "      publishObject(\"\",m_image);" << std::endl;
    m_ir.oTable.foreach<controlObject>([&](auto& ctl)
    {
+      if(ctl.isTableElt) return;
       out << "      publishObject(\"" << ctl.name << "\",m_" << ctl.name << ");" << std::endl;
    });
    m_ir.oTable.foreach<buttonControlObject>([&](auto& ctl)
@@ -138,6 +176,7 @@ void generator::genScreen(std::ostream& out)
    out << "      m_image.render();" << std::endl;
    m_ir.oTable.foreach<controlObject>([&](auto& ctl)
    {
+      if(ctl.isTableElt) return;
       out << "      m_" << ctl.name << ".initialize(cui::pnt(" << ctl.pnt.x << "," << ctl.pnt.y << ")," << ctl.length << "," << ctl.height << ");" << std::endl;
    });
    out << "   }" << std::endl;

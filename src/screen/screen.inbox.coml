@@ -3,7 +3,7 @@ coml v1 20
 |                                                   3INBOX2                                                    |
 | 4[oo+] messages                                                                                             |
 |                                                                                                            |
-| oo/oo/oooo oo:oo Thanks for creating an account                        oooo gems                           |
+| 10_8oo/oo/oooo oo:oo Thanks for creating an account                        9oooo gems                           |
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
@@ -16,7 +16,7 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
-|                                                                                                            |
+| 11                                                                                                           |
 | 5back   6open next   7auto open                                                                               |
 +------------------------------------------------------------------------------------------------------------+
 1=txt:%cls%
@@ -28,3 +28,8 @@ coml v1 20
 5=btn:backBtn/4/1/(b)ack
 6=btn:openNextBtn/9/1/(o)pen next
 7=btn:autoOpenBtn/9/1/(a)uto open
+
+8=str:date/70/1
+9=str:prize/35/1
+10=lst:table/13/8,9
+11=str:error/106/1/%error%

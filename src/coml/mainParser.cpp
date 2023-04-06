@@ -166,6 +166,29 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       pObj->format4 = fmt4.b;
       pObj->baseType = "cui::buttonControl";
    }
+   else if(::strncmp(pThumb,"lst:",4)==0)
+   {
+      auto *pObj = new listControlObject();
+      list.push_back(pObj);
+      cmn::zeroedBlock<> name;
+      cmn::zeroedBlock<> elts;
+      ::sscanf(pThumb,"lst:%[^/]/%d/%[^/]",
+         name.b,&(pObj->height),elts.b);
+      pObj->name = name.b;
+      pObj->baseType = "cui::listControl";
+
+      const char *pThumb = elts.b;
+      while(*pThumb!=0)
+      {
+         int x = 0;
+         int n = 0;
+         ::sscanf(pThumb,"%d%n",&x,&n);
+         pThumb += n;
+         if(*pThumb == ',')
+            pThumb++;
+         pObj->elts.push_back(x);
+      }
+   }
    else
    {
       std::stringstream stream;
