@@ -5,6 +5,7 @@
 #include "generator.hpp"
 #include "ir.hpp"
 #include "mainParser.hpp"
+#include "styler.hpp"
 #include <fstream>
 #include <memory>
 
@@ -14,6 +15,7 @@ class generateCommand : public console::iCommand {
 public:
    std::string oInPath;
    std::string oOutPath;
+   std::string oStylePath;
 
    virtual void run(console::iLog& l);
 };
@@ -29,6 +31,8 @@ protected:
          console::stringParameter::required(offsetof(generateCommand,oInPath)));
       v->addParameter(
          console::stringParameter::required(offsetof(generateCommand,oOutPath)));
+      v->addParameter(
+         console::stringParameter::optional(offsetof(generateCommand,oStylePath)));
 
       return v.release();
    }
@@ -39,7 +43,15 @@ void generateCommand::run(console::iLog& l)
    coml::ir ir;
    ir.computeName(oInPath);
 
+   coml::styleIr sir;
+   const bool usingStyle = !oStylePath.empty();
+   if(usingStyle)
+      coml::styleParser(sir).parse(oStylePath);
+
    coml::mainParser(ir).parse(oInPath);
+
+   if(usingStyle)
+      coml::styler(sir).apply(ir.oTable);
 
    std::ofstream out(oOutPath);
    coml::generator(ir).generate(out);

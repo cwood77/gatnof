@@ -1,6 +1,7 @@
+#include "../cmn/autoPtr.hpp"
 #include "mainParser.hpp"
-#include <fstream>
 #include <cstring>
+#include <fstream>
 #include <sstream>
 
 namespace coml {
@@ -9,6 +10,61 @@ void parserBase::eatUntil(const char*& pThumb, char c)
 {
    for(;*pThumb!=c;++pThumb);
    ++pThumb;
+}
+
+void styleParser::parse(const std::string& inputPath)
+{
+   std::ifstream in(inputPath.c_str());
+   while(in.good())
+   {
+      std::string line;
+      std::getline(in,line);
+      parseLine(line);
+   }
+}
+
+void styleParser::parseLine(const std::string& line)
+{
+   if(line.empty()) return;
+   if(line.c_str()[0] == ';') return;
+
+   const char *pThumb = line.c_str();
+   if(::strncmp(pThumb,"define ",7)==0)
+   {
+      pThumb += 7;
+
+      cmn::zeroedBlock<> name;
+      int n = 0;
+      ::sscanf(pThumb,"%%%[^%]%%%n",name.b,&n);
+
+      m_ir.vars[name.b] = pThumb+n+1;
+   }
+   else if(::strncmp(pThumb,"default{",8)==0)
+   {
+      pThumb += 8;
+
+      cmn::zeroedBlock<> type;
+      cmn::zeroedBlock<> fmt1;
+      cmn::zeroedBlock<> fmt2;
+      cmn::zeroedBlock<> fmt3;
+      cmn::zeroedBlock<> fmt4;
+      ::sscanf(pThumb,"%[^}]}/%[^/]/%[^/]/%[^/]/%[^/]/",
+         type.b,fmt1.b,fmt2.b,fmt3.b,fmt4.b);
+
+      controlStyleDefault *pDft = &m_ir.str;
+      if(std::string("str") == type.b)
+         ;
+      else if(std::string("btn") == type.b)
+         pDft = &m_ir.btn;
+      else
+         throw std::runtime_error("style indicates default of unknown object type");
+      pDft->format1 = fmt1.b;
+      pDft->format2 = fmt2.b;
+      pDft->format3 = fmt3.b;
+      pDft->format4 = fmt4.b;
+   }
+   else
+      throw std::runtime_error("unknown style directive");
 }
 
 void mainParser::loadLines(const std::string& inputPath)
@@ -94,20 +150,20 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
    {
       auto *pObj = new buttonControlObject();
       list.push_back(pObj);
-      char name[1024];
-      char face[1024];
-      char fmt1[1024];
-      char fmt2[1024];
-      char fmt3[1024];
-      int n = 0;
-      ::sscanf(pThumb,"btn:%[^/]/%d/%d/%[^/]/%[^/]/%[^/]/%[^/]/%n",
-         name,&(pObj->length),&(pObj->height),face,fmt1,fmt2,fmt3,&n);
-      pObj->name = name;
-      pObj->face = face;
-      pObj->format1 = fmt1;
-      pObj->format2 = fmt2;
-      pObj->format3 = fmt3;
-      pObj->format4 = pThumb + n;
+      cmn::zeroedBlock<> name;
+      cmn::zeroedBlock<> face;
+      cmn::zeroedBlock<> fmt1;
+      cmn::zeroedBlock<> fmt2;
+      cmn::zeroedBlock<> fmt3;
+      cmn::zeroedBlock<> fmt4;
+      ::sscanf(pThumb,"btn:%[^/]/%d/%d/%[^/]/%[^/]/%[^/]/%[^/]/%[^/]/",
+         name.b,&(pObj->length),&(pObj->height),face.b,fmt1.b,fmt2.b,fmt3.b,fmt4.b);
+      pObj->name = name.b;
+      pObj->face = face.b;
+      pObj->format1 = fmt1.b;
+      pObj->format2 = fmt2.b;
+      pObj->format3 = fmt3.b;
+      pObj->format4 = fmt4.b;
       pObj->baseType = "cui::buttonControl";
    }
    else
@@ -120,14 +176,14 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
 
 void mainParser::parseControlObject(const char *pThumb, controlObject& o)
 {
-   char name[1024];
-   char fmt1[1024];
-   int n = 0;
-   ::sscanf(pThumb,"%[^/]/%d/%d/%[^/]/%n",
-      name,&(o.length),&(o.height),fmt1,&n);
-   o.name = name;
-   o.format1 = fmt1;
-   o.format2 = pThumb + n;
+   cmn::zeroedBlock<> name;
+   cmn::zeroedBlock<> fmt1;
+   cmn::zeroedBlock<> fmt2;
+   ::sscanf(pThumb,"%[^/]/%d/%d/%[^/]/%[^/]/",
+      name.b,&(o.length),&(o.height),fmt1.b,fmt2.b);
+   o.name = name.b;
+   o.format1 = fmt1.b;
+   o.format2 = fmt2.b;
 }
 
 } // namespace coml

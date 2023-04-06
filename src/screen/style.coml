@@ -6,4 +6,4 @@ define %minor% << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)
 define %error% << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)
 
 default{str}/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
-default(btn)/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
+default{btn}/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)

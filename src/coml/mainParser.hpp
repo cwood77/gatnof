@@ -23,7 +23,7 @@ public:
    void parse(const std::string& inputPath);
 
 private:
-   void parseLine();
+   void parseLine(const std::string& line);
 
    styleIr& m_ir;
 };

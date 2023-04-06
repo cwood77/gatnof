@@ -22,15 +22,15 @@ coml v1 20
 1=txt:" << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::clearScreen() << pen::moveTo(cui::pnt(1,1)) << "
 2=txt:" << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue) << "
 3=str:aName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
-4=str:gems/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
-5=str:gold/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
+4=str:gems/5/1
+5=str:gold/5/1
 7=str:ip/15/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
 8=str:year/4/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
 9=str:error/106/1/ << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)/
 
 10=int:inboxHint/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite,true) << pen::bgcol(pen::kBlue,true)
 
-11=btn:arenaBtn/8/1/(a)rena/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
+11=btn:arenaBtn/8/1/(a)rena
 12=btn:exitBtn/8/1/(e)xit/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
 13=btn:summonBtn/8/1/(s)ummon/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kGreen,true) << pen::bgcol(pen::kBlue)
 

@@ -430,6 +430,7 @@ COML_SRC = \
 	src/coml/ir.cpp \
 	src/coml/main.cpp \
 	src/coml/mainParser.cpp \
+	src/coml/styler.cpp \
 	src/coml/verb.generate.cpp \
 
 COML_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(COML_SRC)))
@@ -468,7 +469,7 @@ SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 $(SCREEN_GEN): gen/%.cpp: src/%.coml bin/out/debug/coml.exe
 	$(info $< ===>>> $@)
 	@mkdir -p gen/screen
-	@bin/out/debug/coml.exe --generate $< $@
+	@bin/out/debug/coml.exe --generate $< $@ src/screen/style.coml
 
 SCREEN_DEBUG_GEN_OBJ = $(subst gen,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_GEN)))
 

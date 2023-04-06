@@ -2,6 +2,7 @@
 #define ___cmn_autoPtr___
 
 #include <cstddef>
+#include <cstring>
 #include <memory>
 #include <stdio.h>
 #include <string>
@@ -11,6 +12,14 @@ namespace cmn {
 template<size_t N = 4096>
 class block {
 public:
+   char b[N];
+};
+
+template<size_t N = 1024>
+class zeroedBlock {
+public:
+   zeroedBlock() { ::memset(b,0,N); }
+
    char b[N];
 };
 
