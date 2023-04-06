@@ -462,6 +462,7 @@ $(COML_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 
 SCREEN_COML = \
 	src/screen/screen.battle.coml \
+	src/screen/screen.get.coml \
 	src/screen/screen.home.coml \
 	src/screen/screen.inbox.coml \
 
@@ -490,6 +491,7 @@ $(SCREEN_RELEASE_GEN_OBJ): $(OBJ_DIR)/release/%.o: gen/%.cpp
 
 SCREEN_SRC = \
 	src/screen/battle.logic.cpp \
+	src/screen/get.logic.cpp \
 	src/screen/home.logic.cpp \
 	src/screen/inbox.logic.cpp \
 	src/screen/main.cpp \
@@ -501,7 +503,7 @@ $(OUT_DIR)/debug/screen.dll: $(SCREEN_DEBUG_OBJ) $(SCREEN_DEBUG_GEN_OBJ) $(OUT_D
 	@mkdir -p $(OUT_DIR)/debug
 	@$(LINK_CMD) -shared -o $@ $(SCREEN_DEBUG_OBJ) $(SCREEN_DEBUG_GEN_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lpen
 
-$(SCREEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
+$(SCREEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp $(SCREEN_DEBUG_GEN_OBJ)
 	$(info $< --> $@)
 	@mkdir -p $(OBJ_DIR)/debug/screen
 	@$(COMPILE_CMD) $(DEBUG_CC_FLAGS) $< -o $@
@@ -513,7 +515,7 @@ $(OUT_DIR)/release/screen.dll: $(SCREEN_RELEASE_OBJ) $(SCREEN_RELEASE_GEN_OBJ) $
 	@mkdir -p $(OUT_DIR)/release
 	@$(LINK_CMD) -shared -o $@ $(SCREEN_RELEASE_OBJ) $(SCREEN_RELEASE_GEN_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lpen
 
-$(SCREEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
+$(SCREEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp $(SCREEN_RELEASE_GEN_OBJ)
 	$(info $< --> $@)
 	@mkdir -p $(OBJ_DIR)/release/screen
 	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@

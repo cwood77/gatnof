@@ -1,24 +1,14 @@
-coml v1 20
-1_2+------------------------------------------------------------------------------------------------------------+
-|                                                   INBOX                                                    |
-| [oo+] messages                                                                                             |
-| oo/oo/oooo oo:oo Thanks for creating an account                        oooo gems                           |
-|                                                                                                            |
-|                                                                                                            |
-|                                                                                                            |
+coml v1 7@8
+1--------------------------------------------------------------------------------------------------------------
+                                                     GET!                                                     
+    3Thanks for creating an account                                                                            
+                                                                                                              
+    4oooo gems                                                                                                 
+                                             5<any key to dismiss>                                             
 --------------------------------------------------------------------------------------------------------------
-                                                     GET!                                                    |
-    Thanks for creating an account                                                                           |
-                                                                                                             |
-    oooo gems                                                                                                |
-                                             <enter to dismiss>                                              |
---------------------------------------------------------------------------------------------------------------
-|                                                                                                            |
-|                                                                                                            |
-|                                                                                                            |
-|                                                                                                            |
-| back   open next   auto open                                                                               |
-+------------------------------------------------------------------------------------------------------------+
-1=txt:%cls%
-2=txt:%stdcol%
+1=txt:" << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow) << "
 
+3=str:msg/104/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+4=str:booty/104/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+
+5=str:prompt/20/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)

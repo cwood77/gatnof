@@ -190,7 +190,7 @@ public:
    virtual pnt demandPnt(const std::string& id) = 0;
 };
 
-class iScreen : public iObject {
+class iScreen : public virtual iObject {
 public:
    virtual void render() = 0;
    virtual iObject& _demand(const std::string& id) = 0;
@@ -236,7 +236,7 @@ private:
 
 // --------------- hand-written top-levels
 
-class iLogic : public iObject {
+class iLogic : public virtual iObject {
 public:
    virtual void release() { delete this; }
    virtual void run(bool interactive = true) = 0;

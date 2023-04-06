@@ -85,7 +85,7 @@ void mainParser::readHeader()
       throw std::runtime_error("bad coml header");
 
    // read index
-   ::sscanf(m_ir.lines[0].c_str(),"coml v1 %d",&m_ir.height);
+   ::sscanf(m_ir.lines[0].c_str(),"coml v1 %d@%d",&m_ir.height,&m_ir.yOffset);
 }
 
 void mainParser::buildObjectTable()

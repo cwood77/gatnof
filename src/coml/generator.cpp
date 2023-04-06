@@ -44,6 +44,9 @@ void generator::genImage(streams& out)
    out.hpp() << "      auto& pn = svcMan->demand<pen::object>();" << std::endl;
    out.hpp() << std::endl;
 
+   if(m_ir.yOffset != 1)
+      out.hpp() << "      pn.str() << pen::moveTo(cui::pnt(1," << m_ir.yOffset << "));" << std::endl;
+
    for(int i=0;i<m_ir.height;i++)
    {
       out.hpp() << "      pn.str() << \"";
@@ -60,7 +63,7 @@ void generator::genImage(streams& out)
             auto& objs = m_ir.oTable.demand(id);
             for(auto *pObj : objs)
             {
-               pObj->place(cui::pnt(j+1-jOffset,i+1));
+               pObj->place(cui::pnt(j+1-jOffset,i+m_ir.yOffset));
                pObj->render(out.hpp());
             }
             jOffset += n;
@@ -149,7 +152,7 @@ void generator::genScreen(streams& out)
 {
    out.hpp() << std::endl;
    out.hpp() << "class " << m_ir.name << "_screen : public cui::basicScreen {" << std::endl;
-   out.hpp() << "private:" << std::endl;
+   out.hpp() << "protected:" << std::endl;
    out.hpp() << "   " << m_ir.name << "_image m_image;" << std::endl;
    m_ir.oTable.foreach<controlObject>([&](auto& ctl)
    {

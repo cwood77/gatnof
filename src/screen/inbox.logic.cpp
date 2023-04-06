@@ -33,7 +33,7 @@ public:
       // fetch buttons
       auto& backBtn = pScr->demand<cui::buttonControl>("backBtn");
       auto& openNextBtn = pScr->demand<cui::buttonControl>("openNextBtn");
-      openNextBtn.dim("not yet implemented");
+      //openNextBtn.dim("not yet implemented");
 
       while(true)
       {
@@ -43,7 +43,7 @@ public:
          // static controls
 
          // dynamic controls
-         auto inboxData = (*acct)["inbox"].as<sst::array>();
+         auto& inboxData = (*acct)["inbox"].as<sst::array>();
          count.redraw(inboxData.size());
          for(size_t i=0;i<inboxData.size();i++)
          {
@@ -57,7 +57,12 @@ public:
          // handle user input
          cui::buttonHandler handler(error);
          handler.add(backBtn,[&](auto& bnt, bool& stop){ stop = true; });
-         handler.add(openNextBtn,[&](auto& bnt, bool&){ });
+         handler.add(openNextBtn,[&](auto& bnt, bool& stop)
+         {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("get"));
+            pL->run();
+            stop = true;
+         });
          auto& ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(&ans == &backBtn)
             return;

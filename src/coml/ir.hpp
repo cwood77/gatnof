@@ -112,13 +112,14 @@ public:
 
 class ir {
 public:
-   ir() : height(0) {}
+   ir() : height(0), yOffset(1) {}
 
    void computeName(const std::string& comlPath);
 
    std::string name;
    std::vector<std::string> lines;
    int height;
+   int yOffset;
    objectTable oTable;
 };
 
