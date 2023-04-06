@@ -17,7 +17,7 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 | 11                                                                                                           |
-| 5back   6open next   7auto open                                                                               |
+| 5back   6open next                                                                                            |
 +------------------------------------------------------------------------------------------------------------+
 1=txt:%cls%
 2=txt:%stdcol%
@@ -27,7 +27,6 @@ coml v1 20
 
 5=btn:backBtn/4/1/(b)ack
 6=btn:openNextBtn/9/1/(o)pen next
-7=btn:autoOpenBtn/9/1/(a)uto open
 
 8=str:date/70/1
 9=str:prize/35/1
