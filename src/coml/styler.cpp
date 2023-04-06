@@ -26,4 +26,26 @@ void styler::applyDefault(controlObject& o, controlStyleDefault& d)
       o.format4 = d.format4;
 }
 
+void styler::replaceVars(objectTable& oTable)
+{
+   oTable.foreach<textObject>([&](auto& o)
+   {
+      replaceVars(o.payload);
+   });
+   oTable.foreach<controlObject>([&](auto& o)
+   {
+      replaceVars(o.format1);
+      replaceVars(o.format2);
+      replaceVars(o.format3);
+      replaceVars(o.format4);
+   });
+}
+
+void styler::replaceVars(std::string& expr)
+{
+   auto it = m_ir.vars.find(expr);
+   if(it != m_ir.vars.end())
+      expr = it->second;
+}
+
 } // namespace coml

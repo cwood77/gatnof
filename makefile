@@ -466,7 +466,7 @@ SCREEN_COML = \
 
 SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 
-$(SCREEN_GEN): gen/%.cpp: src/%.coml bin/out/debug/coml.exe
+$(SCREEN_GEN): gen/%.cpp: src/%.coml bin/out/debug/coml.exe src/screen/style.coml
 	$(info $< ===>>> $@)
 	@mkdir -p gen/screen
 	@bin/out/debug/coml.exe --generate $< $@ src/screen/style.coml

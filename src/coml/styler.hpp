@@ -13,7 +13,7 @@ public:
    void apply(objectTable& objs)
    {
       applyDefaults(objs);
-      //replaceVars(objs);
+      replaceVars(objs);
    }
 
 private:

@@ -37,7 +37,7 @@ void styleParser::parseLine(const std::string& line)
       int n = 0;
       ::sscanf(pThumb,"%%%[^%]%%%n",name.b,&n);
 
-      m_ir.vars[name.b] = pThumb+n+1;
+      m_ir.vars[std::string("%") + name.b + "%"] = pThumb+n+1;
    }
    else if(::strncmp(pThumb,"default{",8)==0)
    {
