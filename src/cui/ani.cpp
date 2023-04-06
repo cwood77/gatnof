@@ -5,6 +5,8 @@
 
 namespace ani {
 
+void delay::sleep() { ::Sleep(nMSec); }
+
 void frame::run(pen::object& pn)
 {
    for(auto it=m_sketches.begin();it!=m_sketches.end();++it)
@@ -19,8 +21,7 @@ void flipbook::run(pen::object& pn)
       if(first)
          first = false;
       else
-         //::Sleep(10);
-         ::Sleep(35);
+         m_d.sleep();
       it->second.run(pn);
    }
 }
@@ -40,6 +41,9 @@ void sequencer::simultaneous(const std::vector<std::function<void(iCanvas&)> >& 
    for(auto it=a.begin();it!=a.end();++it)
       (*it)(m_f);
 }
+
+// =======================================================================================
+//            ARTISTS
 
 void outliner::outline(iCanvas& c)
 {

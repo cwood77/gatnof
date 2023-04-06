@@ -10,6 +10,16 @@ namespace pen { class object; }
 
 namespace ani {
 
+class delay {
+public:
+   delay() : nMSec(25) {}
+
+   size_t nMSec;
+
+   void sleep();
+};
+
+// a bunch of drawings that happen at the same time
 class frame {
 public:
    void run(pen::object& pn);
@@ -26,10 +36,13 @@ public:
 
 class flipbook : public iCanvas {
 public:
+   explicit flipbook(delay& d) : m_d(d) {}
+
    void run(pen::object& pn);
    virtual frame& getFrame(size_t i);
 
 private:
+   delay& m_d;
    std::map<size_t,frame> m_f;
 };
 
@@ -43,14 +56,14 @@ private:
    flipbook& m_f;
 };
 
-//class canvasAdapter : public iCanvas {}
+// "artists" are a pattern, not a type.  These offer up function usable with a sequencer
+// to create effects
 
 class outliner {
 public:
    explicit outliner(cui::control& c) : m_c(c) {}
 
    void outline(iCanvas& c);
-
    void restore(iCanvas& c);
 
 private:
@@ -62,7 +75,6 @@ public:
    explicit blinker(cui::control& c) : m_c(c) {}
 
    void blink(iCanvas& c);
-
    void restore(iCanvas& c);
 
 private:

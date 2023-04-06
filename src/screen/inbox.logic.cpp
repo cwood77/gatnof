@@ -1,3 +1,4 @@
+#include "../../gen/screen/screen.inbox.hpp"
 #include "../cmn/autoPtr.hpp"
 #include "../cmn/service.hpp"
 #include "../cui/api.hpp"
@@ -26,7 +27,7 @@ public:
             *new cui::bracketedIntFormatter(
                *new cui::maxValueIntFormatter()));
       });
-      //auto& table = pScr->demand<cui::listControl>("table");
+      auto& table = pScr->demand<cui::listControl<inbox_table_row_ctl> >("table");
       auto& error = pScr->demand<cui::stringControl>("error");
 
       // fetch buttons
@@ -42,8 +43,16 @@ public:
          // static controls
 
          // dynamic controls
-         auto nInbox = (*acct)["inbox"].as<sst::array>().size();
-         count.redraw(nInbox);
+         auto inboxData = (*acct)["inbox"].as<sst::array>();
+         count.redraw(inboxData.size());
+         for(size_t i=0;i<inboxData.size();i++)
+         {
+            if(i >= table.size())
+               break; // out of rows for now
+
+            auto& elt = table[i];
+            fmtPrize(inboxData[i].as<sst::dict>(),elt);
+         }
 
          // handle user input
          cui::buttonHandler handler(error);
@@ -53,6 +62,12 @@ public:
          if(&ans == &backBtn)
             return;
       }
+   }
+
+   virtual void fmtPrize(sst::dict& d, inbox_table_row_ctl& row)
+   {
+      row.date.redraw(d["reason"].as<sst::str>().get());
+      row.prize.redraw(d["unit"].as<sst::str>().get());
    }
 };
 

@@ -14,7 +14,7 @@ namespace {
 class generateCommand : public console::iCommand {
 public:
    std::string oInPath;
-   std::string oOutPath;
+   std::string oOutCppPath;
    std::string oStylePath;
 
    virtual void run(console::iLog& l);
@@ -30,7 +30,7 @@ protected:
       v->addParameter(
          console::stringParameter::required(offsetof(generateCommand,oInPath)));
       v->addParameter(
-         console::stringParameter::required(offsetof(generateCommand,oOutPath)));
+         console::stringParameter::required(offsetof(generateCommand,oOutCppPath)));
       v->addParameter(
          console::stringParameter::optional(offsetof(generateCommand,oStylePath)));
 
@@ -40,6 +40,12 @@ protected:
 
 void generateCommand::run(console::iLog& l)
 {
+   std::string outHppPath = oOutCppPath.c_str();
+   {
+      auto *pPtr = const_cast<char*>(outHppPath.c_str());
+      pPtr[outHppPath.length() - 3] = 'h';
+   }
+
    coml::ir ir;
    ir.computeName(oInPath);
 
@@ -53,8 +59,12 @@ void generateCommand::run(console::iLog& l)
    if(usingStyle)
       coml::styler(sir).apply(ir.oTable);
 
-   std::ofstream out(oOutPath);
-   coml::generator(ir).generate(out);
+   {
+      std::ofstream outHpp(outHppPath);
+      std::ofstream outCpp(oOutCppPath);
+      coml::streams out(outHpp,outCpp,outHppPath);
+      coml::generator(ir).generate(out);
+   }
 }
 
 } // anonymous namespace

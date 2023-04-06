@@ -22,7 +22,8 @@ public:
       auto& p1 = pScr->demand<cui::control>("p1");
       auto& o4 = pScr->demand<cui::control>("o4");
 
-      ani::flipbook fb;
+      ani::delay d;
+      ani::flipbook fb(d);
       ani::sequencer seq(fb);
 
       ani::outliner artistp1(p1);
