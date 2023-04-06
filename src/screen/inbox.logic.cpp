@@ -4,6 +4,7 @@
 #include "../cui/api.hpp"
 #include "../cui/pen.hpp"
 #include "../file/api.hpp"
+#include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
 #include <conio.h>
 #include <memory>
@@ -33,7 +34,6 @@ public:
       // fetch buttons
       auto& backBtn = pScr->demand<cui::buttonControl>("backBtn");
       auto& openNextBtn = pScr->demand<cui::buttonControl>("openNextBtn");
-      //openNextBtn.dim("not yet implemented");
 
       while(true)
       {
@@ -53,6 +53,11 @@ public:
             auto& elt = table[i];
             fmtPrize(inboxData[i].as<sst::dict>(),elt);
          }
+         if(inboxData.size() == 0)
+         {
+            openNextBtn.dim("inbox is empty");
+            openNextBtn.redraw();
+         }
 
          // handle user input
          cui::buttonHandler handler(error);
@@ -61,6 +66,11 @@ public:
          {
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("get"));
             pL->run();
+
+            auto& ch = svcMan->demand<net::iChannel>();
+            ch.sendString("get");
+            acct.reset(ch.recvSst());
+
             stop = true;
          });
          auto& ans = handler.run(svcMan->demand<cui::iUserInput>());

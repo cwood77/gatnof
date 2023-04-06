@@ -9,6 +9,8 @@ void styler::applyDefaults(objectTable& oTable)
    {
       if(o.baseType == "cui::stringControl")
          applyDefault(o,m_ir.str);
+      else if(o.baseType == "cui::intControl")
+         applyDefault(o,m_ir.str);
       else if(o.baseType == "cui::buttonControl")
          applyDefault(o,m_ir.btn);
    });

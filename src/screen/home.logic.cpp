@@ -21,7 +21,12 @@ public:
       tcat::typePtr<cui::iFactory> sFac;
       cmn::autoReleasePtr<cui::iScreen> pScr(&sFac->create<cui::iScreen>("home_screen"));
       auto& aName = pScr->demand<cui::stringControl>("aName");
-      auto& gems = pScr->demand<cui::stringControl>("gems");
+      auto& gems = pScr->demand<cui::intControl>("gems");
+      gems.userInitialize([&]()
+      {
+         gems.setFormatter(
+            *new cui::maxValueIntFormatter());
+      });
       auto& gold = pScr->demand<cui::stringControl>("gold");
       auto& inboxHint = pScr->demand<cui::intControl>("inboxHint");
       inboxHint.userInitialize([&]()
@@ -57,7 +62,7 @@ public:
          year.redraw("2023");
 
          // dynamic controls
-         gems.redraw((*acct)["gems"].as<sst::str>().get());
+         gems.redraw((*acct)["gems"].as<sst::mint>().get());
          gold.redraw((*acct)["gold"].as<sst::str>().get());
          auto nInbox = (*acct)["inbox"].as<sst::array>().size();
          inboxHint.setFormatMode(nInbox > 0 ? 2 : 1);

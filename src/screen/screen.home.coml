@@ -22,7 +22,7 @@ coml v1 20
 1=txt:%cls%
 2=txt:%stdcol%
 3=str:aName/21/1/%emph%
-4=str:gems/5/1
+4=int:gems/5/1
 5=str:gold/5/1
 7=str:ip/15/1/%minor%
 8=str:year/4/1/%minor%
