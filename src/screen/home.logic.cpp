@@ -35,9 +35,10 @@ public:
       auto& year = pScr->demand<cui::stringControl>("year");
 
       // fetch buttons
+      auto& inboxBtn = pScr->demand<cui::buttonControl>("inboxBtn");
+      auto& summonBtn = pScr->demand<cui::buttonControl>("summonBtn");
       auto& arenaBtn = pScr->demand<cui::buttonControl>("arenaBtn");
       auto& exitBtn = pScr->demand<cui::buttonControl>("exitBtn");
-      auto& summonBtn = pScr->demand<cui::buttonControl>("summonBtn");
       summonBtn.dim("not yet implemented");
 
       while(true)
@@ -64,6 +65,13 @@ public:
 
          // handle user input
          cui::buttonHandler handler(error);
+         handler.add(inboxBtn,[&](auto& bnt, bool& stop)
+         {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("inbox"));
+            pL->run();
+            stop = true; // redraw home
+         });
+         handler.add(summonBtn,[&](auto& bnt, bool&){ });
          handler.add(arenaBtn,[&](auto& bnt, bool& stop)
          {
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
@@ -71,7 +79,6 @@ public:
             stop = true; // redraw home
          });
          handler.add(exitBtn,[&](auto& bnt, bool& stop){ stop = true; });
-         handler.add(summonBtn,[&](auto& bnt, bool&){ });
          auto& ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(&ans == &exitBtn)
             return;

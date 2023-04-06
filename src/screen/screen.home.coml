@@ -6,12 +6,12 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
-| (i)nbox      10[oo+]                                                               3AlisterTheMagnificent     |
+| 14(i)nbox      10[oo+]                                                               3AlisterTheMagnificent     |
 | 13(s)ummon                                                                         Gems  4-----               |
-| (c)haracters                                                                     Gold  5-----               |
-| (l)ine-up                                                                                                  |
+| 15(c)haracters                                                                     Gold  5-----               |
+| 16(l)ine-up                                                                                                  |
 |                                                                                                            |
-| (q)uest                                                                                                    |
+| 17(q)uest                                                                                                    |
 | 11(a)rena                                                                                                    |
 |                                                                                                            |
 | 12(e)xit                                                                                                     |
@@ -28,11 +28,15 @@ coml v1 20
 8=str:year/4/1/%minor%
 9=str:error/106/1/%error%
 
-10=int:inboxHint/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite,true) << pen::bgcol(pen::kBlue,true)
+10=int:inboxHint/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kBlue)
 
-11=btn:arenaBtn/8/1/(a)rena
-12=btn:exitBtn/8/1/(e)xit
-13=btn:summonBtn/8/1/(s)ummon
+14=btn:inboxBtn/12/1/(i)nbox
+13=btn:summonBtn/12/1/(s)ummon
+15=btn:charBtn/12/1/(c)haracters
+16=btn:lineUpBtn/12/1/(l)ine-up
+17=btn:questBtn/12/1/(q)uest
+11=btn:arenaBtn/12/1/(a)rena
+12=btn:exitBtn/12/1/(e)xit
 
 ; begin comments
 110 x 20

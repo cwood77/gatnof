@@ -463,6 +463,7 @@ $(COML_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 SCREEN_COML = \
 	src/screen/screen.battle.coml \
 	src/screen/screen.home.coml \
+	src/screen/screen.inbox.coml \
 
 SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 
@@ -490,6 +491,7 @@ $(SCREEN_RELEASE_GEN_OBJ): $(OBJ_DIR)/release/%.o: gen/%.cpp
 SCREEN_SRC = \
 	src/screen/battle.logic.cpp \
 	src/screen/home.logic.cpp \
+	src/screen/inbox.logic.cpp \
 	src/screen/main.cpp \
 
 SCREEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_SRC)))

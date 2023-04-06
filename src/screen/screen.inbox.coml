@@ -1,21 +1,30 @@
 coml v1 20
 1_2+------------------------------------------------------------------------------------------------------------+
-|                                                   INBOX                                                    |
-| [ 20] messages                                                                                             |
-| 04/05/2023 10:33 Thanks for creating an account                        2000 gems                           |
+|                                                   3INBOX2                                                    |
+| 4[oo+] messages                                                                                             |
 |                                                                                                            |
-|                                                                                                            |
-|                                                                                                            |
---------------------------------------------------------------------------------------------------------------
-                                                     GET!                                                    |
-    Thanks for creating an account                                                                           |
-                                                                                                             |
-    2000 gems                                                                                                |
-                                            <enter to dismiss>                                               |
---------------------------------------------------------------------------------------------------------------
+| oo/oo/oooo oo:oo Thanks for creating an account                        oooo gems                           |
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
-| (b)ack   (o)pen next   (a)uto open                                                                         |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+| 5back   6open next   7auto open                                                                               |
 +------------------------------------------------------------------------------------------------------------+
+1=txt:%cls%
+2=txt:%stdcol%
+3=txt:" << pen::fgcol(pen::kYellow,true) << "
+
+4=int:count/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kBlue)
+
+5=btn:backBtn/4/1/(b)ack
+6=btn:openNextBtn/9/1/(o)pen next
+7=btn:autoOpenBtn/9/1/(a)uto open
