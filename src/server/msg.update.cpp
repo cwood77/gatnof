@@ -3,6 +3,7 @@
 #include "../file/manager.hpp"
 #include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
+#include "data.hpp"
 #include "message.hpp"
 #include <memory>
 
@@ -12,30 +13,101 @@ class updateHandler : public iMsgHandler {
 public:
    virtual void run(net::iChannel& ch, connectionContext& ctxt)
    {
+      // final and master list of prizes I want to support
+      //
+      // -- calculated during update, without award thread
+      // prev-login vs. 0
+      //  - [DONE] new user login
+      // curr-login vs. P
+      //  - [in work] periodic while playing
+      // last-update vs. date
+      //  - [in work] events (e.g. Easter)
+      // ts-update, prev-login, curr-login
+      //  - 3 days login streak
+      // last-update
+      //  - downtime compensation
+      //
+      // -- calculated during update, using award thread
+      // thread timer, prev-login, curr-login
+      //    maybe do this on time of global data above?
+      //  - daily at a certain time, if logged in w/i 5 days
+      //
+      // -- elsewhere
+      // awarded when that happens, elsewhere
+      //  - when you get X chars
+
       time_t now = ::time(NULL);
-      auto& lastChk = ctxt.pAcct->dict()["last-update-check"].as<sst::mint>();
+      auto& lastChk = ctxt.pAcct->dict()["ts-update"].as<sst::mint>();
+      auto& login = ctxt.pAcct->dict()["ts-curr-login"].as<sst::mint>();
       auto& inbox = ctxt.pAcct->dict()["inbox"].as<sst::array>();
+      auto& tstash = ctxt.pAcct->dict()["svr-tmp-stash"].as<sst::dict>();
+      auto& pstash = ctxt.pAcct->dict()["svr-stash"].as<sst::dict>();
+
+      // new user prize
       if(lastChk.get() == 0)
+         bestowGems(inbox,"New user account",20000);
+
+      // playtime awards
+      auto playtime = now - login.get();
+      if(playtime > 3 && !tstash.has("update-playtime"))
       {
-         // new user!
-         auto& present = inbox.append<sst::dict>();
-         present.add<sst::str>("reason") = "New user account";
-         present.add<sst::str>("unit") = "gems";
-         present.add<sst::mint>("amt") = 20000;
+         bestowGems(inbox,"Playtime streak!",20);
+         tstash.add<sst::str>("update-playtime");
       }
-      else if((now - lastChk.get()) >= (20*60)) // 20min // needs be login time
+
+      // scheduled game event awards
+      auto& gameEvents = (*gServerData)["award-schedule"].as<sst::array>();
+      for(size_t i=0;i<gameEvents.size();i++)
       {
-         // activity present
-         auto& present = inbox.append<sst::dict>();
-         present.add<sst::str>("reason") = "Gem accural";
-         present.add<sst::str>("unit") = "gems";
-         present.add<sst::mint>("amt") = 100;
+         auto& evt = gameEvents[i].as<sst::dict>();
+         auto& name = evt["name"].as<sst::str>().get();
+
+         if((size_t)now >= evt["after"].as<sst::mint>().get())
+         {
+            if((size_t)now < evt["before"].as<sst::mint>().get())
+            {
+               if(!pstash.has(name))
+               {
+                  bestow(
+                     inbox,
+                     name,
+                     evt["amt"].as<sst::mint>().get(),
+                     evt["unit"].as<sst::str>().get()
+                  );
+                  pstash.add<sst::str>(name);
+               }
+            }
+            else
+            {
+               // tidy the stash
+               if(pstash.has(name))
+               {
+                  auto& m = pstash.asMap();
+                  delete m[name];
+                  m.erase(name);
+               }
+            }
+         }
       }
 
       lastChk = now;
       ctxt.pAcct->flush();
 
       ch.sendSst(ctxt.pAcct->dict());
+   }
+
+private:
+   void bestowGems(sst::array& inbox, const std::string& reason, size_t amt)
+   {
+      bestow(inbox,reason,amt,"gems");
+   }
+
+   void bestow(sst::array& inbox, const std::string& reason, size_t amt, const std::string& unit)
+   {
+      auto& present = inbox.append<sst::dict>();
+      present.add<sst::str>("reason") = reason;
+      present.add<sst::mint>("amt") = amt;
+      present.add<sst::str>("unit") = unit;
    }
 };
 

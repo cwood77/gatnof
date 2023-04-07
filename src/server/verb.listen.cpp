@@ -7,10 +7,14 @@
 #include "../file/manager.hpp"
 #include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
+#include "awardThread.hpp"
+#include "data.hpp"
 #include "connectionThread.hpp"
 #include "listenThread.hpp"
 #include <conio.h>
 #include <memory>
+
+namespace server { sst::dict *gServerData = NULL; }
 
 namespace {
 
@@ -46,6 +50,14 @@ void listenCommand::run(console::iLog& l)
    cmn::osEvent stopSignal("",false);
    tcat::typePtr<net::iNetProto> nProto;
    nProto->tie(pFile->dict(),l);
+
+   l.writeLnVerbose("load global game data");
+   cmn::autoReleasePtr<file::iSstFile> pData(&fMan->bindFile<file::iSstFile>(
+      "C:\\cygwin64\\home\\chris\\dev\\gatnof\\data\\server\\global.sst", // TODO
+      file::iFileManager::kReadOnly
+   ));
+   pData->tie(l);
+   server::gServerData = &pData->dict();
 
    l.writeLnVerbose("create and start listener threads");
    cmn::threadGroup<server::connectionThread> workers;

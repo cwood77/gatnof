@@ -420,6 +420,7 @@ $(TEST_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 # server
 
 SERVER_SRC = \
+	src/server/awardThread.cpp \
 	src/server/connectionThread.cpp \
 	src/server/listenThread.cpp \
 	src/server/main.cpp \

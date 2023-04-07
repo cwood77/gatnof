@@ -1,0 +1,11 @@
+{
+   "award-schedule": [
+      {
+         "name": "testing",
+         "after": 0,
+         "before": 9999999,
+         "amt": 10,
+         "unit": "gems"
+      }
+   ]
+}

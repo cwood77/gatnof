@@ -19,7 +19,7 @@ public:
       log().writeLnVerbose("looking up account '%s'",(*pInfo)["accountName"].as<sst::str>().get().c_str());
 
       // locate file on disk and bind it; stash in context
-      std::string path = "C:\\cygwin64\\home\\chris\\dev\\gatnof\\data\\server\\";
+      std::string path = "C:\\cygwin64\\home\\chris\\dev\\gatnof\\data\\server\\acct\\"; // TODO
       path += (*pInfo)["accountName"].as<sst::str>().get();
       path += ".sst";
 
@@ -40,6 +40,16 @@ public:
 
          ctxt.pAcct = &fMan->bindFile<file::iSstFile>(path.c_str());
          ctxt.pAcct->scheduleFor(file::iFileManager::kSaveOnClose);
+
+         // rotate timestamps
+         {
+            auto& curr = ctxt.pAcct->dict()["ts-curr-login"].as<sst::mint>();
+            ctxt.pAcct->dict().add<sst::mint>("ts-prev-login") = curr.get();
+            curr = ::time(NULL);
+         }
+
+         // wipe stash
+         ctxt.pAcct->dict().add<sst::dict>("svr-tmp-stash");
 
          ch.sendSst(ctxt.pAcct->dict());
       }
