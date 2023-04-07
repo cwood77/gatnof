@@ -16,12 +16,10 @@ public:
       // final and master list of prizes I want to support
       //
       // -- calculated during update, without award thread
-      // prev-login vs. 0
       //  - [DONE] new user login
-      // curr-login vs. P
-      //  - [in work] periodic while playing
-      // last-update vs. date
-      //  - [in work] events (e.g. Easter)
+      //  - [DONE] events (e.g. Easter)
+      //  - [DONE] periodic while playing
+      //
       // ts-update, prev-login, curr-login
       //  - 3 days login streak
       // last-update
@@ -48,11 +46,9 @@ public:
 
       // playtime awards
       auto playtime = now - login.get();
-      if(playtime > 3 && !tstash.has("update-playtime"))
-      {
-         bestowGems(inbox,"Playtime streak!",20);
-         tstash.add<sst::str>("update-playtime");
-      }
+      playtimeAward(inbox,tstash,playtime,3,"3-sec playtime streak!",10);
+      playtimeAward(inbox,tstash,playtime,4,"4-sec playtime streak!",10);
+      playtimeAward(inbox,tstash,playtime,5,"5-sec playtime streak!",10);
 
       // scheduled game event awards
       auto& gameEvents = (*gServerData)["award-schedule"].as<sst::array>();
@@ -77,6 +73,18 @@ public:
    }
 
 private:
+   void playtimeAward(sst::array& inbox, sst::dict& tstash, size_t playtime, size_t durationInSecs, const std::string& reason, size_t amt)
+   {
+      std::stringstream symbol;
+      symbol << "update:playtime:" << durationInSecs;
+
+      if(playtime > durationInSecs && !tstash.has(symbol.str()))
+      {
+         bestowGems(inbox,reason,amt);
+         tstash.add<sst::tf>(symbol.str()) = true;
+      }
+   }
+
    bool inRangeForEvent(sst::dict& evt, time_t t)
    {
       return (evt["after"].as<sst::mint>().get() <= (size_t)t && (size_t)t < evt["before"].as<sst::mint>().get());
