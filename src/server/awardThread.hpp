@@ -13,6 +13,9 @@ public:
    virtual void run();
 
 private:
+   time_t normalizeToDaily(time_t t);
+   void onceDaily(time_t normalizedT);
+
    cmn::osEvent& m_stopSignal;
 };
 

@@ -14,6 +14,7 @@
 #include <conio.h>
 #include <memory>
 
+namespace server { cmn::mutex *gDataLock = NULL; }
 namespace server { sst::dict *gServerData = NULL; }
 
 namespace {
@@ -57,20 +58,27 @@ void listenCommand::run(console::iLog& l)
       file::iFileManager::kReadOnly
    ));
    pData->tie(l);
+   cmn::mutex _dLock;
+   server::gDataLock   = &_dLock;
    server::gServerData = &pData->dict();
 
-   l.writeLnVerbose("create and start listener threads");
+   l.writeLnVerbose("create and start threads");
    cmn::threadGroup<server::connectionThread> workers;
    server::listenThread listener(*nProto,stopSignal,workers);
    listener.tie(pFile->dict(),l);
    cmn::threadController listenerTc(listener);
    listenerTc.start();
+   server::awardThread aTh(stopSignal);
+   aTh.tie(pFile->dict(),l);
+   cmn::threadController aTc(aTh);
+   aTc.start();
 
    ::getch();
    l.writeLnVerbose("stopping and joining threads threads");
    stopSignal.set();
    listenerTc.join();
    workers.join();
+   aTc.join();
    l.writeLnVerbose("bye");
 }
 

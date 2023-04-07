@@ -19,20 +19,15 @@ public:
       //  - [DONE] new user login
       //  - [DONE] events (e.g. Easter)
       //  - [DONE] periodic while playing
-      //
-      // ts-update, prev-login, curr-login
-      //  - 3 days login streak
-      // last-update
-      //  - downtime compensation
-      //
       // -- calculated during update, using award thread
-      // thread timer, prev-login, curr-login
-      //    maybe do this on time of global data above?
-      //  - daily at a certain time, if logged in w/i 5 days
+      //  - [DONE] daily at a certain time, if logged in w/i 5 days
       //
       // -- elsewhere
-      // awarded when that happens, elsewhere
+      //  - 3 days login streak (at attendance screen)
       //  - when you get X chars
+      //
+      // -- PUNT
+      //  - downtime compensation
 
       time_t now = ::time(NULL);
       auto& lastChk = ctxt.pAcct->dict()["ts-update"].as<sst::mint>();
