@@ -41,7 +41,6 @@ public:
       auto& login = ctxt.pAcct->dict()["ts-curr-login"].as<sst::mint>();
       auto& inbox = ctxt.pAcct->dict()["inbox"].as<sst::array>();
       auto& tstash = ctxt.pAcct->dict()["svr-tmp-stash"].as<sst::dict>();
-      auto& pstash = ctxt.pAcct->dict()["svr-stash"].as<sst::dict>();
 
       // new user prize
       if(lastChk.get() == 0)
@@ -62,32 +61,13 @@ public:
          auto& evt = gameEvents[i].as<sst::dict>();
          auto& name = evt["name"].as<sst::str>().get();
 
-         if((size_t)now >= evt["after"].as<sst::mint>().get())
-         {
-            if((size_t)now < evt["before"].as<sst::mint>().get())
-            {
-               if(!pstash.has(name))
-               {
-                  bestow(
-                     inbox,
-                     name,
-                     evt["amt"].as<sst::mint>().get(),
-                     evt["unit"].as<sst::str>().get()
-                  );
-                  pstash.add<sst::str>(name);
-               }
-            }
-            else
-            {
-               // tidy the stash
-               if(pstash.has(name))
-               {
-                  auto& m = pstash.asMap();
-                  delete m[name];
-                  m.erase(name);
-               }
-            }
-         }
+         if(inRangeForEvent(evt,now) && !inRangeForEvent(evt,lastChk.get()))
+            bestow(
+               inbox,
+               name,
+               evt["amt"].as<sst::mint>().get(),
+               evt["unit"].as<sst::str>().get()
+            );
       }
 
       lastChk = now;
@@ -97,6 +77,11 @@ public:
    }
 
 private:
+   bool inRangeForEvent(sst::dict& evt, time_t t)
+   {
+      return (evt["after"].as<sst::mint>().get() <= (size_t)t && (size_t)t < evt["before"].as<sst::mint>().get());
+   }
+
    void bestowGems(sst::array& inbox, const std::string& reason, size_t amt)
    {
       bestow(inbox,reason,amt,"gems");
