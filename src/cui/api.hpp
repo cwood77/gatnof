@@ -140,6 +140,15 @@ private:
    std::unique_ptr<iIntFormatter> m_pNext;
 };
 
+class hugeValueIntFormatter : public iIntFormatter {
+public:
+   virtual std::string formatValue(int v, size_t l) const;
+
+private:
+   std::string abbreviate(
+      const std::string& s, size_t nBeforeDot, size_t l, char unit) const;
+};
+
 class buttonControl : public control {
 public:
    void setFaceText(const std::string& t);

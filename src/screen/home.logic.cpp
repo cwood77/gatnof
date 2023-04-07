@@ -25,7 +25,7 @@ public:
       gems.userInitialize([&]()
       {
          gems.setFormatter(
-            *new cui::maxValueIntFormatter());
+            *new cui::hugeValueIntFormatter());
       });
       auto& gold = pScr->demand<cui::stringControl>("gold");
       auto& inboxHint = pScr->demand<cui::intControl>("inboxHint");
@@ -65,8 +65,8 @@ public:
          gems.redraw((*acct)["gems"].as<sst::mint>().get());
          gold.redraw((*acct)["gold"].as<sst::str>().get());
          auto nInbox = (*acct)["inbox"].as<sst::array>().size();
-         inboxHint.setFormatMode(nInbox > 0 ? 2 : 1);
-         inboxHint.redraw(nInbox);
+         if(nInbox > 0)
+            inboxHint.redraw(nInbox);
 
          // handle user input
          cui::buttonHandler handler(error);

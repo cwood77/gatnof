@@ -127,6 +127,60 @@ std::string maxValueIntFormatter::formatValue(int v, size_t l) const
    return stream.str();
 }
 
+std::string hugeValueIntFormatter::formatValue(int v, size_t l) const
+{
+   if(l < 4)
+      throw std::runtime_error("l must be at least 4");
+
+   std::stringstream stream;
+   stream << v;
+   std::string s = stream.str();
+
+   // 2,147,483,647 is the max s32 value
+
+   // 2 147 483 647    > 9 digits      2.14B
+   //   147 483 647    = 9 digits    147.48M   minium L is 3+1=4
+
+   if(s.length() <= l)
+      // happy path
+      return s;
+
+   if(s.length() == 10)     return abbreviate(s,1,l,'B');
+   else if(s.length() == 9) return abbreviate(s,3,l,'M');
+   else if(s.length() == 8) return abbreviate(s,2,l,'M');
+   else if(s.length() == 7) return abbreviate(s,1,l,'M');
+   else if(s.length() == 6) return abbreviate(s,3,l,'k');
+   else if(s.length() == 5) return abbreviate(s,2,l,'k');
+   else if(s.length() == 4) return abbreviate(s,1,l,'k');
+   else if(s.length() == 3) return abbreviate(s,3,l,0);
+   else if(s.length() == 2) return abbreviate(s,2,l,0);
+   else if(s.length() == 1) return abbreviate(s,1,l,0);
+
+   throw std::runtime_error("ise");
+}
+
+std::string hugeValueIntFormatter::abbreviate(const std::string& s, size_t nBeforeDot, size_t l, char unit) const
+{
+   std::stringstream stream;
+
+   for(size_t i=0;i<nBeforeDot;i++)
+      stream << std::string(1,s.c_str()[i]);
+
+   size_t left = l - nBeforeDot;
+   if(unit)
+      left--;
+   if(left > 1)
+   {
+      stream << "."; left--;
+      for(size_t i=nBeforeDot;left;left--,i++)
+         stream << std::string(1,s.c_str()[i]);
+   }
+
+   stream << std::string(1,unit);
+
+   return stream.str();
+}
+
 std::string bracketedIntFormatter::formatValue(int v, size_t l) const
 {
    auto num = m_pNext->formatValue(v,l-2);

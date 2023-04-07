@@ -28,7 +28,7 @@ coml v1 20
 8=str:year/4/1/%minor%
 9=str:error/106/1/%error%
 
-10=int:inboxHint/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kBlue)
+10=int:inboxHint/5/1/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kBlue)
 
 14=btn:inboxBtn/12/1/(i)nbox
 13=btn:summonBtn/12/1/(s)ummon

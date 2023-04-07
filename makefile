@@ -19,6 +19,7 @@ all: \
 	$(OUT_DIR)/debug/file.dll \
 	$(OUT_DIR)/debug/file.test.dll \
 	$(OUT_DIR)/debug/net.dll \
+	$(OUT_DIR)/debug/pen.test.dll \
 	$(OUT_DIR)/debug/screen.dll \
 	$(OUT_DIR)/debug/server.exe \
 	$(OUT_DIR)/debug/shell.exe \
@@ -31,6 +32,7 @@ all: \
 	$(OUT_DIR)/release/file.dll \
 	$(OUT_DIR)/release/file.test.dll \
 	$(OUT_DIR)/release/net.dll \
+	$(OUT_DIR)/release/pen.test.dll \
 	$(OUT_DIR)/release/screen.dll \
 	$(OUT_DIR)/release/server.exe \
 	$(OUT_DIR)/release/shell.exe \
@@ -148,6 +150,9 @@ PEN_SRC = \
 	src/cui/api.cpp \
 	src/cui/pen.cpp \
 
+PEN_TEST_SRC = \
+	src/cui/api.test.cpp \
+
 PEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(PEN_SRC)))
 
 $(OUT_DIR)/debug/pen.lib: $(PEN_DEBUG_OBJ)
@@ -170,6 +175,30 @@ $(OUT_DIR)/release/pen.lib: $(PEN_RELEASE_OBJ)
 $(PEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 	$(info $< --> $@)
 	@mkdir -p $(OBJ_DIR)/release/cui
+	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
+
+PEN_TEST_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(PEN_TEST_SRC)))
+
+$(OUT_DIR)/debug/pen.test.dll: $(PEN_TEST_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib $(OUT_DIR)/debug/pen.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/debug
+	@$(LINK_CMD) -shared -o $@ $(PEN_TEST_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib -lpen
+
+$(PEN_TEST_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/debug/pen.test
+	@$(COMPILE_CMD) $(DEBUG_CC_FLAGS) $< -o $@
+
+PEN_TEST_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(PEN_TEST_SRC)))
+
+$(OUT_DIR)/release/pen.test.dll: $(PEN_TEST_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib $(OUT_DIR)/release/pen.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/release
+	@$(LINK_CMD) -shared -o $@ $(PEN_TEST_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib -lpen
+
+$(PEN_TEST_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/release/pen.test
 	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
 
 # ----------------------------------------------------------------------
