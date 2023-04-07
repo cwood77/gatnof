@@ -1,6 +1,7 @@
 #include "../../gen/screen/screen.get.hpp"
 #include "../cmn/autoPtr.hpp"
 #include "../cmn/service.hpp"
+#include "../cui/ani.hpp"
 #include "../cui/api.hpp"
 #include "../cui/pen.hpp"
 #include "../file/api.hpp"
@@ -20,6 +21,26 @@ public:
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
       auto& prize = (*acct)["inbox"].as<sst::array>()[0].as<sst::dict>();
+
+      // animation
+      if(0){ // too slow, but keep for attendance?
+         ani::delay d;
+         d.nMSec = 1;
+         ani::flipbook fb(d);
+         ani::sequencer seq(fb);
+
+         seq.simultaneous(
+         {
+            [&](auto& c){ ani::prim::lineLeftToRight(c,cui::pnt(1,8),110); },
+            [&](auto& c){ ani::prim::lineRightToLeft(c,cui::pnt(1,14),110); }
+            //[&](auto& c){ artistp1.outline(c); },
+            //[&](auto& c){ artisto4.outline(c); }
+         });
+
+         tcat::typePtr<cmn::serviceManager> svcMan;
+         auto& pn = svcMan->demand<pen::object>();
+         fb.run(pn);
+      }
 
       // whole screen re-draw
       render();

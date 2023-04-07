@@ -1,11 +1,11 @@
 #ifndef ___cui_ani___
 #define ___cui_ani___
 
+#include "api.hpp"
 #include <functional>
 #include <list>
 #include <map>
 
-namespace cui { class control; }
 namespace pen { class object; }
 
 namespace ani {
@@ -58,6 +58,12 @@ private:
 
 // "artists" are a pattern, not a type.  These offer up function usable with a sequencer
 // to create effects
+
+class prim {
+public:
+   static void lineLeftToRight(iCanvas& c, cui::pnt p, size_t l);
+   static void lineRightToLeft(iCanvas& c, cui::pnt p, size_t l);
+};
 
 class outliner {
 public:

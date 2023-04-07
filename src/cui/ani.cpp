@@ -45,6 +45,50 @@ void sequencer::simultaneous(const std::vector<std::function<void(iCanvas&)> >& 
 // =======================================================================================
 //            ARTISTS
 
+void prim::lineLeftToRight(iCanvas& c, cui::pnt p, size_t l)
+{
+   size_t iFrame=0;
+   size_t iFrame2=0;
+
+   // top
+   for(size_t i=0;i<l;i++)
+   {
+      c.getFrame(iFrame2).add([=](auto& pObj)
+      {
+         pObj.str()
+            << pen::moveTo(cui::pnt(p.x+i,p.y))
+            << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+            << "-";
+      });
+      iFrame++;
+      if(iFrame % 2 == 0)
+         iFrame2++;
+   }
+}
+
+void prim::lineRightToLeft(iCanvas& c, cui::pnt p, size_t l)
+{
+   size_t iFrame=0;
+   size_t iFrame2=0;
+
+   // bottom
+   for(size_t i=l-1;;i--)
+   {
+      c.getFrame(iFrame2).add([=](auto& pObj)
+      {
+         pObj.str()
+            << pen::moveTo(cui::pnt(p.x+i,p.y))
+            << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+            << "-";
+      });
+      iFrame++;
+      if(iFrame % 2 == 0)
+         iFrame2++;
+      if(i==0)
+         break;
+   }
+}
+
 void outliner::outline(iCanvas& c)
 {
    cui::pnt p = m_c.getLoc();
