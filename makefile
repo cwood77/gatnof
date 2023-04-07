@@ -429,6 +429,7 @@ SERVER_SRC = \
 	src/server/msg.login.cpp \
 	src/server/msg.logout.cpp \
 	src/server/msg.update.cpp \
+	src/server/verb.compile.cpp \
 	src/server/verb.listen.cpp \
 	src/server/verb.test.cpp \
 

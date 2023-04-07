@@ -12,8 +12,6 @@ class loginHandler : public iMsgHandler {
 public:
    virtual void run(net::iChannel& ch, connectionContext& ctxt)
    {
-      log().writeLnTemp("here");
-
       std::unique_ptr<sst::dict> pInfo(ch.recvSst());
 
       log().writeLnVerbose("looking up account '%s'",(*pInfo)["accountName"].as<sst::str>().get().c_str());
