@@ -96,6 +96,7 @@ private:
       present.add<sst::str>("reason") = reason;
       present.add<sst::mint>("amt") = amt;
       present.add<sst::str>("unit") = unit;
+      present.add<sst::mint>("when") = ::time(NULL);
    }
 };
 

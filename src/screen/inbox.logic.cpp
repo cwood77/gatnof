@@ -81,8 +81,20 @@ public:
 
    virtual void fmtPrize(sst::dict& d, inbox_table_row_ctl& row)
    {
-      row.date.redraw(d["reason"].as<sst::str>().get());
-      row.prize.redraw(d["unit"].as<sst::str>().get());
+      std::stringstream reason,amt;
+
+      {
+         time_t ts = (time_t)d["when"].as<sst::mint>().get();
+         struct tm *pLt = ::localtime(&ts);
+         char block[1024];
+         ::strftime(block,1023,"%m/%d/%Y %H:%M ",pLt);
+         reason << block << d["reason"].as<sst::str>().get();
+      }
+
+      amt << d["amt"].as<sst::mint>().get() << " " << d["unit"].as<sst::str>().get();
+
+      row.date.redraw(reason.str());
+      row.prize.redraw(amt.str());
    }
 };
 
