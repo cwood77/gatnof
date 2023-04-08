@@ -41,9 +41,30 @@ public:
 
          // rotate timestamps
          {
+            auto now = ::time(NULL);
             auto& curr = ctxt.pAcct->dict()["ts-curr-login"].as<sst::mint>();
+
+            // calculate consecutive logins
+            {
+               auto& consec = ctxt.pAcct->dict()["login-consec"].as<sst::mint>();
+
+               time_t x = curr.get();
+               auto *pTm = ::localtime(&x);
+               int currYDay = pTm->tm_yday;
+               pTm = ::localtime(&now);
+               int nowYDay = pTm->tm_yday;
+               if(nowYDay == currYDay + 1)
+               {
+                  consec = consec.get() + 1;
+                  if(consec.get() == 6)
+                     consec = 1;
+               }
+               else if(nowYDay > currYDay + 1)
+                  consec = 0;
+            }
+
             ctxt.pAcct->dict().add<sst::mint>("ts-prev-login") = curr.get();
-            curr = ::time(NULL);
+            curr = now;
          }
 
          // wipe stash

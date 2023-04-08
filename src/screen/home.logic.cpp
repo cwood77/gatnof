@@ -49,11 +49,6 @@ public:
 
       while(true)
       {
-         // check for updates
-         auto& ch = svcMan->demand<net::iChannel>();
-         ch.sendString("update");
-         acct.reset(ch.recvSst());
-
          // whole screen re-draw
          pScr->render();
 
@@ -61,13 +56,6 @@ public:
          aName.redraw(svcMan->demand<shell::gameState>().accountName);
          ip.redraw(svcMan->demand<shell::gameState>().serverIp);
          year.redraw("2023");
-
-         // dynamic controls
-         gems.redraw((*acct)["gems"].as<sst::mint>().get());
-         gold.redraw((*acct)["gold"].as<sst::str>().get());
-         auto nInbox = (*acct)["inbox"].as<sst::array>().size();
-         if(nInbox > 0)
-            inboxHint.redraw(nInbox);
 
          // attendance
          if(first)
@@ -77,6 +65,18 @@ public:
             first = false;
             continue;
          }
+
+         // check for updates
+         auto& ch = svcMan->demand<net::iChannel>();
+         ch.sendString("update");
+         acct.reset(ch.recvSst());
+
+         // dynamic controls
+         gems.redraw((*acct)["gems"].as<sst::mint>().get());
+         gold.redraw((*acct)["gold"].as<sst::str>().get());
+         auto nInbox = (*acct)["inbox"].as<sst::array>().size();
+         if(nInbox > 0)
+            inboxHint.redraw(nInbox);
 
          // handle user input
          cui::buttonHandler handler(error);

@@ -31,42 +31,19 @@ public:
          ani::flipbook fb(d);
          ani::sequencer seq(fb);
 
-         seq.simultaneous(
+         auto& c = (*acct)["login-consec"].as<sst::mint>().get();
+         for(size_t i=0;i<c;i++)
          {
-            [&](auto& c){ ani::attendance::colorBox(c,1); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::drawConnection(c,1); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::colorBox(c,2); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::drawConnection(c,2); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::colorBox(c,3); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::drawConnection(c,3); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::colorBox(c,4); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::drawConnection(c,4); }
-         });
-         seq.simultaneous(
-         {
-            [&](auto& c){ ani::attendance::colorBox(c,5); }
-         });
+            if(i)
+               seq.simultaneous(
+               {
+                  [&](auto& c){ ani::attendance::drawConnection(c,i); }
+               });
+            seq.simultaneous(
+            {
+               [&](auto& c){ ani::attendance::colorBox(c,i+1); }
+            });
+         }
 
          tcat::typePtr<cmn::serviceManager> svcMan;
          auto& pn = svcMan->demand<pen::object>();

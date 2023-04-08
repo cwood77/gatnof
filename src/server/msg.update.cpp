@@ -34,6 +34,7 @@ public:
       auto& login = ctxt.pAcct->dict()["ts-curr-login"].as<sst::mint>();
       auto& inbox = ctxt.pAcct->dict()["inbox"].as<sst::array>();
       auto& tstash = ctxt.pAcct->dict()["svr-tmp-stash"].as<sst::dict>();
+      auto& consec = ctxt.pAcct->dict()["login-consec"].as<sst::mint>();
 
       // new user prize
       if(lastChk.get() == 0)
@@ -59,6 +60,13 @@ public:
                evt["amt"].as<sst::mint>().get(),
                evt["unit"].as<sst::str>().get()
             );
+      }
+
+      // login streak
+      if(consec.get() == 5)
+      {
+         bestowGems(inbox,"5-day login streak!",15000);
+         consec = 0;
       }
 
       lastChk = now;
