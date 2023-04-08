@@ -1,0 +1,23 @@
+{
+   "num": "1",
+   "stages": [
+      {
+         "award": {
+            "unit": "gems",
+            "amt": 10
+         },
+         "chars": {
+            "1": {
+               "equip": [
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 1
+            }
+         },
+         "line-up": [
+            1
+         ]
+      }
+   ]
+}

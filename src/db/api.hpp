@@ -1,6 +1,8 @@
 #ifndef ___db_api___
 #define ___db_api___
 
+#include "../file/api.hpp"
+
 // "items": [
 //    {
 //       "amt": 20,
@@ -56,24 +58,27 @@ public:
    const char *specialAttack;
 };
 
-class staticDict {
+class iDict {
 public:
-   const staticChar *findChar(size_t id);
-   size_t numChars() const;
-   const equip *findItem(size_t id);
+   virtual ~iDict() {}
+   virtual const staticChar& findChar(size_t id) = 0;
+   virtual size_t numChars() const = 0;
+   virtual const equip& findItem(size_t id) = 0;
 };
 
 class Char {
 public:
-   size_t id;
-   size_t stars;
-   size_t level;
+   Char(iDict& d, sst::dict& overlay);
 
-   size_t weapon;
-   size_t armor;
-   size_t boots;
-   size_t accessory;
+   std::string name() const { return m_pStatic->name; }
+   size_t hp;
+
+private:
+   sst::dict& m_overlay;
+   const staticChar *m_pStatic;
 };
+
+#include "api.ipp"
 
 } // namespace db
 

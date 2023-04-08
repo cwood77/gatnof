@@ -43,6 +43,7 @@ public:
       // fetch buttons
       auto& inboxBtn = pScr->demand<cui::buttonControl>("inboxBtn");
       auto& summonBtn = pScr->demand<cui::buttonControl>("summonBtn");
+      auto& questBtn = pScr->demand<cui::buttonControl>("questBtn");
       auto& arenaBtn = pScr->demand<cui::buttonControl>("arenaBtn");
       auto& exitBtn = pScr->demand<cui::buttonControl>("exitBtn");
       summonBtn.dim("not yet implemented");
@@ -92,6 +93,23 @@ public:
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
             pL->run();
             stop = true; // redraw home
+         });
+         handler.add(questBtn,[&](auto& bnt, bool& stop)
+         {
+            // TODO TEST!
+            ch.sendString("queryCombat");
+            {
+               sst::dict req;
+               req.add<sst::str>("type") = "quest";
+               req.add<sst::mint>("quest#") = 1;
+               req.add<sst::mint>("stage#") = 1;
+               ch.sendSst(req);
+            }
+            std::unique_ptr<sst::dict> pCombatInfo(ch.recvSst());
+
+            ch.sendString("combat");
+            ch.sendSst(*pCombatInfo);
+            delete ch.recvSst(); // throw it away
          });
          handler.add(exitBtn,[&](auto& bnt, bool& stop){ stop = true; });
          auto& ans = handler.run(svcMan->demand<cui::iUserInput>());

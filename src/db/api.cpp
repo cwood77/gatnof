@@ -41,6 +41,23 @@ static const staticChar gChars[] = {
 #endif
 };
 
+class staticDict : public iDict {
+public:
+   virtual const staticChar& findChar(size_t id);
+   virtual size_t numChars() const { return 0; }
+   virtual const equip& findItem(size_t id) { throw 3.14; }
+};
+
+const staticChar& staticDict::findChar(size_t id)
+{
+   static const size_t nCnt = sizeof(gChars) / sizeof(staticChar);
+   if(id >= nCnt)
+      throw std::runtime_error("char range out of bounds");
+   return gChars[id];
+}
+
+tcatExposeTypeAs(staticDict,iDict);
+
 } // namespace db
 
 tcatImplServer();
