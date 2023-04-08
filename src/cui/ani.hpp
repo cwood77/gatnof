@@ -39,6 +39,7 @@ public:
    explicit flipbook(delay& d) : m_d(d) {}
 
    void run(pen::object& pn);
+   size_t size() const;
    virtual frame& getFrame(size_t i);
 
 private:
@@ -63,6 +64,12 @@ class prim {
 public:
    static void lineLeftToRight(iCanvas& c, cui::pnt p, size_t l);
    static void lineRightToLeft(iCanvas& c, cui::pnt p, size_t l);
+};
+
+class attendance {
+public:
+   static void colorBox(iCanvas& c, size_t i);
+   static void drawConnection(iCanvas& c, size_t i);
 };
 
 class outliner {

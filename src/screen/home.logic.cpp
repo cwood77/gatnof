@@ -16,6 +16,7 @@ public:
    {
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
+      bool first = true;
 
       // fetch controls
       tcat::typePtr<cui::iFactory> sFac;
@@ -67,6 +68,15 @@ public:
          auto nInbox = (*acct)["inbox"].as<sst::array>().size();
          if(nInbox > 0)
             inboxHint.redraw(nInbox);
+
+         // attendance
+         if(first)
+         {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("attend"));
+            pL->run();
+            first = false;
+            continue;
+         }
 
          // handle user input
          cui::buttonHandler handler(error);

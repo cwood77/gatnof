@@ -525,6 +525,7 @@ $(COML_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 # screen
 
 SCREEN_COML = \
+	src/screen/screen.attend.coml \
 	src/screen/screen.battle.coml \
 	src/screen/screen.get.coml \
 	src/screen/screen.home.coml \
@@ -554,6 +555,7 @@ $(SCREEN_RELEASE_GEN_OBJ): $(OBJ_DIR)/release/%.o: gen/%.cpp
 # -- above is codegen --
 
 SCREEN_SRC = \
+	src/screen/attend.logic.cpp \
 	src/screen/battle.logic.cpp \
 	src/screen/get.logic.cpp \
 	src/screen/home.logic.cpp \
