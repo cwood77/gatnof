@@ -1,0 +1,13 @@
+{
+   "award-schedule": [
+      {
+         "after": 1680847200,
+         "after-str": "2023-04-07 00:00:00",
+         "amt": 100,
+         "before": 1681106400,
+         "before-str": "2023-04-10 00:00:00",
+         "name": "Happy Easter!",
+         "unit": "gems"
+      }
+   ]
+}

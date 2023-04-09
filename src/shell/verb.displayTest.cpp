@@ -69,7 +69,7 @@ void displayTestCommand::run(console::iLog& l)
        pen::object p(std::cout);
        p.str() << pen::clearScreen();
        p.str() << pen::moveTo(cui::pnt(2,3));
-       p.str() << pen::fgcol(pen::kYellow) << "hello " << pen::bgcol(pen::kBlue) << "world" << std::endl;
+       p.str() << pen::fgcol(pen::kYellow) << "hello " << pen::bgcol(pen::kBlue) << "world" << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << std::endl;
     }
 
     for(size_t i=0;i<11;i++)
@@ -81,6 +81,32 @@ void displayTestCommand::run(console::iLog& l)
        std::cout << i;
        for(size_t j=0;j<9;j++)
           std::cout << " ";
+    }
+    std::cout << std::endl;
+
+    {
+       size_t bg = pen::kBlack;
+       for(;bg<pen::kDefault;bg++)
+       {
+          size_t fg = pen::kBlack;
+          for(;fg<pen::kDefault;fg++)
+          {
+             std::cout << pen::bgcol((pen::colors)bg);
+             std::cout << pen::fgcol((pen::colors)fg);
+             std::cout << "      plain text ";
+             std::cout << pen::fgcol((pen::colors)fg,true);
+             std::cout << "bold text      ";
+
+             std::cout << pen::bgcol((pen::colors)bg,true);
+             std::cout << pen::fgcol((pen::colors)fg);
+             std::cout << "      plain text ";
+             std::cout << pen::fgcol((pen::colors)fg,true);
+             std::cout << "bold text      ";
+
+             std::cout << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault);
+             std::cout << std::endl;
+          }
+       }
     }
 }
 

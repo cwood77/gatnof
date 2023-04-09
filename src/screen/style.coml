@@ -1,0 +1,9 @@
+define %cls% " << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::clearScreen() << pen::moveTo(cui::pnt(1,1)) << "
+define %stdcol% " << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue) << "
+
+define %emph%  << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kBlue)
+define %minor%  << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)
+define %error%  << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)
+
+default{str}/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
+default{btn}/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kCyan) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kCyan,true) << pen::bgcol(pen::kBlue)

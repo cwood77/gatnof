@@ -6,28 +6,39 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
-| (i)dle income                                                                    3AlisterTheMagnificent     |
-| (s)ummon                                                                         Gems  4-----               |
-| (c)haracters                                                                     Gold  5-----               |
-| (l)ine-up                                                                                                  |
+| 14(i)nbox      10[oo+]                                                               3AlisterTheMagnificent     |
+| 13(s)ummon                                                                         Gems  4-----               |
+| 15(c)haracters                                                                     Gold  5-----               |
+| 16(l)ine-up                                                                                                  |
 |                                                                                                            |
-| (q)uest                                                                                                    |
-| (a)rena                                                                                                    |
+| 17(q)uest                                                                                                    |
+| 11(a)rena                                                                                                    |
 |                                                                                                            |
-| (e)xit                                                                                                     |
+| 12(e)xit                                                                                                     |
 |                                                                                                            |
 | 9                                                                                                           |
 |                                                                                    7ooo.ooo.ooo.ooo   8oooo  |
 +------------------------------------------------------------------------------------------------------------+
-1=txt:" << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::clearScreen() << pen::moveTo(cui::pnt(1,1)) << "
-2=txt:" << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue) << "
-3=str:aName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
-4=str:gems/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
-5=str:gold/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/
-7=str:ip/15/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
-8=str:year/4/1/ << pen::fgcol(pen::kGreen) << pen::bgcol(pen::kBlue)/
-9=str:error/106/1/ << pen::fgcol(pen::kRed,true) << pen::bgcol(pen::kBlue)/
-; comment
+1=txt:%cls%
+2=txt:%stdcol%
+3=str:aName/21/1/%emph%
+4=int:gems/5/1
+5=str:gold/5/1
+7=str:ip/15/1/%minor%
+8=str:year/4/1/%minor%
+9=str:error/106/1/%error%
+
+10=int:inboxHint/5/1/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kBlue)
+
+14=btn:inboxBtn/12/1/(i)nbox
+13=btn:summonBtn/12/1/(s)ummon
+15=btn:charBtn/12/1/(c)haracters
+16=btn:lineUpBtn/12/1/(l)ine-up
+17=btn:questBtn/12/1/(q)uest
+11=btn:arenaBtn/12/1/(a)rena
+12=btn:exitBtn/12/1/(e)xit
+
+; begin comments
 110 x 20
 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
          1         2         3         4         5         6         7         8         9         A         1

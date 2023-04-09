@@ -1,0 +1,34 @@
+coml v1 20
+1_2+------------------------------------------------------------------------------------------------------------+
+|                                                   3INBOX2                                                    |
+| 4[oo+] messages                                                                                             |
+|                                                                                                            |
+| 10_8oo/oo/oooo oo:oo Thanks for creating an account                        9oooo gems                           |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+|                                                                                                            |
+| 11                                                                                                           |
+| 5back   6open next                                                                                           |
++------------------------------------------------------------------------------------------------------------+
+1=txt:%cls%
+2=txt:%stdcol%
+3=txt:" << pen::fgcol(pen::kYellow,true) << "
+
+4=int:count/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kBlue)
+
+5=btn:backBtn/4/1/(b)ack
+6=btn:openNextBtn/9/1/(o)pen next
+
+8=str:date/70/1
+9=str:prize/35/1
+10=lst:table/13/8,9
+11=str:error/106/1/%error%

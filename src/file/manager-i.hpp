@@ -19,12 +19,12 @@ public:
    virtual void loadContent();
    virtual void createNewContent();
    virtual void saveTo() = 0;
-   void earlyFlush() { fireCloseAction(true); }
 
    virtual void release();
    virtual bool existed() const;
    virtual void scheduleFor(iFileManager::closeTypes onClose);
    virtual void tie(console::iLog& l);
+   virtual void flush() { fireCloseAction(true); }
 
    console::iLog& log();
 

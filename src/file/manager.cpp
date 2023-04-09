@@ -132,7 +132,7 @@ void masterFileList::rescind(const std::string& path, fileBase& inst)
 void masterFileList::flushAllOpen()
 {
    for(auto it=m_table.begin();it!=m_table.end();++it)
-      it->second->earlyFlush();
+      it->second->flush();
 }
 
 sstFile::sstFile(const sst::iNodeFactory& nf)

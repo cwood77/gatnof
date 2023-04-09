@@ -1,0 +1,14 @@
+coml v1 7@8
+1--------------------------------------------------------------------------------------------------------------
+                                                     GET!                                                     
+    3Thanks for creating an account                                                                            
+                                                                                                              
+    4oooo gems                                                                                                 
+                                             5<any key to dismiss>                                             
+--------------------------------------------------------------------------------------------------------------
+1=txt:" << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow) << "
+
+3=str:msg/104/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+4=str:booty/104/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+
+5=str:prompt/20/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)

@@ -4,6 +4,22 @@
 #include <windows.h>
 
 namespace ani {
+namespace {
+
+class canvasAdapter : public iCanvas {
+public:
+   canvasAdapter(iCanvas& c, size_t o) : m_c(c), m_o(o) {}
+
+   virtual frame& getFrame(size_t i) { return m_c.getFrame(i+m_o); }
+
+private:
+   iCanvas& m_c;
+   size_t m_o;
+};
+
+} // anonymous namespace
+
+void delay::sleep() { ::Sleep(nMSec); }
 
 void frame::run(pen::object& pn)
 {
@@ -19,10 +35,17 @@ void flipbook::run(pen::object& pn)
       if(first)
          first = false;
       else
-         //::Sleep(10);
-         ::Sleep(35);
+         m_d.sleep();
       it->second.run(pn);
    }
+}
+
+size_t flipbook::size() const
+{
+   if(m_f.size())
+      return (--m_f.end())->first + 1;
+   else
+      return 0;
 }
 
 frame& flipbook::getFrame(size_t i)
@@ -37,8 +60,84 @@ frame& flipbook::getFrame(size_t i)
 
 void sequencer::simultaneous(const std::vector<std::function<void(iCanvas&)> >& a)
 {
+   canvasAdapter ad(m_f,m_f.size());
+
    for(auto it=a.begin();it!=a.end();++it)
-      (*it)(m_f);
+      (*it)(ad);
+}
+
+// =======================================================================================
+//            ARTISTS
+
+void prim::lineLeftToRight(iCanvas& c, cui::pnt p, size_t l)
+{
+   size_t iFrame=0;
+   size_t iFrame2=0;
+
+   // top
+   for(size_t i=0;i<l;i++)
+   {
+      c.getFrame(iFrame2).add([=](auto& pObj)
+      {
+         pObj.str()
+            << pen::moveTo(cui::pnt(p.x+i,p.y))
+            << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+            << "-";
+      });
+      iFrame++;
+      if(iFrame % 2 == 0)
+         iFrame2++;
+   }
+}
+
+void prim::lineRightToLeft(iCanvas& c, cui::pnt p, size_t l)
+{
+   size_t iFrame=0;
+   size_t iFrame2=0;
+
+   // bottom
+   for(size_t i=l-1;;i--)
+   {
+      c.getFrame(iFrame2).add([=](auto& pObj)
+      {
+         pObj.str()
+            << pen::moveTo(cui::pnt(p.x+i,p.y))
+            << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+            << "-";
+      });
+      iFrame++;
+      if(iFrame % 2 == 0)
+         iFrame2++;
+      if(i==0)
+         break;
+   }
+}
+
+void attendance::colorBox(iCanvas& c, size_t i)
+{
+   c.getFrame(0).add([=](auto& pObj)
+   {
+      pObj.str() << pen::fgcol(pen::kWhite,true) << pen::bgcol(pen::kGreen,true);
+      for(size_t j=0;j<3;j++)
+         pObj.str() << pen::moveTo(cui::pnt(24+15*(i-1),10+j)) << std::string(5,' ');
+      pObj.str() << pen::moveTo(cui::pnt(24+15*(i-1)+2,10+1)) << i;
+   });
+}
+
+void attendance::drawConnection(iCanvas& c, size_t i)
+{
+   size_t iFrame=0;
+
+   cui::pnt p(27+15*(i-1)+2,11);
+
+   for(size_t i=0;i<10;i++)
+   {
+      c.getFrame(iFrame++).add([=](auto& pObj)
+      {
+         pObj.str() << pen::fgcol(pen::kWhite,true) << pen::bgcol(pen::kGreen/*,true*/);
+         pObj.str() << pen::moveTo(cui::pnt(p.x+i,p.y)) << " ";
+      });
+   }
 }
 
 void outliner::outline(iCanvas& c)

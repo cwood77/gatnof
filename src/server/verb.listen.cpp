@@ -7,10 +7,15 @@
 #include "../file/manager.hpp"
 #include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
+#include "awardThread.hpp"
+#include "data.hpp"
 #include "connectionThread.hpp"
 #include "listenThread.hpp"
 #include <conio.h>
 #include <memory>
+
+namespace server { cmn::mutex *gDataLock = NULL; }
+namespace server { sst::dict *gServerData = NULL; }
 
 namespace {
 
@@ -47,18 +52,33 @@ void listenCommand::run(console::iLog& l)
    tcat::typePtr<net::iNetProto> nProto;
    nProto->tie(pFile->dict(),l);
 
-   l.writeLnVerbose("create and start listener threads");
+   l.writeLnVerbose("load global game data");
+   cmn::autoReleasePtr<file::iSstFile> pData(&fMan->bindFile<file::iSstFile>(
+      "C:\\cygwin64\\home\\chris\\dev\\gatnof\\data\\server\\global.sst", // TODO
+      file::iFileManager::kReadOnly
+   ));
+   pData->tie(l);
+   cmn::mutex _dLock;
+   server::gDataLock   = &_dLock;
+   server::gServerData = &pData->dict();
+
+   l.writeLnVerbose("create and start threads");
    cmn::threadGroup<server::connectionThread> workers;
    server::listenThread listener(*nProto,stopSignal,workers);
    listener.tie(pFile->dict(),l);
    cmn::threadController listenerTc(listener);
    listenerTc.start();
+   server::awardThread aTh(stopSignal);
+   aTh.tie(pFile->dict(),l);
+   cmn::threadController aTc(aTh);
+   aTc.start();
 
    ::getch();
    l.writeLnVerbose("stopping and joining threads threads");
    stopSignal.set();
    listenerTc.join();
    workers.join();
+   aTc.join();
    l.writeLnVerbose("bye");
 }
 
