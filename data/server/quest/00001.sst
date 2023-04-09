@@ -2,6 +2,8 @@
    "num": "1",
    "stages": [
       {
+         "environs": {
+         },
          "award": {
             "unit": "gems",
             "amt": 10
@@ -9,6 +11,10 @@
          "chars": {
             "1": {
                "equip": [
+                  0,
+                  0,
+                  0,
+                  0
                ],
                "level": 1,
                "stars": 1,
@@ -17,7 +23,8 @@
          },
          "line-up": [
             1
-         ]
+         ],
+         "line-up-bonus": 0
       }
    ]
 }

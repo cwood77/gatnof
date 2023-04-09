@@ -24,10 +24,7 @@ public:
 
    db::Char& randomLiving()
    {
-      std::vector<db::Char*> candidates;
-      for(auto& ch : chars)
-         if(ch.hp > 0)
-            candidates.push_back(&ch);
+      std::vector<db::Char*> candidates = living();
       return *candidates[::rand() % candidates.size()];
    }
 
@@ -37,6 +34,15 @@ public:
          if(ch.hp > 0)
             return false;
       return true;
+   }
+
+   std::vector<db::Char*> living()
+   {
+      std::vector<db::Char*> candidates;
+      for(auto& ch : chars)
+         if(ch.hp > 0)
+            candidates.push_back(&ch);
+      return candidates;
    }
 };
 
@@ -83,6 +89,7 @@ public:
       combat::side pSide,oSide;
       buildSide(*dbDict,*pReq,pSide); // lie!
       buildSide(*dbDict,*pReq,oSide);
+      calculateIndivBonuses(*pReq,pSide,oSide);
       combat::targetTable targets;
       targets.build(pSide,oSide);
 
@@ -121,13 +128,24 @@ private:
    {
       auto& charDict = d["chars"].as<sst::dict>();
       auto& lineUp = d["line-up"].as<sst::array>();
+      auto bonus = d["line-up-bonus"].as<sst::mint>().get();
       for(size_t i=0;i<lineUp.size();i++)
       {
          std::stringstream stream;
          stream << lineUp[i].as<sst::mint>().get();
          auto& cOverlay = charDict[stream.str()].as<sst::dict>();
-         s.chars.push_back(db::Char(db,cOverlay));
+         s.chars.push_back(db::Char(db,cOverlay,bonus));
       }
+   }
+
+   void calculateIndivBonuses(sst::dict& d, combat::side& pSide, combat::side& oSide)
+   {
+      db::indivBonusCalculator calc(d["environs"].as<sst::dict>());
+      std::vector<db::Char*> p = pSide.living();
+      std::vector<db::Char*> o = oSide.living();
+      size_t n = (p.size() < o.size() ? p.size() : o.size());
+      for(size_t i=0;i<n;i++)
+         calc.calculate(*p[i],*o[i]);
    }
 
    void takeTurn(db::Char& c, combat::targetTable& targets, combat::side& player, bool& killed)
@@ -144,10 +162,71 @@ private:
          target.name().c_str()
       );
 
-      // randomly calculate dmg and adjust hp
-      target.hp--;
+      // -- randomly calculate dmg and adjust hp
 
+      // TODO: missing - weapon
+      // TODO: missing special/regular attack
+      // base char stat is 1-200
+      //    weapon stat is    20
+      // special attack is    20
+      //
+      //                     240 max to start
+
+      //               -1    0    1    2
+      // bonuses are [x0.5  x1  x1.5  x2], cumulative but bounded
+      //  - paired elemental
+      //    +1
+      //  - environmental (caste, subcaste)
+      //    -1 or +1
+      //  - team
+      //    5/5 same subcaste: +2
+      //
+      //                     480 max after multiplier
+      auto atk = c.atk(false); // TODO decide special
+      auto def = c.def();
+
+      // HP is always fixed at 100 max
+      //
+      // Subtract and lookup in a table for dmg
+      //
+      //        atk-def            dmg
+      //   300 - 478  (op atk)   100 (all)
+      //   175 - 299              90
+      //   150 - 174              80
+      //   125 - 149              70
+      //   115 - 124              60
+      //   100 - 114              50
+      //    75 - 99               40
+      //    50 - 74               30
+      //     1 -  49              20
+      //   -40 -   0  (even)      10
+      //  -478 - -41  (op def)     0 (none)
+      auto dmg = calculateDamage(atk,def);
+
+      // add 0-9 randomly
+      dmg += (::rand() % 10);
+
+      log().writeLnDebug("DAMAGE is <%lld>",dmg);
+
+      target.hp -= dmg;
       killed = (target.hp == 0);
+   }
+
+   size_t calculateDamage(size_t atk, size_t def)
+   {
+      long diff = atk-def;
+
+           if(diff >= 300) return 100;
+      else if(diff >= 175) return 90;
+      else if(diff >= 150) return 80;
+      else if(diff >= 125) return 70;
+      else if(diff >= 115) return 60;
+      else if(diff >= 100) return 50;
+      else if(diff >=  75) return 40;
+      else if(diff >=  50) return 30;
+      else if(diff >=   1) return 20;
+      else if(diff >= -40) return 10;
+      else return 0;
    }
 };
 
