@@ -75,6 +75,34 @@ public:
    }
 };
 
+class recorder {
+public:
+   explicit recorder(sst::dict& d) : m_d(d)
+   {
+      m_pArr = &m_d.add<sst::array>("events");
+   }
+
+   void recordAttack(bool player, size_t pIdx, size_t oIdx, long dmg,
+      const std::string& spec)
+   {
+      auto& entry = m_pArr->append<sst::dict>();
+      entry.add<sst::tf>("isPlayer") = player;
+      entry.add<sst::mint>("pIdx") = pIdx;
+      entry.add<sst::mint>("oIdx") = oIdx;
+      entry.add<sst::mint>("dmg") = dmg;
+      entry.add<sst::str>("spec") = spec;
+   }
+
+   void setOutcome(bool victory)
+   {
+      m_d.add<sst::tf>("victory") = victory;
+   }
+
+private:
+   sst::dict& m_d;
+   sst::array *m_pArr;
+};
+
 } // namespace combat
 
 class combatHandler : public iMsgHandler {
@@ -82,7 +110,8 @@ public:
    virtual void run(net::iChannel& ch, connectionContext& ctxt)
    {
       tcat::typePtr<db::iDict> dbDict;
-
+      sst::dict result;
+      combat::recorder recorder(result);
       std::unique_ptr<sst::dict> pReq(ch.recvSst());
 
       // create db::Chars for each side
@@ -96,30 +125,38 @@ public:
       bool done = false;
       while(!done)
       {
-         // do
-         //   sort living chars by aglity
+         // sort living chars by agility
          std::set<db::Char*,combat::turnOrder> turnOrder;
          pSide.addLiving(turnOrder);
          oSide.addLiving(turnOrder);
 
          for(auto *pChar : turnOrder)
          {
-            //   foreach sorted
-            //     have char attack, if still alive
+            // have char attack, if still alive
             if(pChar->hp == 0) continue;
             bool killed = false;
-            takeTurn(*pChar,targets,pSide,killed);
+            takeTurn(*pChar,targets,pSide,killed,recorder);
 
-            //     if one side dead, done
+            // if one side dead, done
             if(killed)
             {
-               done = (pSide.isDefeated() || oSide.isDefeated());
+               done = pSide.isDefeated();
+               if(done)
+                  recorder.setOutcome(false);
+               else
+               {
+                  done = oSide.isDefeated();
+                  if(done)
+                     recorder.setOutcome(true);
+               }
+
                if(done)
                   break;
             }
          }
       }
 
+      ch.sendSst(result);
       ch.sendSst(ctxt.pAcct->dict());
    }
 
@@ -135,6 +172,7 @@ private:
          stream << lineUp[i].as<sst::mint>().get();
          auto& cOverlay = charDict[stream.str()].as<sst::dict>();
          s.chars.push_back(db::Char(db,cOverlay,bonus));
+         s.chars.back().userData = i;
       }
    }
 
@@ -148,7 +186,7 @@ private:
          calc.calculate(*p[i],*o[i]);
    }
 
-   void takeTurn(db::Char& c, combat::targetTable& targets, combat::side& player, bool& killed)
+   void takeTurn(db::Char& c, combat::targetTable& targets, combat::side& player, bool& killed, combat::recorder& recorder)
    {
       auto& enemies = targets.findOpposingSide(c);
       bool isPlayerAttacker = (&enemies == &player);
@@ -164,8 +202,6 @@ private:
 
       // -- randomly calculate dmg and adjust hp
 
-      // TODO: missing - weapon
-      // TODO: missing special/regular attack
       // base char stat is 1-200
       //    weapon stat is    20
       // special attack is    20
@@ -183,7 +219,7 @@ private:
       //
       //                     480 max after multiplier
       auto atk = c.atk(false); // TODO decide special
-      auto def = c.def();
+      auto def = target.def();
 
       // HP is always fixed at 100 max
       //
@@ -207,6 +243,11 @@ private:
       dmg += (::rand() % 10);
 
       log().writeLnDebug("DAMAGE is <%lld>",dmg);
+      recorder.recordAttack(
+         isPlayerAttacker,
+         c.userData, target.userData,
+         dmg, "" // TODO assumes no special attack
+      );
 
       target.hp -= dmg;
       killed = (target.hp == 0);

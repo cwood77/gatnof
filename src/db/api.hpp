@@ -103,6 +103,7 @@ public:
 
    size_t hp;
    int bonus;
+   int userData;
 
 private:
    void configureEquip(iDict& d);

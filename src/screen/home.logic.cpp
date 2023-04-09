@@ -110,6 +110,7 @@ public:
             ch.sendString("combat");
             ch.sendSst(*pCombatInfo);
             delete ch.recvSst(); // throw it away
+            delete ch.recvSst(); // throw it away
          });
          handler.add(exitBtn,[&](auto& bnt, bool& stop){ stop = true; });
          auto& ans = handler.run(svcMan->demand<cui::iUserInput>());

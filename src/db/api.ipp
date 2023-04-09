@@ -6,6 +6,7 @@ inline size_t staticStat::getBase(rarities r, size_t lvl) const
 inline Char::Char(iDict& d, sst::dict& overlay, int teamBonus)
 : hp(100)
 , bonus(teamBonus)
+, userData(0)
 , m_overlay(overlay)
 , m_pStatic(NULL)
 , m_baseStat(0)
