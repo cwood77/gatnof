@@ -252,33 +252,51 @@ void basicScreen::publishObject(const std::string& id, iObject& o)
    pObj = &o;
 }
 
-void buttonHandler::add(buttonControl& b, std::function<void(buttonControl&,bool&)> f)
+void buttonHandler::add(buttonControl& b, std::function<void(bool&)> f)
 {
    m_btns[b.getCmdKey()] = &b;
    m_callbacks[b.getCmdKey()] = f;
 }
 
-void buttonHandler::unimpled(buttonControl& b)
+void buttonHandler::addCustom(char k, std::function<void(bool&)> f)
 {
-   add(b,[&](auto&,bool&){ m_error.redraw("Unimplemented"); });
+   m_callbacks[k] = f;
 }
 
-buttonControl &buttonHandler::run(iUserInput& in)
+void buttonHandler::unimpled(buttonControl& b)
+{
+   add(b,[&](bool&){ m_error.redraw("Unimplemented"); });
+}
+
+buttonControl *buttonHandler::run(iUserInput& in)
 {
    while(true)
    {
       auto k = in.getKey();
+      auto cit = m_callbacks.find(k);
       auto bit = m_btns.find(k);
       if(bit == m_btns.end())
-         m_error.redraw("Unrecognized command");
+      {
+         if(cit != m_callbacks.end())
+         {
+            // custom
+            bool stop = false;
+            m_callbacks[k](stop);
+            if(stop)
+               return NULL;
+         }
+         else
+            m_error.redraw("Unrecognized command");
+      }
       else
       {
+         // buttom
          if(bit->second->isEnabled())
          {
             bool stop = false;
-            m_callbacks[k](*bit->second,stop);
+            m_callbacks[k](stop);
             if(stop)
-               return *bit->second;
+               return bit->second;
          }
          else
             m_error.redraw(bit->second->getDimReason());

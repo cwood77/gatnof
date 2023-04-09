@@ -46,7 +46,7 @@ public:
       auto& questBtn = pScr->demand<cui::buttonControl>("questBtn");
       auto& arenaBtn = pScr->demand<cui::buttonControl>("arenaBtn");
       auto& exitBtn = pScr->demand<cui::buttonControl>("exitBtn");
-      summonBtn.dim("not yet implemented");
+      //summonBtn.dim("not yet implemented");
 
       while(true)
       {
@@ -81,20 +81,25 @@ public:
 
          // handle user input
          cui::buttonHandler handler(error);
-         handler.add(inboxBtn,[&](auto& bnt, bool& stop)
+         handler.add(inboxBtn,[&](bool& stop)
          {
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("inbox"));
             pL->run();
             stop = true; // redraw home
          });
-         handler.add(summonBtn,[&](auto& bnt, bool&){ });
-         handler.add(arenaBtn,[&](auto& bnt, bool& stop)
+         handler.add(summonBtn,[&](bool& stop)
+         {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("summon"));
+            pL->run();
+            stop = true; // redraw home
+         });
+         handler.add(arenaBtn,[&](bool& stop)
          {
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
             pL->run();
             stop = true; // redraw home
          });
-         handler.add(questBtn,[&](auto& bnt, bool& stop)
+         handler.add(questBtn,[&](bool&)
          {
             // TODO TEST!
             ch.sendString("queryCombat");
@@ -112,9 +117,9 @@ public:
             delete ch.recvSst(); // throw it away
             delete ch.recvSst(); // throw it away
          });
-         handler.add(exitBtn,[&](auto& bnt, bool& stop){ stop = true; });
-         auto& ans = handler.run(svcMan->demand<cui::iUserInput>());
-         if(&ans == &exitBtn)
+         handler.add(exitBtn,[&](bool& stop){ stop = true; });
+         auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
+         if(ans == &exitBtn)
             return;
       }
    }

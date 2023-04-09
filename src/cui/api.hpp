@@ -76,11 +76,11 @@ public:
    void erase();
    void setFormatMode(size_t i) { m_i = i; }
    size_t getFormatMode() const { return m_i; }
+   void formatText(std::ostream& o);
 
 protected:
    virtual void onInitialize() { erase(); }
 
-   void formatText(std::ostream& o);
    virtual void formatText1(std::ostream& o) {}
    virtual void formatText2(std::ostream& o) {}
    virtual void formatText3(std::ostream& o) {}
@@ -227,20 +227,33 @@ public:
    virtual char getKey() = 0;
 };
 
+class userInputSyphon : public iUserInput { // TODO unused
+public:
+   explicit userInputSyphon(iUserInput& u) : m_inner(u) {}
+
+   void onKey(char c, std::function<void(void)> f);
+   virtual char getKey();
+
+private:
+   iUserInput& m_inner;
+   std::map<char,std::function<void(void)> > m_funcs;
+};
+
 class buttonHandler {
 public:
    explicit buttonHandler(stringControl& error) : m_error(error) {}
 
    // return true to stop
-   void add(buttonControl& b, std::function<void(buttonControl&,bool&)> f);
+   void add(buttonControl& b, std::function<void(bool&)> f);
+   void addCustom(char k, std::function<void(bool&)> f);
    void unimpled(buttonControl& b);
 
-   buttonControl &run(iUserInput& in);
+   buttonControl *run(iUserInput& in);
 
 private:
    stringControl& m_error;
    std::map<char,buttonControl*> m_btns;
-   std::map<char,std::function<void(buttonControl&,bool&)> > m_callbacks;
+   std::map<char,std::function<void(bool&)> > m_callbacks;
 };
 
 // --------------- hand-written top-levels
