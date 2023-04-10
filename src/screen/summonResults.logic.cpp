@@ -20,6 +20,7 @@ public:
    {
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& ch = svcMan->demand<net::iChannel>();
+
       std::unique_ptr<sst::dict> pReply(ch.recvSst());
 
       render();

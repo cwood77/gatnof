@@ -4,27 +4,6 @@
 #include "../file/api.hpp"
 #include <cstring>
 
-// "items": [
-//    {
-//       "amt": 20,
-//       "type": 0
-//    },
-//    {
-//       "amt": 1,
-//       "type": 1
-//    }
-// ],
-// "chars": {
-//    "7": {
-//       "equip": [
-//          1
-//       ],
-//       "level": 3,
-//       "stars": 1,
-//       "type": 7
-//    }
-// },
-
 namespace db {
 
 enum rarities {

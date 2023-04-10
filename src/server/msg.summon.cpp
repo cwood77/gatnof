@@ -24,7 +24,7 @@ public:
       auto leftRight = (*pReq)["leftRight"].as<sst::mint>().get();
       auto upDown = (*pReq)["upDown"].as<sst::mint>().get();
       auto maxBuy = (*pSummonInfo)["max-buy"].as<sst::array>()[upDown].as<sst::mint>().get();
-      auto& pulls = result.add<sst::array>("pulls");
+      result.add<sst::array>("pulls");
       auto gemsLeft = ctxt.pAcct->dict()["gems"].as<sst::mint>().get();
 
       size_t N = 0;
@@ -54,7 +54,7 @@ public:
       {
          if(upDown == 0)
          {
-            pulls.append<sst::mint>() = drawChar(*dbDict,drawRarityNormal());
+            awardPull(ctxt.pAcct->dict(),result,drawChar(*dbDict,drawRarityNormal()));
             gemsLeft -= 10;
          }
          else if(upDown == 1)
@@ -63,7 +63,7 @@ public:
 
       ch.sendString(error);
       ch.sendSst(result);
-      ctxt.pAcct->dict()["gems"].as<sst::mint>() = gemsLeft;
+      ctxt.pAcct->dict()["gems"].as<sst::mint>() = gemsLeft; // write new gems to player!
       ch.sendSst(ctxt.pAcct->dict());
    }
 
@@ -88,9 +88,56 @@ private:
          auto& c = d.findChar(die);
          if(c.rarity == r)
          {
-            log().writeLnDebug("summon drew char <%s> (%d)",c.name, (int)r);
+            //log().writeLnDebug("summon drew char <%s> (%d)",c.name, (int)r);
             return die;
          }
+      }
+   }
+
+   void awardPull(sst::dict& acct, sst::dict& results, size_t c)
+   {
+      auto& items = acct["items"].as<sst::dict>();
+      auto& chars = acct["chars"].as<sst::dict>();
+
+      auto& pulls = results["pulls"].as<sst::array>();
+      std::stringstream sKey;
+      sKey << c;
+
+      auto& newPull = pulls.append<sst::dict>();
+      newPull.add<sst::mint>("type") = c;
+
+      if(chars.has(sKey.str()))
+      {
+         // add as a shard
+         if(items.has(sKey.str()))
+         {
+            auto& cnt = items[sKey.str()].as<sst::dict>()["amt"].as<sst::mint>();
+            cnt = cnt.get() + 1;
+         }
+         else
+         {
+            auto& noob = items.add<sst::dict>(sKey.str());
+            noob.add<sst::mint>("type") = c;
+            noob.add<sst::mint>("amt") = 1;
+         }
+         newPull.add<sst::tf>("shard") = true;
+      }
+      else
+      {
+         // add as a new char
+         auto& noob = chars.add<sst::dict>(sKey.str());
+         noob.add<sst::mint>("type") = c;
+
+         // initial char stats
+         noob.add<sst::mint>("level") = 1;
+         noob.add<sst::mint>("stars") = 1;
+         auto& equip = noob.add<sst::array>("equip");
+         equip.append<sst::mint>() = 0;
+         equip.append<sst::mint>() = 0;
+         equip.append<sst::mint>() = 0;
+         equip.append<sst::mint>() = 0;
+
+         newPull.add<sst::tf>("shard") = false;
       }
    }
 };
