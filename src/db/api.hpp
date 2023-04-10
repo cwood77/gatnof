@@ -13,12 +13,16 @@ enum rarities {
    kUr
 };
 
+const char *fmtRaritiesFixedWidth(rarities r);
+
 // e -> w -> f -> ...
 enum elements {
    kWater,
    kFire,
    kEarth
 };
+
+const char *fmtElementsFixedWidth(elements e);
 
 class equip {
 public:
@@ -61,11 +65,15 @@ class Char {
 public:
    Char(iDict& d, sst::dict& overlay, int teamBonus);
 
+   size_t getType();
+
    rarities rarity() { return m_pStatic->rarity; }
    elements element() { return m_pStatic->element; }
    std::string name() const { return m_pStatic->name; }
+   std::string caste() const { return m_pStatic->caste; }
+   std::string subcaste() const { return m_pStatic->subcaste; }
 
-   //size_t getStars();
+   size_t getStars();
    //void setStars(size_t v);
    size_t getLevel();
    //void setLevel(size_t v);
@@ -94,6 +102,8 @@ private:
    const equip *m_equip[4];
    size_t m_baseStat;
 };
+
+std::string fmtStarsFixedWidth(size_t n);
 
 class teamBonusCalculator {
 public:

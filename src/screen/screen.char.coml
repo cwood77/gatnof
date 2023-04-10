@@ -17,7 +17,7 @@ coml v1 20
 |15                                                                                                           |
 |16                                                                                                           |
 | 28Unknown command                                                                                            |
-| 37back   29up30-down   31select: 32detail    33sort: 34team                      35bonus: o members of same caste team 36o/o |
+| 37back   29up30-down   31select: 32detail    33sort: 34team                     35bonus: o members of same caste team 36o /38 |
 +------------------------------------------------------------------------------------------------------------+
 1=txt:%cls%
 2=txt:%stdcol%
@@ -45,8 +45,9 @@ coml v1 20
 33=btn:sortModeBtn/5/1/s(o)rt:
 34=str:sortModeDsp/6/1/ << pen::bgcol(pen::kMagenta)
 35=str:bonusDisp/30/1
-36=int:teamCnt/1/1
+36=int:teamCnt/2/1
 37=btn:backBtn/4/1/(b)ack
+38=txt:5
 
 ; labels
 4=txt:0
@@ -58,7 +59,7 @@ coml v1 20
 10=txt:6
 11=txt:7
 12=txt:8
-13=txt:8
+13=txt:9
 14=txt:A
 15=txt:B
 16=txt:C

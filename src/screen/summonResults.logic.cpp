@@ -64,21 +64,7 @@ private:
    template<class A, class B, class C>
    void drawDraw(A& rarityCtl, B& nameCtl, C& shardCtl, const db::staticChar& Char, bool isShard)
    {
-      switch(Char.rarity)
-      {
-         case db::kR:
-            rarityCtl.redraw("  R");
-            break;
-         case db::kSr:
-            rarityCtl.redraw(" SR");
-            break;
-         case db::kSsr:
-            rarityCtl.redraw("SSR");
-            break;
-         case db::kUr:
-            rarityCtl.redraw(" UR");
-            break;
-      }
+      rarityCtl.redraw(db::fmtRaritiesFixedWidth(Char.rarity));
 
       nameCtl.redraw(Char.name);
 

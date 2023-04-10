@@ -1,3 +1,15 @@
+inline const char *fmtRaritiesFixedWidth(rarities r)
+{
+   static const char *strs[] = { "  R", " SR", "SSR", " UR" };
+   return strs[r];
+}
+
+inline const char *fmtElementsFixedWidth(elements e)
+{
+   static const char *strs[] = { "water", "fire  ", "earth" };
+   return strs[e];
+}
+
 inline size_t staticStat::getBase(rarities r, size_t lvl) const
 {
    return (coef[r].m * lvl) + coef[r].b;
@@ -16,6 +28,16 @@ inline Char::Char(iDict& d, sst::dict& overlay, int teamBonus)
    configureEquip(d);
 
    m_baseStat = d.findStat().getBase(rarity(),getLevel());
+}
+
+inline size_t Char::getType()
+{
+   return m_overlay["type"].as<sst::mint>().get();
+}
+
+inline size_t Char::getStars()
+{
+   return m_overlay["stars"].as<sst::mint>().get();
 }
 
 inline size_t Char::getLevel()
@@ -79,6 +101,11 @@ inline size_t Char::applyBonus(size_t x) const
    }
    else
       throw std::runtime_error("unsupported bonus ISE");
+}
+
+inline std::string fmtStarsFixedWidth(size_t n)
+{
+   return std::string(6-n,' ') + std::string(n,'*');
 }
 
 inline void indivBonusCalculator::calculate(Char& p, Char& o)

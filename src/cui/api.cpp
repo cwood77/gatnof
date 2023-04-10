@@ -106,6 +106,8 @@ std::string maxValueIntFormatter::formatValue(int v, size_t l) const
    // a 3 digit display has a max value of 2 9's
    // >= 100 means display the max value
    // l == 1 is illegal because there's no room for the +
+   if(l < 2)
+      throw std::runtime_error("l too small");
 
    int maxValue = 10;
    for(size_t i=0;i<(l-2);i++)

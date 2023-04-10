@@ -6,6 +6,7 @@
 #include "../cui/pen.hpp"
 #include "../db/api.hpp"
 #include "../file/api.hpp"
+#include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
 #include <conio.h>
 #include <memory>
@@ -69,15 +70,82 @@ private:
    public:
       typedef db::Char *type_t;
 
+// orders are:
+// - stage penalty: clan
+// - who invest: rarity
+// - who best?: atk
+// - who in team?: team
+
       bool operator()(const type_t& lhs, const type_t& rhs) const
       {
-         return lhs < rhs;
+         // rarity
+         auto lR = lhs->rarity();
+         auto rR = rhs->rarity();
+         if(lR != rR)
+            return lR > rR;
+
+         // star
+         auto lS = lhs->getStars();
+         auto rS = rhs->getStars();
+         if(lS != rS)
+            return lS > rS;
+
+         // level
+         auto lL = lhs->getLevel();
+         auto rL = rhs->getLevel();
+         if(lL != rL)
+            return lL > rL;
+
+         // atk
+         auto lA = lhs->atk(false);
+         auto rA = rhs->atk(false);
+         if(lA != rA)
+            return lA > rA;
+
+         // name
+         return lhs->name() < rhs->name();
       }
    };
 
    std::set<db::Char*,order> m_set;
    const size_t m_nRows;
    size_t m_pg;
+};
+
+class iCharSelector {
+public:
+   virtual void run(db::Char *c, cui::stringControl& error, bool& stop) = 0;
+};
+
+class inTeamCharSelector : public iCharSelector {
+public:
+   virtual void run(db::Char *c, cui::stringControl& error, bool& stop)
+   {
+      if(c == NULL)
+      {
+         error.redraw("No character selected");
+         return;
+      }
+
+      tcat::typePtr<cmn::serviceManager> svcMan;
+      auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
+      auto& ch = svcMan->demand<net::iChannel>();
+
+      ch.sendString("toggleInTeam");
+      std::stringstream stream;
+      stream << c->getType();
+      ch.sendString(stream.str());
+
+      auto resp = ch.recvString();
+
+      if(!resp.empty())
+         error.redraw(resp);
+      else
+      {
+         acct.reset(ch.recvSst());
+         stop = true;
+      }
+   }
 };
 
 class logic : private char_screen, public cui::iLogic {
@@ -106,22 +174,35 @@ public:
       rarityCharSorter rSort(m_table.size());
       iCharSorter *pSort = &rSort;
 
+      inTeamCharSelector iTSelect;
+      iCharSelector *pSelect = &iTSelect;
+
       while(true)
       {
-         // static controls
+         // build a look-up for team membership
+         std::set<size_t> inTeam;
+         {
+            auto& lineUp = (*acct)["line-up"].as<sst::array>();
+            for(size_t i=0;i<lineUp.size();i++)
+               inTeam.insert(lineUp[i].as<sst::mint>().get());
+         }
 
-         // dynamic controls
+         // main table
+         std::vector<db::Char*> visibleChars;
+         visibleChars.resize(m_table.size());
          pSort->rebuild(*dbDict,(*acct));
          pSort->setPg(pg);
          pSort->redraw([&](auto& ch, int idx){
+
             // draw each char
 
-            // TODO: in team
+            bool isIn = (inTeam.find(ch.getType()) != inTeam.end());
+            if(isIn)
+               m_table[idx].inTeam.redraw("*");
 
-            static const char *gRarities[] = { "  R", " SR", "SSR", " UR" };
-            m_table[idx].rarity.redraw(gRarities[ch.rarity()]);
+            m_table[idx].rarity.redraw(db::fmtRaritiesFixedWidth(ch.rarity()));
 
-            // TODO: star
+            m_table[idx].star.redraw(db::fmtStarsFixedWidth(ch.getStars()));
 
             m_table[idx].lvl.redraw(ch.getLevel());
 
@@ -131,18 +212,35 @@ public:
             m_table[idx].def.redraw(ch.def());
             m_table[idx].agil.redraw(ch.agil());
 
-            static const char *gElements[] = { "water", "fire ", "earth" };
-            m_table[idx].element.redraw(gElements[ch.element()]);
+            m_table[idx].element.redraw(db::fmtElementsFixedWidth(ch.element()));
 
-            /*std::stringstream combinedCaste;
-            combinedCaste << ch.caste << ";" << ch.subcaste;
-            m_table[idx].caste.redraw(combinedCaste.str());*/
+            std::stringstream combinedCaste;
+            combinedCaste << ch.caste() << "; " << ch.subcaste();
+            m_table[idx].caste.redraw(combinedCaste.str());
+
+            visibleChars[idx] = &ch;
          });
          m_selectModeDsp.redraw(gSelDisp[selMode]);
          m_sortModeDsp.redraw(gSortDisp[sortMode]);
 
+         // footer
+         m_teamCnt.redraw(inTeam.size());
+
          // handle user input
          cui::buttonHandler handler(m_error);
+         handler.addCustom('0',[&](bool& stop){ pSelect->run(visibleChars[0],m_error,stop); });
+         handler.addCustom('1',[&](bool& stop){ pSelect->run(visibleChars[1],m_error,stop); });
+         handler.addCustom('2',[&](bool& stop){ pSelect->run(visibleChars[2],m_error,stop); });
+         handler.addCustom('3',[&](bool& stop){ pSelect->run(visibleChars[3],m_error,stop); });
+         handler.addCustom('4',[&](bool& stop){ pSelect->run(visibleChars[4],m_error,stop); });
+         handler.addCustom('5',[&](bool& stop){ pSelect->run(visibleChars[5],m_error,stop); });
+         handler.addCustom('6',[&](bool& stop){ pSelect->run(visibleChars[6],m_error,stop); });
+         handler.addCustom('7',[&](bool& stop){ pSelect->run(visibleChars[7],m_error,stop); });
+         handler.addCustom('8',[&](bool& stop){ pSelect->run(visibleChars[8],m_error,stop); });
+         handler.addCustom('9',[&](bool& stop){ pSelect->run(visibleChars[8],m_error,stop); });
+         handler.addCustom('A',[&](bool& stop){ pSelect->run(visibleChars[10],m_error,stop); });
+         handler.addCustom('B',[&](bool& stop){ pSelect->run(visibleChars[11],m_error,stop); });
+         handler.addCustom('C',[&](bool& stop){ pSelect->run(visibleChars[12],m_error,stop); });
          handler.add(m_backBtn,[&](bool& stop){ stop = true; });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)

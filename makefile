@@ -33,13 +33,15 @@ all: \
 	$(OUT_DIR)/release/file.test.dll \
 	$(OUT_DIR)/release/net.dll \
 	$(OUT_DIR)/release/pen.test.dll \
-	$(OUT_DIR)/release/screen.dll \
 	$(OUT_DIR)/release/server.exe \
 	$(OUT_DIR)/release/shell.exe \
 	$(OUT_DIR)/release/tcatbin.dll \
 	$(OUT_DIR)/release/test.exe
 	$(OUT_DIR)/debug/test.exe
 	$(OUT_DIR)/release/test.exe
+
+#	speed-up frequent recompiles for COML changes
+#	$(OUT_DIR)/release/screen.dll \
 
 # this tests don't really apply.... yet; maybe?
 # $(OUT_DIR)/debug/net.test.dll \
@@ -461,6 +463,7 @@ SERVER_SRC = \
 	src/server/msg.queryCombat.cpp \
 	src/server/msg.querySummon.cpp \
 	src/server/msg.summon.cpp \
+	src/server/msg.toggleInTeam.cpp \
 	src/server/msg.update.cpp \
 	src/server/verb.compile.cpp \
 	src/server/verb.listen.cpp \
