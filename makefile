@@ -535,6 +535,7 @@ SCREEN_COML = \
 	src/screen/screen.home.coml \
 	src/screen/screen.inbox.coml \
 	src/screen/screen.summon.coml \
+	src/screen/screen.summonResults.coml \
 
 SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 
@@ -565,8 +566,9 @@ SCREEN_SRC = \
 	src/screen/get.logic.cpp \
 	src/screen/home.logic.cpp \
 	src/screen/inbox.logic.cpp \
-	src/screen/summon.logic.cpp \
 	src/screen/main.cpp \
+	src/screen/summon.logic.cpp \
+	src/screen/summonResults.logic.cpp \
 
 SCREEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_SRC)))
 

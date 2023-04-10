@@ -19,6 +19,7 @@ public:
 
       tcat::typePtr<db::iDict> dbDict;
       sst::dict result;
+      std::string error;
 
       auto leftRight = (*pReq)["leftRight"].as<sst::mint>().get();
       auto upDown = (*pReq)["upDown"].as<sst::mint>().get();
@@ -30,21 +31,21 @@ public:
       if(leftRight == 0)
       {
          if(maxBuy < 1)
-            result.add<sst::str>("error") = "Insufficient funds";
+            error = "Insufficient funds";
          else
             N = 1;
       }
       else if(leftRight == 1)
       {
          if(maxBuy < 10)
-            result.add<sst::str>("error") = "Insufficient funds";
+            error = "Insufficient funds";
          else
             N = 10;
       }
       else if(leftRight == 2)
       {
          if(maxBuy < 1)
-            result.add<sst::str>("error") = "Insufficient funds";
+            error = "Insufficient funds";
          else
             N = maxBuy;
       }
@@ -60,6 +61,7 @@ public:
             ;
       }
 
+      ch.sendString(error);
       ch.sendSst(result);
       ctxt.pAcct->dict()["gems"].as<sst::mint>() = gemsLeft;
       ch.sendSst(ctxt.pAcct->dict());

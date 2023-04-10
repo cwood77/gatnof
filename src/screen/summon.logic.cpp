@@ -23,14 +23,14 @@ public:
       auto& pn = svcMan->demand<pen::object>();
       auto& ch = svcMan->demand<net::iChannel>();
 
-      ch.sendString("querySummon");
-      std::unique_ptr<sst::dict> pSummonInfo(ch.recvSst());
-
       size_t upDown = 0;
       size_t leftRight = 0;
 
       while(true)
       {
+         ch.sendString("querySummon");
+         std::unique_ptr<sst::dict> pSummonInfo(ch.recvSst());
+
          // whole screen re-draw
          render();
 
@@ -110,15 +110,21 @@ public:
             args.add<sst::mint>("leftRight") = leftRight;
             ch.sendSst(args);
             ch.sendSst(*pSummonInfo);
-            std::unique_ptr<sst::dict> pReply(ch.recvSst());
-            acct.reset(ch.recvSst());
-            if(pReply->has("error"))
-               m_error.redraw((*pReply)["error"].as<sst::str>().get());
+            auto error = ch.recvString();
+            if(!error.empty())
+            {
+               m_error.redraw(error);
+               std::unique_ptr<sst::dict> unused(ch.recvSst());
+            }
             else
             {
-               // unimpled!
+               tcat::typePtr<cui::iFactory> sFac;
+               cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>(
+                  "summonResults"));
+               pL->run();
                stop = true;
             }
+            acct.reset(ch.recvSst());
          });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)
