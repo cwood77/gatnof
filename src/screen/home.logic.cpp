@@ -43,6 +43,7 @@ public:
       // fetch buttons
       auto& inboxBtn = pScr->demand<cui::buttonControl>("inboxBtn");
       auto& summonBtn = pScr->demand<cui::buttonControl>("summonBtn");
+      auto& charBtn = pScr->demand<cui::buttonControl>("charBtn");
       auto& questBtn = pScr->demand<cui::buttonControl>("questBtn");
       auto& arenaBtn = pScr->demand<cui::buttonControl>("arenaBtn");
       auto& exitBtn = pScr->demand<cui::buttonControl>("exitBtn");
@@ -90,6 +91,12 @@ public:
          handler.add(summonBtn,[&](bool& stop)
          {
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("summon"));
+            pL->run();
+            stop = true; // redraw home
+         });
+         handler.add(charBtn,[&](bool& stop)
+         {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("char"));
             pL->run();
             stop = true; // redraw home
          });
