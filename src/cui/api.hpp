@@ -183,6 +183,12 @@ public:
          m_rows[i].initialize(i);
    }
 
+   void erase()
+   {
+      for(auto& r : m_rows)
+         r.erase();
+   }
+
    size_t size() const { return m_rows.size(); }
    T& operator[](size_t i) { return m_rows[i]; }
 
