@@ -454,11 +454,13 @@ SERVER_SRC = \
 	src/server/listenThread.cpp \
 	src/server/main.cpp \
 	src/server/message.cpp \
-	src/server/msg.get.cpp \
 	src/server/msg.combat.cpp \
+	src/server/msg.get.cpp \
 	src/server/msg.login.cpp \
 	src/server/msg.logout.cpp \
 	src/server/msg.queryCombat.cpp \
+	src/server/msg.querySummon.cpp \
+	src/server/msg.summon.cpp \
 	src/server/msg.update.cpp \
 	src/server/verb.compile.cpp \
 	src/server/verb.listen.cpp \

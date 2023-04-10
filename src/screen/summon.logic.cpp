@@ -21,13 +21,10 @@ public:
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
       auto& pn = svcMan->demand<pen::object>();
+      auto& ch = svcMan->demand<net::iChannel>();
 
-      sst::dict summonInfo;
-      {
-         summonInfo.add<sst::str>("normal-info") = "10 gems: 70% R, 20% SR, 10% SSR";
-         summonInfo.add<sst::str>("ur-info") = "100 gems: 77% SR, 20% SSR, 3% UR";
-         summonInfo.add<sst::mint>("max-buy") = 132;
-      }
+      ch.sendString("querySummon");
+      std::unique_ptr<sst::dict> pSummonInfo(ch.recvSst());
 
       size_t upDown = 0;
       size_t leftRight = 0;
@@ -37,7 +34,7 @@ public:
          // whole screen re-draw
          render();
 
-         // static controls
+         // static controls - up/down
          {
             m_norm.setFormatMode(upDown == 0 ? 2 : 1);
             m_norm.erase();
@@ -46,7 +43,7 @@ public:
             pn.str() << pen::moveTo(cui::pnt(pt.x+1,pt.y+1));
             pn.str() << "Normal Summon";
             pn.str() << pen::moveTo(cui::pnt(pt.x+1,pt.y+2));
-            pn.str() << summonInfo["normal-info"].as<sst::str>().get();
+            pn.str() << (*pSummonInfo)["normal-info"].as<sst::str>().get();
          }
          {
             m_ur.setFormatMode(upDown == 1 ? 2 : 1);
@@ -56,9 +53,10 @@ public:
             pn.str() << pen::moveTo(cui::pnt(pt.x+1,pt.y+1));
             pn.str() << "Ultra Rare Summon";
             pn.str() << pen::moveTo(cui::pnt(pt.x+1,pt.y+2));
-            pn.str() << summonInfo["ur-info"].as<sst::str>().get();
+            pn.str() << (*pSummonInfo)["ur-info"].as<sst::str>().get();
          }
 
+         // static controls - left/right
          {
             m_draw1.setFormatMode(leftRight == 0 ? 2 : 1);
             m_draw1.erase();
@@ -82,6 +80,9 @@ public:
             m_drawMax.formatText(pn.str());
             pn.str() << pen::moveTo(cui::pnt(pt.x+1,pt.y+1));
             pn.str() << "Draw Max";
+            pn.str() << pen::moveTo(cui::pnt(pt.x+1,pt.y+2));
+            pn.str()
+               << (*pSummonInfo)["max-buy"].as<sst::array>()[upDown].as<sst::mint>().get();
          }
 
          // dynamic controls
@@ -101,7 +102,24 @@ public:
             leftRight %= 3;
             stop = true;
          });
-         handler.unimpled(m_summonBtn);
+         handler.add(m_summonBtn,[&](bool& stop)
+         {
+            ch.sendString("summon");
+            sst::dict args;
+            args.add<sst::mint>("upDown") = upDown;
+            args.add<sst::mint>("leftRight") = leftRight;
+            ch.sendSst(args);
+            ch.sendSst(*pSummonInfo);
+            std::unique_ptr<sst::dict> pReply(ch.recvSst());
+            acct.reset(ch.recvSst());
+            if(pReply->has("error"))
+               m_error.redraw((*pReply)["error"].as<sst::str>().get());
+            else
+            {
+               // unimpled!
+               stop = true;
+            }
+         });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)
             return;

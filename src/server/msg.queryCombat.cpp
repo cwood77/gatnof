@@ -43,5 +43,3 @@ public:
 namespace { msgRegistrar<queryCombatHandler> registrar("queryCombat"); }
 
 } // namespace server
-
-

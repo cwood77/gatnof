@@ -6,8 +6,8 @@
 namespace db {
 
 static const staticChar gChars[] = {
-   { kSsr, kEarth, "Corporate",  "Classics",     "Anime",      "Cannibal mickey mouse",      "spec" },
-   { kSsr, kEarth, "Corporate",  "Classics",     "Anime",      "Drunken sailor Donald Duck", "spec" },
+   { kR,   kEarth, "Corporate",  "Classics",     "Anime",      "Cannibal mickey mouse",      "spec" },
+   { kSr,  kEarth, "Corporate",  "Classics",     "Anime",      "Drunken sailor Donald Duck", "spec" },
    { kSsr, kEarth, "Corporate",  "Classics",     "Anime",      "Vampire Tinkerbell",         "spec" },
    { kSsr, kEarth, "Corporate",  "Princesses",   "Anime",      "Necromancer Elsa",           "spec" },
    { kSsr, kEarth, "Corporate",  "Princesses",   "Anime",      "Seawitch Ariel",             "spec" },
@@ -28,7 +28,7 @@ static const staticChar gChars[] = {
    { kSsr, kEarth, "Presidents", "Politicians",  "Anime",      "Kamela Harris",              "spec" },
    { kSsr, kEarth, "Presidents", "Politicians",  "Anime",      "President Biden",            "Where am I?" },
    { kSsr, kEarth, "Pets",       "All",          "None",       "Austin the Doge",            "spec" },
-   { kSsr, kEarth, "Pets",       "None",         "None",       "Holly",                      "spec" },
+   { kUr,  kEarth, "Pets",       "None",         "None",       "Holly",                      "spec" },
 
    // 23 so far
 
@@ -119,14 +119,20 @@ static const staticStat gStats[] = {
 class staticDict : public iDict {
 public:
    virtual const staticChar& findChar(size_t id);
-   virtual size_t numChars() const { return 0; }
+   virtual size_t numChars() const;
    virtual const equip& findItem(size_t id) { throw 3.14; }
    virtual const staticStat& findStat() { return gStats; }
 };
 
-const staticChar& staticDict::findChar(size_t id)
+size_t staticDict::numChars() const
 {
    static const size_t nCnt = sizeof(gChars) / sizeof(staticChar);
+   return nCnt;
+}
+
+const staticChar& staticDict::findChar(size_t id)
+{
+   const size_t nCnt = numChars();
    if(id >= nCnt)
       throw std::runtime_error("char range out of bounds");
    return gChars[id];
