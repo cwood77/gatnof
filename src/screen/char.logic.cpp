@@ -1,14 +1,11 @@
 #include "../../gen/screen/screen.char.hpp"
 #include "../cmn/autoPtr.hpp"
 #include "../cmn/service.hpp"
-#include "../cui/ani.hpp"
 #include "../cui/api.hpp"
 #include "../cui/pen.hpp"
 #include "../db/api.hpp"
-#include "../file/api.hpp"
 #include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
-#include <conio.h>
 #include <memory>
 
 namespace {
@@ -20,28 +17,6 @@ public:
    virtual void redraw(std::function<void(db::Char&,int)> f) = 0;
 };
 
-class casteOrder {
-public:
-   typedef db::Char *type_t;
-
-   bool operator()(const type_t& lhs, const type_t& rhs) const
-   {
-      // rarity
-      auto lC = lhs->caste() + "; " + lhs->subcaste();
-      auto rC = rhs->caste() + "; " + rhs->subcaste();
-      if(lC != rC)
-         return lC < rC;
-
-      // name
-      return lhs->name() < rhs->name();
-   }
-};
-
-// orders are:
-// - stage penalty: clan
-// - who invest: rarity
-// - who best?: atk
-// - who in team?: team
 class rarityOrder {
 public:
    typedef db::Char *type_t;
@@ -71,6 +46,23 @@ public:
       auto rA = rhs->atk(false);
       if(lA != rA)
          return lA > rA;
+
+      // name
+      return lhs->name() < rhs->name();
+   }
+};
+
+class casteOrder {
+public:
+   typedef db::Char *type_t;
+
+   bool operator()(const type_t& lhs, const type_t& rhs) const
+   {
+      // rarity
+      auto lC = lhs->caste() + "; " + lhs->subcaste();
+      auto rC = rhs->caste() + "; " + rhs->subcaste();
+      if(lC != rC)
+         return lC < rC;
 
       // name
       return lhs->name() < rhs->name();
@@ -186,7 +178,7 @@ public:
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
 
-      const char *gSelDisp[] = { "detail ","line-up" };
+      const char *gSelDisp[] = { "line-up", "detail " };
       int selMode = 0;
 
       const char *gSortDisp[] = { "rarity", "caste " };

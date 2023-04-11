@@ -1,6 +1,6 @@
 coml v1 17@2
 2| +--------------------------------------------------------------------------------------------------------+ |
-| |                                                 Results                                                | |
+| |                                                 3Results2                                                | |
 | |       5SSR 6Drunken sailor Donald Duck 7(shards)            10SSR 11Drunken sailor Donald Duck 12(shards)       | |
 | |                                                                                                        | |
 | |                                                                                                        | |
@@ -17,6 +17,7 @@ coml v1 17@2
 | |                                          99<any key to dismiss>                                          | |
 | +--------------------------------------------------------------------------------------------------------+ |
 2=txt:%stdcol%
+3=txt:" << pen::fgcol(pen::kYellow,true) << "
 
 5=str:lRarity/3/1
 6=str:lName/26/1
