@@ -141,7 +141,7 @@ void generator::genDerivedControlObjects(streams& out)
          auto& oList = m_ir.oTable.demand(eltId);
          auto *pCtl = dynamic_cast<controlObject*>(*oList.begin());
 
-         out.hpp() << "      " << pCtl->name << ".initialize(cui::pnt(" << pCtl->pnt.x << "," << pCtl->pnt.y << "+yOffset)," << pCtl->length << "," << pCtl->height << ");" << std::endl;
+         out.hpp() << "      " << pCtl->name << ".initialize(cui::pnt(" << pCtl->pnt.x << "," << pCtl->pnt.y << "+(" << ctl.rowHeight << "*yOffset))," << pCtl->length << "," << pCtl->height << ");" << std::endl;
       }
       out.hpp() << "   }" << std::endl;
       out.hpp() << std::endl;

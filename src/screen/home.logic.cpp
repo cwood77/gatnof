@@ -102,12 +102,7 @@ public:
          });
          handler.add(arenaBtn,[&](bool& stop)
          {
-            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
-            pL->run();
-            stop = true; // redraw home
-         });
-         handler.add(questBtn,[&](bool&)
-         {
+            {
             // TODO TEST!
             ch.sendString("queryCombat");
             {
@@ -123,6 +118,24 @@ public:
             ch.sendSst(*pCombatInfo);
             delete ch.recvSst(); // throw it away
             delete ch.recvSst(); // throw it away
+            }
+            {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
+            pL->run();
+            stop = true; // redraw home
+            }
+         });
+         handler.add(questBtn,[&](bool& stop)
+         {
+            size_t qNum = 1;
+            cmn::autoService<size_t> _qNumSvc(*svcMan,qNum,"selectedQuest");
+            size_t sNum = 1;
+            cmn::autoService<size_t> _sNumSvc(*svcMan,sNum,"selectedStage");
+
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("precombat"));
+            pL->run();
+
+            stop = true; // redraw home
          });
          handler.add(exitBtn,[&](bool& stop){ stop = true; });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());

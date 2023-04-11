@@ -34,7 +34,7 @@ coml v1 20
 23=int:agil/3/1
 24=str:element/5/1
 25=str:caste/39/1
-26=lst:table/13/27,17,18,19,20,21,22,23,24,25
+26=lst:table/13/1/27,17,18,19,20,21,22,23,24,25
 
 ; error and buttons
 28=str:error/106/1/%error%

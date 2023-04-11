@@ -49,6 +49,9 @@ public:
 
 class listControlObject : public controlObject {
 public:
+   listControlObject() : rowHeight(0) {}
+
+   int rowHeight;
    std::vector<size_t> elts;
 };
 

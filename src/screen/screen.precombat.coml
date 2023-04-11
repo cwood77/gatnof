@@ -1,11 +1,9 @@
 coml v1 20
 1_2+------------------------------------------------------------------------------------------------------------+
-|                                                   3INBOX2                                                    |
-| 4[oo+] messages                                                                                             |
-|                                                                                                            |
-| 10_8oo/oo/oooo oo:oo Thanks for creating an account                        9oooo gems                           |
-|                                                                                                            |
-|                                                                                                            |
+|                                           3< Stage  15oooo / 16ooo >2 4[completed]                                |
+| 5AlisterTheMagnificent                                                                                      |
+|        22o 14_6stage penalty 7Drunken Sailor Donald Duck    8>   9Drunken Sailor Donald Duck 10stage penalty          |
+|                                             11water 12strong 13earth                                             |
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
@@ -16,19 +14,40 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 |                                                                                                            |
-| 11                                                                                                           |
-| 5back   6open next                                                                                           |
+|                                                                                                            |
+|                                                                                                            |
+| 25                                                                                                           |
+| 17back   18up19-down   20line-up   21go         23New line-up: oooo               24Caste 'Presidents' suffer a penalty  |
 +------------------------------------------------------------------------------------------------------------+
 1=txt:%cls%
 2=txt:%stdcol%
+;2=txt:" << pen::bgcol(pen::kCyan) << "
 3=txt:" << pen::fgcol(pen::kYellow,true) << "
 
-4=int:count/5/1/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kBlue)
+; header
+4=str:completedDisp/11/1
+5=str:aName/21/1/%emph%
+15=int:qNum/4/1/ << pen::bgcol(pen::kMagenta)
+16=int:sNum/3/1/ << pen::bgcol(pen::kMagenta)
 
-5=btn:backBtn/4/1/(b)ack
-6=btn:openNextBtn/9/1/(o)pen next
+;table
+6=str:lStagePen/13/1
+7=str:lChar/26/1
+8=str:comp/1/1
+9=str:rChar/26/1
+10=str:rStagePen/13/1
+11=str:lElement/5/1
+12=str:compWord/6/1/./ << pen::fgcol(pen::kRed,true)/ << pen::fgcol(pen::kGreen,true)
+13=str:rElement/5/1
+22=str:num/1/1
+14=lst:table/5/3/6,7,8,9,10,11,12,13,22
 
-8=str:date/70/1
-9=str:prize/35/1
-10=lst:table/13/1/8,9
-11=str:error/106/1/%error%
+; footer
+25=str:error/106/1/%error%
+17=btn:backBtn/4/1/(b)ack
+18=btn:upBtn/2/1/(u)p
+19=btn:downBtn/5/1/\\(d)own
+20=btn:lineUpBtn/7/1/(l)ine-up
+21=btn:goBtn/2/1/(g)o
+23=str:newLineup/17/1// << pen::bgcol(pen::kMagenta)
+24=str:environs/36/1
