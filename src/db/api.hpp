@@ -3,6 +3,7 @@
 
 #include "../file/api.hpp"
 #include <cstring>
+#include <list>
 
 namespace db {
 
@@ -107,8 +108,12 @@ std::string fmtStarsFixedWidth(size_t n);
 
 class teamBonusCalculator {
 public:
-   void addChar(Char& c);
-   void calculate(int& i);
+   void addChar(const staticChar& c) { m_chars.push_back(&c); }
+
+   int calculate();
+
+private:
+   std::list<const staticChar*> m_chars;
 };
 
 class indivBonusCalculator {

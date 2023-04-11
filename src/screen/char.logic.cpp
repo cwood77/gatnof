@@ -16,7 +16,7 @@ namespace {
 class iCharSorter {
 public:
    virtual void rebuild(db::iDict& db, sst::dict& acct) = 0;
-   virtual void setPg(size_t& pg) = 0;
+   virtual void setPg(long& pg) = 0;
    virtual void redraw(std::function<void(db::Char&,int)> f) = 0;
 };
 
@@ -33,14 +33,24 @@ public:
          m_set.insert(new db::Char(db,it->second->as<sst::dict>(),0));
    }
 
-   virtual void setPg(size_t& pg)
+   virtual void setPg(long& pg)
    {
+      if(pg < 0)
+         pg = 0;
+
+      long nPgs = m_set.size() / m_nRows;
+      if(!nPgs || (m_set.size() % m_nRows))
+         nPgs++;
+
+      if(pg >= nPgs)
+         pg = nPgs-1;
+
       m_pg = pg;
    }
 
    virtual void redraw(std::function<void(db::Char&,int)> f)
    {
-      size_t nSkip = m_pg ? (m_pg - 1) * m_nRows : 0;
+      size_t nSkip = m_pg ? m_pg * m_nRows : 0;
       size_t nIdx = 0;
 
       for(auto *pC : m_set)
@@ -109,7 +119,7 @@ private:
 
    std::set<db::Char*,order> m_set;
    const size_t m_nRows;
-   size_t m_pg;
+   long m_pg;
 };
 
 class iCharSelector {
@@ -165,7 +175,7 @@ public:
       const char *gSortDisp[] = { "rarity" };
       int sortMode = 0;
 
-      size_t pg = 0;
+      long pg = 0;
 
       // whole screen re-draw
       // note: this is here so I can read table size
@@ -224,10 +234,14 @@ public:
          m_sortModeDsp.redraw(gSortDisp[sortMode]);
 
          // footer
+         if((*acct)["line-up-bonus"].as<sst::mint>().get())
+            m_bonusDisp.redraw("bonus: 5 memers of same caste");
          m_teamCnt.redraw(inTeam.size());
 
          // handle user input
          cui::buttonHandler handler(m_error);
+         handler.add(m_upBtn,[&](bool& stop){ pg--; stop = true; });
+         handler.add(m_downBtn,[&](bool& stop){ pg++; stop = true; });
          handler.addCustom('0',[&](bool& stop){ pSelect->run(visibleChars[0],m_error,stop); });
          handler.addCustom('1',[&](bool& stop){ pSelect->run(visibleChars[1],m_error,stop); });
          handler.addCustom('2',[&](bool& stop){ pSelect->run(visibleChars[2],m_error,stop); });

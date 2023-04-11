@@ -108,6 +108,27 @@ inline std::string fmtStarsFixedWidth(size_t n)
    return std::string(6-n,' ') + std::string(n,'*');
 }
 
+inline int teamBonusCalculator::calculate()
+{
+   if(m_chars.size() != 5)
+      return 0;
+
+   std::string subcaste;
+   for(auto *pCh : m_chars)
+   {
+      if(std::string("all") == pCh->subcaste) continue;
+
+      if(subcaste.empty())
+         subcaste = pCh->subcaste;
+      else
+      {
+         if(subcaste != pCh->subcaste)
+            return 0;
+      }
+   }
+   return 2;
+}
+
 inline void indivBonusCalculator::calculate(Char& p, Char& o)
 {
    applyEnvirons(p);

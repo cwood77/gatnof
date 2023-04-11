@@ -1,6 +1,8 @@
+#include "../db/api.hpp"
 #include "../file/api.hpp"
 #include "../file/manager.hpp"
 #include "../net/api.hpp"
+#include "../tcatlib/api.hpp"
 #include "message.hpp"
 
 namespace server {
@@ -32,6 +34,15 @@ public:
             error = "Not enough room in team";
          else
             lineUp.append<sst::mint>() = charId;
+      }
+
+      if(error.empty())
+      {
+         tcat::typePtr<db::iDict> dbDict;
+         db::teamBonusCalculator calc;
+         for(size_t i=0;i<lineUp.size();i++)
+            calc.addChar(dbDict->findChar(lineUp[i].as<sst::mint>().get()));
+         ctxt.pAcct->dict()["line-up-bonus"].as<sst::mint>() = calc.calculate();
       }
 
       ch.sendString(error);
