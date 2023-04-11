@@ -116,7 +116,7 @@ inline int teamBonusCalculator::calculate()
    std::string subcaste;
    for(auto *pCh : m_chars)
    {
-      if(std::string("all") == pCh->subcaste) continue;
+      if(std::string("All") == pCh->subcaste) continue;
 
       if(subcaste.empty())
          subcaste = pCh->subcaste;

@@ -20,10 +20,68 @@ public:
    virtual void redraw(std::function<void(db::Char&,int)> f) = 0;
 };
 
-class rarityCharSorter : public iCharSorter {
+class casteOrder {
 public:
-   explicit rarityCharSorter(size_t nRows) : m_nRows(nRows) {}
-   ~rarityCharSorter() { free(); }
+   typedef db::Char *type_t;
+
+   bool operator()(const type_t& lhs, const type_t& rhs) const
+   {
+      // rarity
+      auto lC = lhs->caste() + "; " + lhs->subcaste();
+      auto rC = rhs->caste() + "; " + rhs->subcaste();
+      if(lC != rC)
+         return lC < rC;
+
+      // name
+      return lhs->name() < rhs->name();
+   }
+};
+
+// orders are:
+// - stage penalty: clan
+// - who invest: rarity
+// - who best?: atk
+// - who in team?: team
+class rarityOrder {
+public:
+   typedef db::Char *type_t;
+
+   bool operator()(const type_t& lhs, const type_t& rhs) const
+   {
+      // rarity
+      auto lR = lhs->rarity();
+      auto rR = rhs->rarity();
+      if(lR != rR)
+         return lR > rR;
+
+      // star
+      auto lS = lhs->getStars();
+      auto rS = rhs->getStars();
+      if(lS != rS)
+         return lS > rS;
+
+      // level
+      auto lL = lhs->getLevel();
+      auto rL = rhs->getLevel();
+      if(lL != rL)
+         return lL > rL;
+
+      // atk
+      auto lA = lhs->atk(false);
+      auto rA = rhs->atk(false);
+      if(lA != rA)
+         return lA > rA;
+
+      // name
+      return lhs->name() < rhs->name();
+   }
+};
+
+template<class T>
+class charSorter : public iCharSorter {
+public:
+   explicit charSorter(size_t nRows) : m_nRows(nRows) {}
+   ~charSorter() { free(); }
 
    virtual void rebuild(db::iDict& db, sst::dict& acct)
    {
@@ -76,48 +134,7 @@ private:
       m_set.clear();
    }
 
-   class order {
-   public:
-      typedef db::Char *type_t;
-
-// orders are:
-// - stage penalty: clan
-// - who invest: rarity
-// - who best?: atk
-// - who in team?: team
-
-      bool operator()(const type_t& lhs, const type_t& rhs) const
-      {
-         // rarity
-         auto lR = lhs->rarity();
-         auto rR = rhs->rarity();
-         if(lR != rR)
-            return lR > rR;
-
-         // star
-         auto lS = lhs->getStars();
-         auto rS = rhs->getStars();
-         if(lS != rS)
-            return lS > rS;
-
-         // level
-         auto lL = lhs->getLevel();
-         auto rL = rhs->getLevel();
-         if(lL != rL)
-            return lL > rL;
-
-         // atk
-         auto lA = lhs->atk(false);
-         auto rA = rhs->atk(false);
-         if(lA != rA)
-            return lA > rA;
-
-         // name
-         return lhs->name() < rhs->name();
-      }
-   };
-
-   std::set<db::Char*,order> m_set;
+   std::set<db::Char*,T> m_set;
    const size_t m_nRows;
    long m_pg;
 };
@@ -172,7 +189,7 @@ public:
       const char *gSelDisp[] = { "detail ","line-up" };
       int selMode = 0;
 
-      const char *gSortDisp[] = { "rarity" };
+      const char *gSortDisp[] = { "rarity", "caste " };
       int sortMode = 0;
 
       long pg = 0;
@@ -181,7 +198,8 @@ public:
       // note: this is here so I can read table size
       render();
 
-      rarityCharSorter rSort(m_table.size());
+      charSorter<rarityOrder> rSort(m_table.size());
+      charSorter<casteOrder> sSort(m_table.size());
       iCharSorter *pSort = &rSort;
 
       inTeamCharSelector iTSelect;
@@ -235,13 +253,19 @@ public:
 
          // footer
          if((*acct)["line-up-bonus"].as<sst::mint>().get())
-            m_bonusDisp.redraw("bonus: 5 memers of same caste");
+         {
+            m_bonusDisp.setFormatMode(2);
+            m_bonusDisp.redraw("bonus: 5 members of same caste");
+         }
+         else
+         {
+            m_bonusDisp.setFormatMode(1);
+            m_bonusDisp.erase();
+         }
          m_teamCnt.redraw(inTeam.size());
 
          // handle user input
          cui::buttonHandler handler(m_error);
-         handler.add(m_upBtn,[&](bool& stop){ pg--; stop = true; });
-         handler.add(m_downBtn,[&](bool& stop){ pg++; stop = true; });
          handler.addCustom('0',[&](bool& stop){ pSelect->run(visibleChars[0],m_error,stop); });
          handler.addCustom('1',[&](bool& stop){ pSelect->run(visibleChars[1],m_error,stop); });
          handler.addCustom('2',[&](bool& stop){ pSelect->run(visibleChars[2],m_error,stop); });
@@ -251,11 +275,22 @@ public:
          handler.addCustom('6',[&](bool& stop){ pSelect->run(visibleChars[6],m_error,stop); });
          handler.addCustom('7',[&](bool& stop){ pSelect->run(visibleChars[7],m_error,stop); });
          handler.addCustom('8',[&](bool& stop){ pSelect->run(visibleChars[8],m_error,stop); });
-         handler.addCustom('9',[&](bool& stop){ pSelect->run(visibleChars[8],m_error,stop); });
+         handler.addCustom('9',[&](bool& stop){ pSelect->run(visibleChars[9],m_error,stop); });
          handler.addCustom('A',[&](bool& stop){ pSelect->run(visibleChars[10],m_error,stop); });
          handler.addCustom('B',[&](bool& stop){ pSelect->run(visibleChars[11],m_error,stop); });
          handler.addCustom('C',[&](bool& stop){ pSelect->run(visibleChars[12],m_error,stop); });
          handler.add(m_backBtn,[&](bool& stop){ stop = true; });
+         handler.add(m_upBtn,[&](bool& stop){ pg--; stop = true; });
+         handler.add(m_downBtn,[&](bool& stop){ pg++; stop = true; });
+         handler.add(m_sortModeBtn,[&](bool& stop)
+         {
+            sortMode++;
+            int N = sizeof(gSortDisp) / sizeof(const char *);
+            if(sortMode >= N)
+               sortMode = 0;
+            pSort = sortMode ? (iCharSorter*)&sSort : (iCharSorter*)&rSort;
+            stop = true;
+         });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)
             return;

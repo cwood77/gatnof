@@ -44,7 +44,7 @@ coml v1 20
 32=str:selectModeDsp/7/1/ << pen::bgcol(pen::kMagenta)
 33=btn:sortModeBtn/5/1/s(o)rt:
 34=str:sortModeDsp/6/1/ << pen::bgcol(pen::kMagenta)
-35=str:bonusDisp/30/1/ << pen::bgcol(pen::kBlue)/ << pen::bgcol(pen::kMagenta)
+35=str:bonusDisp/30/1/ << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue,true)
 36=int:teamCnt/2/1
 37=btn:backBtn/4/1/(b)ack
 38=txt:5
