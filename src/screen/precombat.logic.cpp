@@ -16,7 +16,7 @@ public:
    // required for diamond inheritance :(
    virtual void release() { delete this; }
 
-   virtual void run(bool interactive)
+   virtual void run(bool)
    {
       tcat::typePtr<db::iDict> dbDict;
       tcat::typePtr<cmn::serviceManager> svcMan;
@@ -30,8 +30,8 @@ public:
       {
          sst::dict req;
          req.add<sst::str>("type") = "quest";
-         req.add<sst::mint>("quest#") = 1;
-         req.add<sst::mint>("stage#") = 1;
+         req.add<sst::mint>("quest#") = qNum;
+         req.add<sst::mint>("stage#") = sNum;
          ch.sendSst(req);
       }
       std::unique_ptr<sst::dict> pCombatInfo(ch.recvSst());
@@ -40,7 +40,6 @@ public:
       m_upBtn.dim("unimpled");
       m_downBtn.dim("unimpled");
       m_lineUpBtn.dim("unimpled");
-      m_goBtn.dim("unimpled");
 
       // whole screen re-draw
       render();
@@ -151,10 +150,16 @@ public:
       // handle user input
       cui::buttonHandler handler(m_error);
       handler.add(m_backBtn,[&](bool& stop){ stop = true; });
-      handler.add(m_upBtn,[](bool&){});
+      handler.add(m_goBtn,[](bool& stop)
+      {
+         tcat::typePtr<cui::iFactory> sFac;
+         cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
+         pL->run();
+         stop = true;
+      });
       auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
       if(ans == &m_backBtn)
-         return;
+         return; // TODO: useless
    }
 };
 

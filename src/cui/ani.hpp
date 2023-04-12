@@ -2,11 +2,10 @@
 #define ___cui_ani___
 
 #include "api.hpp"
+#include "pen.hpp"
 #include <functional>
 #include <list>
 #include <map>
-
-namespace pen { class object; }
 
 namespace ani {
 
@@ -64,6 +63,7 @@ class prim {
 public:
    static void lineLeftToRight(iCanvas& c, cui::pnt p, size_t l);
    static void lineRightToLeft(iCanvas& c, cui::pnt p, size_t l);
+   static void box(frame& f, cui::pnt ul, size_t l, size_t h, pen::colors bgcol);
 };
 
 class attendance {
@@ -74,24 +74,8 @@ public:
 
 class outliner {
 public:
-   explicit outliner(cui::control& c) : m_c(c) {}
-
-   void outline(iCanvas& c);
+   void outline(cui::pnt p, size_t l, size_t h, iCanvas& c);
    void restore(iCanvas& c);
-
-private:
-   cui::control& m_c;
-};
-
-class blinker {
-public:
-   explicit blinker(cui::control& c) : m_c(c) {}
-
-   void blink(iCanvas& c);
-   void restore(iCanvas& c);
-
-private:
-   cui::control& m_c;
 };
 
 } // namespace ani

@@ -116,7 +116,7 @@ public:
 
       // create db::Chars for each side
       combat::side pSide,oSide;
-      buildSide(*dbDict,*pReq,pSide); // lie!
+      buildSide(*dbDict,ctxt.pAcct->dict(),pSide);
       buildSide(*dbDict,*pReq,oSide);
       calculateIndivBonuses(*pReq,pSide,oSide);
       combat::targetTable targets;
@@ -189,14 +189,14 @@ private:
    void takeTurn(db::Char& c, combat::targetTable& targets, combat::side& player, bool& killed, combat::recorder& recorder)
    {
       auto& enemies = targets.findOpposingSide(c);
-      bool isPlayerAttacker = (&enemies == &player);
+      bool isPlayerAttacker = (&enemies != &player);
 
       // randomly select target from opposing side
       auto& target = targets.findOpposingSide(c).randomLiving();
       log().writeLnDebug(
          "[%s] (%s) attacks [%s]",
          c.name().c_str(),
-         (isPlayerAttacker ? "(player)" : "(cpu)"),
+         (isPlayerAttacker ? "(cpu)" : "(player)"),
          target.name().c_str()
       );
 
@@ -243,13 +243,21 @@ private:
       dmg += (::rand() % 10);
 
       log().writeLnDebug("DAMAGE is <%lld>",dmg);
-      recorder.recordAttack(
-         isPlayerAttacker,
-         c.userData, target.userData,
-         dmg, "" // TODO assumes no special attack
-      );
+      {
+         std::stringstream narration;
+         narration
+            << c.name() << " attacks " << target.name() << " for " << dmg << " point(s)";
+         recorder.recordAttack(
+            isPlayerAttacker,
+            c.userData, target.userData,
+            dmg, narration.str() // TODO assumes no special attack
+         );
+      }
 
-      target.hp -= dmg;
+      if(dmg <= target.hp)
+         target.hp -= dmg;
+      else
+         target.hp = 0;
       killed = (target.hp == 0);
    }
 
