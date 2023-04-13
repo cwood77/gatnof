@@ -11,11 +11,15 @@ namespace ani {
 
 class delay {
 public:
-   delay() : nMSec(25) {}
+   delay() : nMSec(25), nSkip(0), m_nCnt(0) {}
 
-   size_t nMSec;
+   int nMSec;
+   int nSkip;
 
    void sleep();
+
+private:
+   int m_nCnt;
 };
 
 // a bunch of drawings that happen at the same time

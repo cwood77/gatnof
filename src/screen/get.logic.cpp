@@ -23,9 +23,10 @@ public:
       auto& prize = (*acct)["inbox"].as<sst::array>()[0].as<sst::dict>();
 
       // animation
-      if(0){ // too slow, but keep for attendance?
+      { // move to combat
          ani::delay d;
          d.nMSec = 1;
+         d.nSkip = 2;
          ani::flipbook fb(d);
          ani::sequencer seq(fb);
 

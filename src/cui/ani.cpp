@@ -19,7 +19,16 @@ private:
 
 } // anonymous namespace
 
-void delay::sleep() { ::Sleep(nMSec); }
+void delay::sleep()
+{
+   if(m_nCnt == 0)
+   {
+      ::Sleep(nMSec);
+      m_nCnt = nSkip;
+   }
+   else
+      m_nCnt--;
+}
 
 void frame::run(pen::object& pn)
 {
