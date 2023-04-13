@@ -51,6 +51,7 @@ void generator::genImage(streams& out)
    {
       out.hpp() << "      pn.str() << \"";
 
+      bool lastWasDigit = false;
       size_t jOffset = 0;
       auto& line = m_ir.lines[i+1];
       for(size_t j=0;j!=line.length();j++)
@@ -68,11 +69,18 @@ void generator::genImage(streams& out)
             }
             jOffset += n;
             j += (n-1);
+            lastWasDigit = true;
          }
-         else if(line.c_str()[j] == '_')
+         else if(lastWasDigit && line.c_str()[j] == '_')
+         {
             jOffset++; // ignore this char
+            lastWasDigit = false;
+         }
          else
+         {
             out.hpp() << std::string(1,line.c_str()[j]);
+            lastWasDigit = false;
+         }
       }
       out.hpp() << "\" << std::endl;" << std::endl;
    }

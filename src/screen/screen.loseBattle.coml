@@ -1,0 +1,19 @@
+coml v1 7@8
+1--------------------------------------------------------------------------------------------------------------
+                           |\\      _,,,---,,_             2                                                    
+                     ZZZzz /,`.-'`'    -.  ;-;;,_          5                                                   
+                          |,4-  ) )-,_. ,\\ (  `'-'         3                                                   
+                         '---''(_/--'  `-'\\_)             6                                                    
+                                             9<any key to dismiss>                                             
+--------------------------------------------------------------------------------------------------------------
+1=txt:" << pen::fgcol(pen::kBlack) << pen::bgcol(pen::kBlack,true) << "
+
+4=txt:4
+
+2=str:title/7/1/ << pen::fgcol(pen::kWhite,true) << pen::bgcol(pen::kBlack,true)
+
+5=str:text0/1/1/ << pen::fgcol(pen::kBlack) << pen::bgcol(pen::kBlack,true)
+3=str:text1/1/1/ << pen::fgcol(pen::kBlack) << pen::bgcol(pen::kBlack,true)
+6=str:text2/1/1/ << pen::fgcol(pen::kBlack) << pen::bgcol(pen::kBlack,true)
+
+9=str:prompt/20/1/ << pen::fgcol(pen::kBlack) << pen::bgcol(pen::kBlack,true)

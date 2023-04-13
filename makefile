@@ -538,6 +538,7 @@ SCREEN_COML = \
 	src/screen/screen.get.coml \
 	src/screen/screen.home.coml \
 	src/screen/screen.inbox.coml \
+	src/screen/screen.loseBattle.coml \
 	src/screen/screen.precombat.coml \
 	src/screen/screen.summon.coml \
 	src/screen/screen.summonResults.coml \
@@ -573,6 +574,7 @@ SCREEN_SRC = \
 	src/screen/get.logic.cpp \
 	src/screen/home.logic.cpp \
 	src/screen/inbox.logic.cpp \
+	src/screen/loseBattle.logic.cpp \
 	src/screen/main.cpp \
 	src/screen/precombat.logic.cpp \
 	src/screen/summon.logic.cpp \

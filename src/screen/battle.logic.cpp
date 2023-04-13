@@ -160,8 +160,10 @@ public:
       else
       {
          m_error.update("Failure");
-         tcat::typePtr<cui::iUserInput> in;
-         in->getKey();
+
+         tcat::typePtr<cui::iFactory> sFac;
+         cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("loseBattle"));
+         pL->run();
       }
    }
 };
