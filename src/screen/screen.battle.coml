@@ -25,9 +25,9 @@ coml v1 20
 4=str:oAcct/21/1/%emph%
 
 5=str:pName/26/1
-6=str:pGuage/10/1
+6=guage:pGuage/10/1
 7=str:oName/26/1
-8=str:oGuage/10/1
+8=guage:oGuage/10/1
 9=lst:table/5/3/5,6,7,8
 
 99=str:error/106/1/%error%

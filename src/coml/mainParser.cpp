@@ -148,6 +148,14 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       parseControlObject(pThumb+4,*pObj);
       cleanUpFormats(*pObj);
    }
+   else if(::strncmp(pThumb,"guage:",6)==0)
+   {
+      auto *pObj = new controlObject();
+      list.push_back(pObj);
+      pObj->baseType = "cui::guageControl";
+      parseControlObject(pThumb+6,*pObj);
+      cleanUpFormats(*pObj);
+   }
    else if(::strncmp(pThumb,"btn:",4)==0)
    {
       auto *pObj = new buttonControlObject();

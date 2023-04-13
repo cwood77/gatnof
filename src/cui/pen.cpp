@@ -50,4 +50,17 @@ fgcol::fgcol(colors c, bool bright) : colorBase(c,bright,gFgColors) {}
 
 bgcol::bgcol(colors c, bool bright) : colorBase(c,bright,gBgColors) {}
 
+void block::insert(std::ostream& s) const
+{
+   for(size_t i=0;i<n;i++)
+      if(opacity == 0)
+         s << "\xdb";
+      else if(opacity == 1)
+         s << "\xb2";
+      else if(opacity == 2)
+         s << "\xb1";
+      else if(opacity == 3)
+         s << "\xb0";
+}
+
 } // namespace pen

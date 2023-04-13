@@ -50,7 +50,7 @@ public:
          {
             auto& ch = dbDict->findChar(lineUp[i].as<sst::mint>().get());
             m_table[i].pName.redraw(ch.name);
-            m_table[i].pGuage.redraw(std::string(10,'-'));
+            m_table[i].pGuage.redraw(100);
          }
       }
       // table - enemy chars
@@ -60,7 +60,7 @@ public:
          {
             auto& ch = dbDict->findChar(lineUp[i].as<sst::mint>().get());
             m_table[i].oName.redraw(ch.name);
-            m_table[i].oGuage.redraw(std::string(10,'-'));
+            m_table[i].oGuage.redraw(100);
          }
       }
 
@@ -106,9 +106,9 @@ public:
                ani::prim::box(c.getFrame(120),pnt,46,3,pen::kBlue);
             }
          });
-         // clear
          seq.simultaneous(
          {
+            // clear
             [&](auto& c)
             {
                auto& row = m_table[evt["pIdx"].as<sst::mint>().get()];
@@ -129,6 +129,23 @@ public:
 
          auto& pn = svcMan->demand<pen::object>();
          fb.run(pn);
+
+         // update guage
+         auto& row = m_table[evt["oIdx"].as<sst::mint>().get()];
+         auto& g = isPlayer ?
+            (cui::guageControl&)row.oGuage : (cui::guageControl&)row.pGuage;
+         int dmg = evt["dmg"].as<sst::mint>().get();
+         int noob = g.get() - dmg;
+         if(g.get() < dmg)
+            noob = 0;
+         g.update(noob);
+         if(noob == 0)
+         {
+            auto& n = isPlayer ?
+               (cui::stringControl&)row.oName : (cui::stringControl&)row.pName;
+            n.setFormatMode(2);
+            n.redraw(n.get());
+         }
       }
       if((*pBattleDetails)["victory"].as<sst::tf>().get())
          m_error.update("Victory");

@@ -105,6 +105,17 @@ private:
    std::string m_cache;
 };
 
+class guageControl : public control {
+public:
+   int get() { return m_cache; }
+   void redraw(int v);
+
+   void update(int v);
+
+private:
+   int m_cache;
+};
+
 class iIntFormatter {
 public:
    virtual std::string formatValue(int v, size_t l) const = 0;

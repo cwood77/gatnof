@@ -56,7 +56,6 @@ class moveTo {
 public:
    explicit moveTo(const cui::pnt& p) : m_p(p) {}
 
-public:
    void insert(std::ostream& s) const { s << "\x1b[" << m_p.y << ";" << m_p.x << "H"; }
 
 private:
@@ -72,6 +71,16 @@ public:
    bool mode;
 };
 
+class block {
+public:
+   explicit block(size_t o, size_t n = 1) : opacity(o), n(n) {}
+
+   void insert(std::ostream& s) const;
+
+   size_t opacity;
+   size_t n;
+};
+
 } // namespace pen
 
 inline std::ostream& operator<<(std::ostream& s, const pen::colorBase& v)
@@ -85,5 +94,8 @@ inline std::ostream& operator<<(std::ostream& s, const pen::clearScreen&)
 
 inline std::ostream& operator<<(std::ostream& s, const pen::showCursor& v)
 { s << "\x1b[?" << (v.mode ? "25h" : "25l"); return s; }
+
+inline std::ostream& operator<<(std::ostream& s, const pen::block& v)
+{ v.insert(s); return s; }
 
 #endif // ___cui_pen___

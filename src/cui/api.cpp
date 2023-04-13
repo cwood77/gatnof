@@ -71,6 +71,42 @@ void stringControl::update(const std::string& v)
       redraw(v);
 }
 
+void guageControl::redraw(int v)
+{
+   tcat::typePtr<cmn::serviceManager> svcMan;
+   auto& str = svcMan->demand<pen::object>().str();
+
+   str << pen::moveTo(getLoc());
+
+   size_t x = v / 10;
+   if(x == 0 && v != 0)
+      x++;
+   if(x == 0)
+      str << pen::fgcol(pen::kBlack,true);
+   else if(x >= 7)
+      str << pen::fgcol(pen::kGreen);
+   else if(x <= 3)
+      str << pen::fgcol(pen::kRed);
+   else
+      str << pen::fgcol(pen::kYellow);
+
+   if(x == 0)
+      str << pen::block(2,3) << "DEAD" << pen::block(2,3);
+   else
+   {
+      str << pen::block(0,x);
+      str << pen::block(2,10-x);
+   }
+
+   m_cache = v;
+}
+
+void guageControl::update(int v)
+{
+   if(v != m_cache)
+      redraw(v);
+}
+
 intControl::intControl()
 : m_pFmt(new maxValueIntFormatter())
 {
