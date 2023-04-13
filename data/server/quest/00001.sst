@@ -4,10 +4,26 @@
       {
          "environs": {
          },
-         "award": {
-            "unit": "gems",
-            "amt": 10
-         },
+         "awards": [
+            {
+               "condition": "win",
+               "unit": "gold",
+               "amt": 10,
+               "repeatable": true
+            },
+            {
+               "condition": "all-alive",
+               "unit": "gold",
+               "amt": 50,
+               "repeatable": true
+            },
+            {
+               "condition": "all-above-half",
+               "unit": "gold",
+               "amt": 1
+               "repeatable": false
+            },
+         ],
          "chars": {
             "1": {
                "equip": [

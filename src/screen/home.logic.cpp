@@ -28,7 +28,12 @@ public:
          gems.setFormatter(
             *new cui::hugeValueIntFormatter());
       });
-      auto& gold = pScr->demand<cui::stringControl>("gold");
+      auto& gold = pScr->demand<cui::intControl>("gold");
+      gold.userInitialize([&]()
+      {
+         gold.setFormatter(
+            *new cui::hugeValueIntFormatter());
+      });
       auto& inboxHint = pScr->demand<cui::intControl>("inboxHint");
       inboxHint.userInitialize([&]()
       {
@@ -75,7 +80,7 @@ public:
 
          // dynamic controls
          gems.redraw((*acct)["gems"].as<sst::mint>().get());
-         gold.redraw((*acct)["gold"].as<sst::str>().get());
+         gold.redraw((*acct)["gold"].as<sst::mint>().get());
          auto nInbox = (*acct)["inbox"].as<sst::array>().size();
          if(nInbox > 0)
             inboxHint.redraw(nInbox);

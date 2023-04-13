@@ -60,6 +60,8 @@ void stringControl::redraw(const std::string& v)
    // write
    str << pen::moveTo(getLoc());
    formatText(str);
+   if(rightJustify)
+      str << std::string(getLength() - v.length(), ' ');
    str << v;
 
    m_cache = v;

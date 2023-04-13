@@ -4,13 +4,15 @@
    "items": {
    },
    "gems": 0,
-   "gold": "0",
+   "gold": 0,
    "inbox": [
 
    ],
    "line-up": [
 
    ],
+   "quest-history": {
+   },
    "line-up-bonus": 0,
    "login-consec": 0,
    "ts-curr-login": 0,

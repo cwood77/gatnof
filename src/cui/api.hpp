@@ -96,10 +96,14 @@ private:
 
 class stringControl : public control {
 public:
+   stringControl() : rightJustify(false) {}
+
    std::string get() { return m_cache; }
    void redraw(const std::string& v);
 
    void update(const std::string& v);
+
+   bool rightJustify;
 
 private:
    std::string m_cache;

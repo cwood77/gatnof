@@ -1,6 +1,7 @@
 #ifndef ___cui_ani___
 #define ___cui_ani___
 
+#include "../cmn/win32.hpp"
 #include "api.hpp"
 #include "pen.hpp"
 #include <functional>
@@ -20,6 +21,22 @@ public:
 
 private:
    int m_nCnt;
+};
+
+class delayTweakKeystrokeMonitor : private cmn::iThread {
+public:
+   explicit delayTweakKeystrokeMonitor(delay& d) : m_d(d), m_wasTweaked(false) {}
+
+   void run(std::function<void(void)> f);
+
+   bool wasTweaked() const { return m_wasTweaked; }
+
+private:
+   virtual void run();
+
+   delay& m_d;
+   bool m_wasTweaked;
+   cmn::osEvent *m_pStopSignal;
 };
 
 // a bunch of drawings that happen at the same time

@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include "ani.hpp"
 #include "pen.hpp"
+#include <conio.h>
 #include <windows.h>
 
 namespace ani {
@@ -28,6 +29,47 @@ void delay::sleep()
    }
    else
       m_nCnt--;
+}
+
+void delayTweakKeystrokeMonitor::run(std::function<void(void)> f)
+{
+   cmn::osEvent stopSignal;
+   m_pStopSignal = &stopSignal;
+   cmn::threadController tc(*this);
+   tc.start();
+   f();
+   stopSignal.set();
+   tc.join();
+}
+
+void delayTweakKeystrokeMonitor::run()
+{
+   while(true)
+   {
+      if(m_pStopSignal->isSet())
+         return;
+      if(::kbhit())
+      {
+         char c = ::getch();
+         if(c == '+')
+         {
+            if(m_d.nSkip != 0)
+               m_d.nSkip--;
+            else
+               m_d.nMSec++;
+            m_wasTweaked = true;
+         }
+         else if(c == '-')
+         {
+            if(m_d.nMSec > 1)
+               m_d.nMSec--;
+            else
+               m_d.nSkip++;
+            m_wasTweaked = true;
+         }
+         // swallow other keystrokes and ignore
+      }
+   }
 }
 
 void frame::run(pen::object& pn)
