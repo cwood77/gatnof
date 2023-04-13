@@ -20,6 +20,7 @@ all: \
 	$(OUT_DIR)/debug/file.test.dll \
 	$(OUT_DIR)/debug/net.dll \
 	$(OUT_DIR)/debug/pen.test.dll \
+	$(OUT_DIR)/debug/questgen.exe \
 	$(OUT_DIR)/debug/screen.dll \
 	$(OUT_DIR)/debug/server.exe \
 	$(OUT_DIR)/debug/shell.exe \
@@ -33,6 +34,7 @@ all: \
 	$(OUT_DIR)/release/file.test.dll \
 	$(OUT_DIR)/release/net.dll \
 	$(OUT_DIR)/release/pen.test.dll \
+	$(OUT_DIR)/release/questgen.exe \
 	$(OUT_DIR)/release/server.exe \
 	$(OUT_DIR)/release/shell.exe \
 	$(OUT_DIR)/release/tcatbin.dll \
@@ -603,6 +605,38 @@ $(OUT_DIR)/release/screen.dll: $(SCREEN_RELEASE_OBJ) $(SCREEN_RELEASE_GEN_OBJ) $
 $(SCREEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp $(SCREEN_RELEASE_GEN_OBJ)
 	$(info $< --> $@)
 	@mkdir -p $(OBJ_DIR)/release/screen
+	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
+
+# ----------------------------------------------------------------------
+# questgen
+
+QUESTGEN_SRC = \
+	src/questgen/generator.cpp \
+	src/questgen/main.cpp \
+	src/questgen/verb.generate.cpp \
+
+QUESTGEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(QUESTGEN_SRC)))
+
+$(OUT_DIR)/debug/questgen.exe: $(QUESTGEN_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/debug
+	@$(LINK_CMD) -o $@ $(QUESTGEN_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib
+
+$(QUESTGEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/debug/questgen
+	@$(COMPILE_CMD) $(DEBUG_CC_FLAGS) $< -o $@
+
+QUESTGEN_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(QUESTGEN_SRC)))
+
+$(OUT_DIR)/release/questgen.exe: $(QUESTGEN_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/release
+	@$(LINK_CMD) -o $@ $(QUESTGEN_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib
+
+$(QUESTGEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/release/questgen
 	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
 
 # ----------------------------------------------------------------------
