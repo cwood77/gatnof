@@ -541,6 +541,7 @@ SCREEN_COML = \
 	src/screen/screen.precombat.coml \
 	src/screen/screen.summon.coml \
 	src/screen/screen.summonResults.coml \
+	src/screen/screen.winBattle.coml \
 
 SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 
@@ -576,6 +577,7 @@ SCREEN_SRC = \
 	src/screen/precombat.logic.cpp \
 	src/screen/summon.logic.cpp \
 	src/screen/summonResults.logic.cpp \
+	src/screen/winBattle.logic.cpp \
 
 SCREEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_SRC)))
 

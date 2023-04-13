@@ -73,6 +73,7 @@ public:
          auto& overlay = (*acct)["chars"].as<sst::dict>()[sKey.str()].as<sst::dict>();
 
          db::Char c(*dbDict,overlay,teamBonus);
+         m_table[i].lChar.rightJustify = true;
          m_table[i].lChar.redraw(c.name());
          m_table[i].lElement.redraw(db::fmtElementsFixedWidth(c.element()));
       }

@@ -128,7 +128,7 @@ public:
          });
 
          auto& pn = svcMan->demand<pen::object>();
-         fb.run(pn);
+         ani::delayTweakKeystrokeMonitor(d).run([&](){ fb.run(pn); });
 
          // update guage
          auto& row = m_table[evt["oIdx"].as<sst::mint>().get()];
@@ -148,12 +148,21 @@ public:
          }
       }
       if((*pBattleDetails)["victory"].as<sst::tf>().get())
+      {
          m_error.update("Victory");
-      else
-         m_error.update("Failure");
 
-      tcat::typePtr<cui::iUserInput> in;
-      in->getKey();
+         tcat::typePtr<cui::iFactory> sFac;
+         cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("winBattle"));
+
+         cmn::autoService<sst::dict> _battleDetailsSvc(*svcMan,*pBattleDetails,"battleDetails");
+         pL->run();
+      }
+      else
+      {
+         m_error.update("Failure");
+         tcat::typePtr<cui::iUserInput> in;
+         in->getKey();
+      }
    }
 };
 
