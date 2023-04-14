@@ -27,15 +27,25 @@ public:
 
       tcat::typePtr<file::iFileManager> fMan;
       if(!fMan->doesFileExist(path))
-         throw std::runtime_error("quests not found");
+      {
+         ch.sendString("quest does not exist");
+         return;
+      }
 
       cmn::autoReleasePtr<file::iSstFile> pFile(
          &fMan->bindFile<file::iSstFile>(path.c_str(),
          file::iFileManager::kReadOnly));
 
       auto& stageNum = (*pReq)["stage#"].as<sst::mint>().get();
-      auto& stage = pFile->dict()["stages"].as<sst::array>()[stageNum-1].as<sst::dict>();
+      auto& stages = pFile->dict()["stages"].as<sst::array>();
+      if(stageNum >= stages.size())
+      {
+         ch.sendString("no-quest");
+         return;
+      }
 
+      auto& stage = pFile->dict()["stages"].as<sst::array>()[stageNum-1].as<sst::dict>();
+      ch.sendString("");
       ch.sendSst(stage);
    }
 };
