@@ -25,9 +25,6 @@ public:
       auto& qNum = svcMan->demand<size_t>("selectedQuest");
       auto& sNum = svcMan->demand<size_t>("selectedStage");
 
-      // disable some buttons
-      m_lineUpBtn.dim("unimpled");
-
       // whole screen re-draw
       render();
 
@@ -199,6 +196,65 @@ public:
          {
             sNum++;
             stop = true;
+         });
+         handler.add(m_lineUpBtn,[&](bool& stop)
+         {
+            // display the line-up cues
+            m_newLineupDisplay.setFormatMode(2);
+            m_newLineupDisplay.redraw("New line-up: ");
+            m_newLineup.setFormatMode(2);
+            m_newLineup.erase();
+            for(size_t i=0;i<m_table.size();i++)
+            {
+               m_table[i].num.setFormatMode(2);
+               std::stringstream s; s << i;
+               m_table[i].num.redraw(s.str());
+            }
+
+            // solicit new line-up from user
+            std::vector<size_t> newLineup;
+            auto& keys = svcMan->demand<cui::iUserInput>();
+            while(newLineup.size() != 4)
+            {
+               auto k = keys.getKey();
+               if('0' <= k && k <= '4')
+                  newLineup.push_back(k - '0');
+               else
+                  break;
+
+               auto& pen = svcMan->demand<pen::object>();
+               pen.str()
+                  << pen::moveTo(cui::pnt(
+                     m_newLineup.getLoc().x+newLineup.size()-1,
+                     m_newLineup.getLoc().y))
+                  << pen::bgcol(pen::kMagenta)
+                  << std::string(1,k);
+            }
+
+            // remove the line-up cues
+            m_newLineupDisplay.setFormatMode(1);
+            m_newLineupDisplay.erase();
+            m_newLineup.setFormatMode(1);
+            m_newLineup.erase();
+            for(size_t i=0;i<m_table.size();i++)
+            {
+               m_table[i].num.setFormatMode(1);
+               m_table[i].num.erase();
+            }
+
+            if(newLineup.size() == 4)
+            {
+               // implement the new line-up
+               sst::dict req;
+               auto& noob = req.add<sst::array>("line-up");
+               for(auto x : newLineup)
+                  noob.append<sst::mint>() = x;
+               ch.sendString("changeLineUp");
+               ch.sendSst(req);
+               acct.reset(ch.recvSst());
+
+               stop = true; // only redraw if line-up changed
+            }
          });
          handler.add(m_goBtn,[](bool& stop)
          {

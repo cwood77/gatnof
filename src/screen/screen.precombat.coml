@@ -17,7 +17,7 @@ coml v1 20
 |                                                                                                            |
 |                                                                                                            |
 | 25                                                                                                           |
-| 17back   18up19-down   20line-up   21go         23New line-up: oooo               24Caste 'Presidents' suffer a penalty  |
+| 17back   18up19-down   20line-up   21go         23New line-up: 26oooo               24Caste 'Presidents' suffer a penalty  |
 +------------------------------------------------------------------------------------------------------------+
 1=txt:%cls%
 2=txt:%stdcol%
@@ -39,7 +39,7 @@ coml v1 20
 11=str:lElement/5/1
 12=str:compWord/6/1/./ << pen::fgcol(pen::kRed,true)/ << pen::fgcol(pen::kGreen,true)
 13=str:rElement/5/1
-22=str:num/1/1
+22=str:num/1/1/./ << pen::bgcol(pen::kMagenta)
 14=lst:table/5/3/6,7,8,9,10,11,12,13,22
 
 ; footer
@@ -49,5 +49,6 @@ coml v1 20
 19=btn:downBtn/5/1/\\(d)own
 20=btn:lineUpBtn/7/1/(l)ine-up
 21=btn:goBtn/2/1/(g)o
-23=str:newLineup/17/1// << pen::bgcol(pen::kMagenta)
+23=str:newLineupDisplay/13/1/./ << pen::bgcol(pen::kMagenta)
+26=str:newLineup/4/1/./ << pen::bgcol(pen::kMagenta)
 24=str:environs/36/1

@@ -458,6 +458,7 @@ SERVER_SRC = \
 	src/server/listenThread.cpp \
 	src/server/main.cpp \
 	src/server/message.cpp \
+	src/server/msg.changeLineUp.cpp \
 	src/server/msg.combat.cpp \
 	src/server/msg.get.cpp \
 	src/server/msg.login.cpp \
