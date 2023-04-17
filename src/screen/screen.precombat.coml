@@ -50,5 +50,5 @@ coml v1 20
 20=btn:lineUpBtn/7/1/(l)ine-up
 21=btn:goBtn/2/1/(g)o
 23=str:newLineupDisplay/13/1/./ << pen::bgcol(pen::kMagenta)
-26=str:newLineup/4/1/./ << pen::bgcol(pen::kMagenta)
+26=str:newLineup/5/1/./ << pen::bgcol(pen::kMagenta)
 24=str:environs/36/1

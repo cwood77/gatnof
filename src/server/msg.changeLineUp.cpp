@@ -16,14 +16,12 @@ public:
       std::unique_ptr<sst::dict> pReq(ch.recvSst());
       auto& reqLineUp = (*pReq)["line-up"].as<sst::array>();
 
-      // build a set of the current line-up
+      // make a copy of the current line-up
       // clear the line-up in the account SST
-      std::set<size_t> charSet;
       std::vector<size_t> charVec;
       auto& lineUp = ctxt.pAcct->dict()["line-up"].as<sst::array>();
       while(lineUp.size())
       {
-         charSet.insert(lineUp[0].as<sst::mint>().get());
          charVec.push_back(lineUp[0].as<sst::mint>().get());
          log().writeLnTemp("curr lineup = %lld",lineUp[0].as<sst::mint>().get());
          lineUp.erase(0);
@@ -34,13 +32,8 @@ public:
       {
          auto idx = reqLineUp[i].as<sst::mint>().get();
          lineUp.append<sst::mint>() = charVec[idx];
-         charSet.erase(charVec[idx]);
          log().writeLnTemp("adding char [%lld] = %lld",idx,charVec[idx]);
       }
-
-      // append last unused char to line-up array
-      log().writeLnTemp("set should be 1? = %lld",charSet.size());
-      lineUp.append<sst::mint>() = *(charSet.begin());
 
       // send back updated acct
       ch.sendSst(ctxt.pAcct->dict());
