@@ -52,10 +52,14 @@ public:
       auto& questBtn = pScr->demand<cui::buttonControl>("questBtn");
       auto& arenaBtn = pScr->demand<cui::buttonControl>("arenaBtn");
       auto& exitBtn = pScr->demand<cui::buttonControl>("exitBtn");
-      //summonBtn.dim("not yet implemented");
+      arenaBtn.dim("not yet implemented");
 
       while(true)
       {
+         // allow fighting
+         bool canFight = ((*acct)["line-up"].as<sst::array>().size() > 0);
+         questBtn.dim("add at least one character to line-up first",!canFight);
+
          // whole screen re-draw
          pScr->render();
 

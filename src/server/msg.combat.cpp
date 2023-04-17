@@ -20,12 +20,15 @@ public:
    void addLiving(T& c)
    {
       for(auto& ch : chars)
-         c.insert(&ch);
+         if(ch.hp > 0)
+            c.insert(&ch);
    }
 
    db::Char& randomLiving()
    {
       std::vector<db::Char*> candidates = living();
+      if(candidates.size() == 0)
+         throw std::runtime_error("ISE");
       return *candidates[::rand() % candidates.size()];
    }
 
@@ -182,10 +185,14 @@ public:
       }
 
       // grant a boon
+      log().writeLnTemp("scoring");
       scoreVictory(*pReq,ctxt.pAcct->dict(),recorder.wasVictory(),pSide,recorder);
 
+      log().writeLnTemp("returning result SST");
       ch.sendSst(result);
+      log().writeLnTemp("returning player SST");
       ch.sendSst(ctxt.pAcct->dict());
+      log().writeLnTemp("returning");
    }
 
 private:
@@ -220,7 +227,7 @@ private:
       bool isPlayerAttacker = (&enemies != &player);
 
       // randomly select target from opposing side
-      auto& target = targets.findOpposingSide(c).randomLiving();
+      auto& target = enemies.randomLiving();
       log().writeLnDebug(
          "[%s] (%s) attacks [%s]",
          c.name().c_str(),
@@ -308,7 +315,7 @@ private:
 
    void scoreVictory(sst::dict& questInfo, sst::dict& acct, bool isVictory, combat::side& pSide, combat::recorder& r)
    {
-      auto awards = questInfo["awards"].as<sst::array>();
+      auto& awards = questInfo["awards"].as<sst::array>();
       for(size_t i=0;i<awards.size();i++)
       {
          auto& award = awards[i].as<sst::dict>();

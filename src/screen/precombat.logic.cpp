@@ -163,12 +163,20 @@ public:
          {
             handleLineUpReorder(acct,stop);
          });
-         handler.add(m_goBtn,[](bool& stop)
+         handler.add(m_goBtn,[&](bool& stop)
          {
             tcat::typePtr<cui::iFactory> sFac;
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
+
+            bool advQuest = false;
+            cmn::autoService<bool> _advQuest(*svcMan,advQuest,"advQuest");
+
             pL->run();
             stop = true;
+
+            render();
+            bool unused = false;
+            scrollQuest(ch,qNum,sNum,advQuest ? "++" : "=",pCombatInfo,unused);
          });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)

@@ -33,9 +33,12 @@ public:
          req.add<sst::str>("type") = "quest";
          req.add<sst::mint>("quest#") = qNum;
          req.add<sst::mint>("stage#") = sNum;
+         req.add<sst::str>("mode") = "=";
          ch.sendSst(req);
       }
+      ch.recvString();
       std::unique_ptr<sst::dict> pCombatInfo(ch.recvSst());
+      delete ch.recvSst();
 
       // whole screen re-draw
       render();
@@ -147,6 +150,7 @@ public:
             n.redraw(n.get());
          }
       }
+      auto& advQuest = svcMan->demand<bool>("advQuest");
       if((*pBattleDetails)["victory"].as<sst::tf>().get())
       {
          m_error.update("Victory");
@@ -156,6 +160,7 @@ public:
 
          cmn::autoService<sst::dict> _battleDetailsSvc(*svcMan,*pBattleDetails,"battleDetails");
          pL->run();
+         advQuest = true;
       }
       else
       {
@@ -164,6 +169,7 @@ public:
          tcat::typePtr<cui::iFactory> sFac;
          cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("loseBattle"));
          pL->run();
+         advQuest = false;
       }
    }
 };

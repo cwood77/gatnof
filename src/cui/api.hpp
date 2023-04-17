@@ -167,7 +167,8 @@ private:
 class buttonControl : public control {
 public:
    void setFaceText(const std::string& t);
-   void dim(const std::string& reason) { setFormatMode(2); m_dimReason = reason; }
+   void dim(const std::string& reason, bool shouldDim = true)
+   { setFormatMode(shouldDim ? 2 : 1); m_dimReason = reason; }
 
    bool isEnabled() const { return getFormatMode() == 1; }
    char getCmdKey() const { return m_cmd; }
