@@ -2,30 +2,28 @@
    "num": "1",
    "stages": [
       {
-         "environs": {
-         },
          "awards": [
             {
+               "amt": 1,
                "condition": "win",
-               "unit": "gold",
-               "amt": 10,
-               "repeatable": true
+               "repeatable": true,
+               "unit": "gold"
             },
             {
+               "amt": 5,
                "condition": "all-alive",
-               "unit": "gold",
-               "amt": 50,
-               "repeatable": true
+               "repeatable": true,
+               "unit": "gold"
             },
             {
+               "amt": 1,
                "condition": "all-above-half",
-               "unit": "gold",
-               "amt": 1
-               "repeatable": false
-            },
+               "repeatable": false,
+               "unit": "gold"
+            }
          ],
          "chars": {
-            "1": {
+            "21": {
                "equip": [
                   0,
                   0,
@@ -34,11 +32,7772 @@
                ],
                "level": 1,
                "stars": 1,
-               "type": 1
+               "type": 21
             }
          },
+         "environs": {
+
+         },
          "line-up": [
-            1
+            21
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 2,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 10,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            4
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 3,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 15,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 4,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 20,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            10
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 5,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 25,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 6,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 30,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 7,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 35,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            14
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 8,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 40,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            8
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 9,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 45,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 10,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 50,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            8
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 11,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 55,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            15,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 12,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 60,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            10,
+            7
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 13,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 65,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            5
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 14,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 70,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            10
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 15,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 75,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            4,
+            6
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 16,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 80,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            18
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 17,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 85,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            14
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 18,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 90,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            21,
+            5
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 19,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 95,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            2,
+            12
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 20,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 100,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            18
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 21,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 105,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            18,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 22,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 110,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            20,
+            13,
+            10
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 23,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 115,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            13,
+            10,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 24,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 120,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            11,
+            21,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 25,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 125,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            16,
+            7,
+            10
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 26,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 130,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            4,
+            19
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 27,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 135,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            11,
+            17,
+            6
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 28,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 140,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            7,
+            18,
+            5
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 29,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 145,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            10,
+            2,
+            21
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 30,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 150,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            6,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 31,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 155,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            3,
+            13,
+            5
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 32,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 160,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            11,
+            21,
+            5,
+            10
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 33,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 165,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            8,
+            6,
+            4,
+            14
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 34,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 170,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            4,
+            17,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 35,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 175,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            21,
+            20,
+            16,
+            10
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 36,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 180,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            13,
+            19,
+            15,
+            12
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 37,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 185,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            21,
+            16,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 38,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 190,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            2,
+            15,
+            5,
+            4
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 39,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 195,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            20,
+            3,
+            6,
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 40,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 200,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5,
+            12,
+            14,
+            18
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 41,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 205,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            15,
+            14,
+            12,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 42,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 210,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            18,
+            9,
+            16,
+            17,
+            10
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 43,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 215,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            10,
+            4,
+            3,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 44,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 220,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            19,
+            4,
+            15,
+            17
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 45,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 225,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            13,
+            5,
+            21,
+            18,
+            2
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 46,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 230,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            9,
+            17,
+            3,
+            5,
+            14
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 47,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 235,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            14,
+            11,
+            9,
+            17,
+            5
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 48,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 240,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            11,
+            6,
+            7,
+            12,
+            21
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 49,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 245,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            13,
+            5,
+            4,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 50,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 250,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            17,
+            3,
+            9,
+            8
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 51,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 255,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            16,
+            12,
+            13,
+            17
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 52,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 260,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            4,
+            21,
+            20,
+            15,
+            12
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 53,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 265,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            8,
+            2,
+            21,
+            12,
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 54,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 270,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            18,
+            15,
+            3,
+            14,
+            7
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 55,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 275,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            7,
+            12,
+            6,
+            19,
+            18
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 56,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 280,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            13,
+            4,
+            18,
+            15,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 57,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 285,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            20,
+            17,
+            15,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 58,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 290,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            20,
+            3,
+            18,
+            6,
+            2
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 59,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 295,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            20,
+            16,
+            13,
+            4
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 60,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 300,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            11,
+            16,
+            5,
+            13
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 61,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 305,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            17,
+            2,
+            4,
+            5,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 62,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 310,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            3,
+            6,
+            9,
+            13,
+            14
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 63,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 315,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            9,
+            17,
+            19,
+            6,
+            5
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 64,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 320,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            11,
+            3,
+            20,
+            14,
+            7
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 65,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 325,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5,
+            4,
+            2,
+            8,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 66,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 330,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            3,
+            20,
+            17,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 67,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 335,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5,
+            12,
+            18,
+            9,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 68,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 340,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            16,
+            4,
+            3,
+            14
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 69,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 345,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            14,
+            6,
+            11,
+            3,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 70,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 350,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            15,
+            18,
+            2,
+            17,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 71,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 355,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            16,
+            12,
+            18,
+            4,
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 72,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 360,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            20,
+            6,
+            2,
+            11,
+            8
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 73,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 365,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            11,
+            18,
+            21,
+            17,
+            19
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 74,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 370,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            14,
+            16,
+            6,
+            15,
+            18
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 75,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 375,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            17,
+            16,
+            2,
+            10,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 76,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 380,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            4,
+            13,
+            10,
+            16,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 77,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 385,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            15,
+            6,
+            9,
+            11,
+            18
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 78,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 390,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            20,
+            12,
+            16,
+            5,
+            6
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 79,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 395,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            13,
+            7,
+            4,
+            16,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 80,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 400,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            17,
+            14,
+            11,
+            19,
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 81,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 405,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            14,
+            11,
+            13,
+            8,
+            4
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 82,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 410,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            6,
+            10,
+            5,
+            12,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 83,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 415,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            4,
+            13,
+            18,
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 84,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 420,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            19,
+            20,
+            8,
+            17,
+            4
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 85,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 425,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "6": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 6
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            20,
+            6,
+            11,
+            9,
+            7
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 86,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 430,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "7": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 7
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            4,
+            7,
+            14,
+            16,
+            12
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 87,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 435,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            8,
+            2,
+            13,
+            5,
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 88,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 440,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5,
+            10,
+            18,
+            12,
+            4
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 89,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 445,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            14,
+            8,
+            13,
+            5,
+            18
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 90,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 450,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            10,
+            13,
+            12,
+            3,
+            21
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 91,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 455,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            10,
+            4,
+            14,
+            17,
+            12
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 92,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 460,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "11": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 11
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5,
+            3,
+            9,
+            16,
+            11
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 93,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 465,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5,
+            20,
+            3,
+            9,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 94,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 470,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "20": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 20
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "8": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 8
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            20,
+            19,
+            8,
+            2,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 95,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 475,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            },
+            "9": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 9
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            12,
+            4,
+            9,
+            5,
+            17
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 96,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 480,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "18": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 18
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            5,
+            18,
+            21,
+            4,
+            16
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 97,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 485,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "10": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 10
+            },
+            "14": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 14
+            },
+            "2": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 2
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            10,
+            2,
+            4,
+            14,
+            3
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 98,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 490,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "3": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 3
+            },
+            "5": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 5
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            17,
+            3,
+            5,
+            19,
+            15
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 99,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 495,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "16": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 16
+            },
+            "19": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 19
+            },
+            "4": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 4
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            4,
+            16,
+            12,
+            15,
+            19
+         ],
+         "line-up-bonus": 0
+      },
+      {
+         "awards": [
+            {
+               "amt": 100,
+               "condition": "win",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 500,
+               "condition": "all-alive",
+               "repeatable": true,
+               "unit": "gold"
+            },
+            {
+               "amt": 1,
+               "condition": "all-above-half",
+               "repeatable": false,
+               "unit": "gold"
+            }
+         ],
+         "chars": {
+            "12": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 12
+            },
+            "13": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 13
+            },
+            "15": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 15
+            },
+            "17": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 17
+            },
+            "21": {
+               "equip": [
+                  0,
+                  0,
+                  0,
+                  0
+               ],
+               "level": 1,
+               "stars": 1,
+               "type": 21
+            }
+         },
+         "environs": {
+
+         },
+         "line-up": [
+            21,
+            15,
+            17,
+            12,
+            13
          ],
          "line-up-bonus": 0
       }
