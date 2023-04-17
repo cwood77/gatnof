@@ -28,30 +28,14 @@ public:
       // whole screen re-draw
       render();
 
+      // query stage info
       std::unique_ptr<sst::dict> pCombatInfo;
+      {
+         bool unused = false;
+         scrollQuest(ch,qNum,sNum,"=",pCombatInfo,unused);
+      }
       while(true)
       {
-         // query stage info
-         ch.sendString("queryCombat");
-         {
-            sst::dict req;
-            req.add<sst::str>("type") = "quest";
-            req.add<sst::mint>("quest#") = qNum;
-            req.add<sst::mint>("stage#") = sNum;
-            ch.sendSst(req);
-         }
-         std::string rsp = ch.recvString();
-         if(rsp == "no-quest")
-         {
-            qNum++;
-            sNum=1;
-            continue;
-         }
-         else if(!rsp.empty())
-            m_error.redraw(rsp);
-         else
-            pCombatInfo.reset(ch.recvSst());
-
          // header
          m_aName.redraw(svcMan->demand<shell::gameState>().accountName);
          m_qNum.redraw(qNum);
@@ -169,33 +153,11 @@ public:
          handler.add(m_backBtn,[&](bool& stop){ stop = true; });
          handler.add(m_upBtn,[&](bool& stop)
          {
-            if(qNum == 1)
-            {
-               if(sNum != 1)
-               {
-                  sNum--;
-                  stop = true;
-               }
-            }
-            else // qNum > 1
-            {
-               if(sNum != 1)
-               {
-                  sNum--;
-                  stop = true;
-               }
-               else // sNum == 1
-               {
-                  qNum--;
-                  sNum = 99;
-                  stop = true;
-               }
-            }
+            scrollQuest(ch,qNum,sNum,"--",pCombatInfo,stop);
          });
          handler.add(m_downBtn,[&](bool& stop)
          {
-            sNum++;
-            stop = true;
+            scrollQuest(ch,qNum,sNum,"++",pCombatInfo,stop);
          });
          handler.add(m_lineUpBtn,[&](bool& stop)
          {
@@ -289,6 +251,38 @@ private:
          acct.reset(ch.recvSst());
 
          stop = true; // only redraw if line-up changed
+      }
+   }
+
+   void scrollQuest(
+      net::iChannel& ch,
+      size_t& qNum,
+      size_t& sNum,
+      const std::string& mode,
+      std::unique_ptr<sst::dict>& pCombatInfo,
+      bool& stop)
+   {
+      ch.sendString("queryCombat");
+      {
+         sst::dict req;
+         req.add<sst::str>("type") = "quest";
+         req.add<sst::mint>("quest#") = qNum;
+         req.add<sst::mint>("stage#") = sNum;
+         req.add<sst::str>("mode") = mode;
+         ch.sendSst(req);
+      }
+      std::string rsp = ch.recvString();
+      if(!rsp.empty())
+         m_error.redraw(rsp);
+      else
+      {
+         pCombatInfo.reset(ch.recvSst());
+
+         std::unique_ptr<sst::dict> pNewNums(ch.recvSst());
+         qNum = (*pNewNums)["quest#"].as<sst::mint>().get();
+         sNum = (*pNewNums)["stage#"].as<sst::mint>().get();
+
+         stop = true;
       }
    }
 };
