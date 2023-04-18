@@ -15,7 +15,7 @@ public:
       tcat::typePtr<cmn::serviceManager> svcMan;
       auto& pn = svcMan->demand<pen::object>();
 
-      pn.str() << "" << "bleh" << "" << "bleh" << "+- value [xxx] -+" << std::endl;
+      pn.str() << "" << "bleh" << "" << "bleh" << "+- value #1 [xxx] -+" << std::endl;
    }
 
    virtual cui::pnt demandPnt(const std::string& id) { throw 3.14; }
@@ -52,6 +52,6 @@ public:
    virtual void render()
    {
       m_image.render();
-      m_str1.initialize(cui::pnt(11,1),3,1);
+      m_str1.initialize(cui::pnt(14,1),3,1);
    }
 };

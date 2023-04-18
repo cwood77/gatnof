@@ -132,6 +132,12 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       list.push_back(pObj);
       pObj->payload = pThumb + 4;
    }
+   else if(::strncmp(pThumb,"lbl:",4)==0)
+   {
+      auto *pObj = new labelObject();
+      list.push_back(pObj);
+      pObj->payload = pThumb + 4;
+   }
    else if(::strncmp(pThumb,"str:",4)==0)
    {
       auto *pObj = new controlObject();

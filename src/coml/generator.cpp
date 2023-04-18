@@ -52,7 +52,7 @@ void generator::genImage(streams& out)
       out.hpp() << "      pn.str() << \"";
 
       bool lastWasDigit = false;
-      size_t jOffset = 0;
+      int jOffset = 0;
       auto& line = m_ir.lines[i+1];
       for(size_t j=0;j!=line.length();j++)
       {

@@ -10,7 +10,7 @@ if not %ERRORLEVEL% == 0 goto failed
 fc bin\out\debug\screen.test.cpp test\expected.cpp > nul
 if not %ERRORLEVEL% == 0 goto failed
 
-echo passed
+echo -) coml test passed
 goto end
 
 :bless
@@ -19,6 +19,6 @@ copy bin\out\debug\screen.test.cpp test\expected.cpp
 goto end
 
 :failed
-echo FAILED
+echo ==) coml test FAILED
 
 :end

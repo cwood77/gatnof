@@ -12,15 +12,24 @@ class iObject {
 public:
    virtual ~iObject() {}
 
-   virtual void render(std::ostream& o, size_t& jOffset) {}
+   virtual void render(std::ostream& o, int& jOffset) {}
    virtual void place(cui::pnt p) {}
 };
 
 class textObject : public iObject {
 public:
-   virtual void render(std::ostream& o, size_t&) { o << payload; }
+   virtual void render(std::ostream& o, int&) { o << payload; }
 
    std::string payload;
+};
+
+class labelObject : public textObject {
+public:
+   virtual void render(std::ostream& o, int& jOffset)
+   {
+      textObject::render(o,jOffset);
+      jOffset -= payload.length();
+   }
 };
 
 class controlObject : public iObject {
