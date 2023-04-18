@@ -374,7 +374,8 @@ private:
          }
       }
 
-      updateQuestHistory(qHistory,questMoniker,earnings);
+      if(isVictory)
+         updateQuestHistory(qHistory,questMoniker,earnings);
    }
 
    void updateQuestHistory(sst::dict& qHistory, const std::string& questMoniker, const std::vector<bool>& earnings)
