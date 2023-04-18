@@ -17,6 +17,8 @@ public:
          throw std::runtime_error("only quests are supported");
       auto qNum = (*pReq)["quest#"].as<sst::mint>().get();
       auto sNum = (*pReq)["stage#"].as<sst::mint>().get();
+      auto& mode = (*pReq)["mode"].as<sst::str>();
+      const bool updateCurrentQuest = (mode.get() == "++!");
 
       while(true)
       {
@@ -44,8 +46,7 @@ public:
             sNum = stages.size() - 1;
 
          // handle wrapping
-         auto& mode = (*pReq)["mode"].as<sst::str>();
-         if(mode.get() == "++")
+         if(mode.get() == "++" || mode.get() == "++!")
          {
             mode = "=";
             sNum++;
@@ -78,10 +79,20 @@ public:
          ch.sendString("");
          ch.sendSst(stage);
 
-         sst::dict newNums;
-         newNums.add<sst::mint>("quest#") = qNum;
-         newNums.add<sst::mint>("stage#") = sNum;
-         ch.sendSst(newNums);
+         if(updateCurrentQuest)
+         {
+            auto& cQuest = ctxt.pAcct->dict()["current-quest"].as<sst::dict>();
+            cQuest["quest"].as<sst::mint>() = qNum;
+            cQuest["stage"].as<sst::mint>() = sNum;
+            ch.sendSst(ctxt.pAcct->dict());
+         }
+         else
+         {
+            sst::dict newNums;
+            newNums.add<sst::mint>("quest#") = qNum;
+            newNums.add<sst::mint>("stage#") = sNum;
+            ch.sendSst(newNums);
+         }
          break;
       }
    }

@@ -136,9 +136,10 @@ public:
          });
          handler.add(questBtn,[&](bool& stop)
          {
-            size_t qNum = 1;
+            auto& cQuest = (*acct)["current-quest"].as<sst::dict>();
+            size_t qNum = cQuest["quest"].as<sst::mint>().get();
             cmn::autoService<size_t> _qNumSvc(*svcMan,qNum,"selectedQuest");
-            size_t sNum = 1;
+            size_t sNum = cQuest["stage"].as<sst::mint>().get();
             cmn::autoService<size_t> _sNumSvc(*svcMan,sNum,"selectedStage");
 
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("precombat"));

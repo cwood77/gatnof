@@ -140,6 +140,7 @@ public:
       tcat::typePtr<db::iDict> dbDict;
       sst::dict result;
       combat::recorder recorder(result);
+      auto questMoniker = ch.recvString();
       std::unique_ptr<sst::dict> pReq(ch.recvSst());
 
       // create db::Chars for each side
@@ -184,9 +185,11 @@ public:
          }
       }
 
-      // grant a boon
       log().writeLnTemp("scoring");
-      scoreVictory(*pReq,ctxt.pAcct->dict(),recorder.wasVictory(),pSide,recorder);
+      scoreVictory(
+         *pReq,
+         ctxt.pAcct->dict(),questMoniker,
+         recorder.wasVictory(),pSide,recorder);
 
       log().writeLnTemp("returning result SST");
       ch.sendSst(result);
@@ -313,9 +316,20 @@ private:
       else return 0;
    }
 
-   void scoreVictory(sst::dict& questInfo, sst::dict& acct, bool isVictory, combat::side& pSide, combat::recorder& r)
+   bool alreadyGot(sst::dict& qHistory, const std::string& questMoniker, size_t iAward)
    {
+      if(!qHistory.has(questMoniker))
+         return false;
+
+      auto& score = qHistory[questMoniker].as<sst::dict>()["score"].as<sst::array>();
+      return score[iAward].as<sst::tf>().get();
+   }
+
+   void scoreVictory(sst::dict& questInfo, sst::dict& acct, const std::string& questMoniker, bool isVictory, combat::side& pSide, combat::recorder& r)
+   {
+      auto& qHistory = acct["quest-history"].as<sst::dict>();
       auto& awards = questInfo["awards"].as<sst::array>();
+      std::vector<bool> earnings;
       for(size_t i=0;i<awards.size();i++)
       {
          auto& award = awards[i].as<sst::dict>();
@@ -325,29 +339,29 @@ private:
 
          std::stringstream boon;
          boon << amt << " " << unit;
-         bool grantBoon = false;
+         bool alreadyHad = alreadyGot(qHistory,questMoniker,i);
+         bool earned = false;
 
          if(condition == "win")
          {
-            bool earned = isVictory;
-            r.scoreAward("defeat all enemies",boon.str(),earned,false);
-            grantBoon = earned;
+            earned = isVictory;
+            r.scoreAward("defeat all enemies",boon.str(),earned,alreadyHad);
          }
          else if(condition == "all-alive")
          {
-            bool earned = pSide.all([](auto& c){ return c.hp > 0; });
-            r.scoreAward("all members survive",boon.str(),earned,false);
-            grantBoon = earned;
+            earned = pSide.all([](auto& c){ return c.hp > 0; });
+            r.scoreAward("all members survive",boon.str(),earned,alreadyHad);
          }
          else if(condition == "all-above-half")
          {
-            bool earned = pSide.all([](auto& c){ return c.hp >= 50; });
-            r.scoreAward("all members at least 50% health",boon.str(),earned,false);
-            grantBoon = earned;
+            earned = pSide.all([](auto& c){ return c.hp >= 50; });
+            r.scoreAward("all members at least 50% health",boon.str(),earned,alreadyHad);
          }
          else
             throw std::runtime_error("unsupported award condition");
+         earnings.push_back(earned);
 
+         bool grantBoon = earned && !alreadyHad;
          if(grantBoon)
          {
             if(unit == "gold")
@@ -358,6 +372,29 @@ private:
             else
                throw std::runtime_error("unsupported award unit");
          }
+      }
+
+      updateQuestHistory(qHistory,questMoniker,earnings);
+   }
+
+   void updateQuestHistory(sst::dict& qHistory, const std::string& questMoniker, const std::vector<bool>& earnings)
+   {
+      if(!qHistory.has(questMoniker))
+      {
+         // new quest
+         auto& thisQuest = qHistory.add<sst::dict>(questMoniker);
+         auto& score = thisQuest.add<sst::array>("score");
+         for(auto earned : earnings)
+            score.append<sst::tf>() = earned;
+      }
+      else
+      {
+         // old quest
+         auto& thisQuest = qHistory[questMoniker].as<sst::dict>();
+         auto& score = thisQuest["score"].as<sst::array>();
+         for(size_t i=0;i<earnings.size();i++)
+            if(!score[i].as<sst::tf>().get())
+               score[i].as<sst::tf>() = earnings[i];
       }
    }
 };

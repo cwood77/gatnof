@@ -1,6 +1,6 @@
 coml v1 20
 1_2+------------------------------------------------------------------------------------------------------------+
-|                                           3< Stage  15oooo / 16ooo >2 4[completed]                                |
+|                                          3< Stage  15oooo / 16oooo >2 4[completed xxx]                            |
 | 5AlisterTheMagnificent                                                                                      |
 |        22o 14_6stage penalty 7Drunken Sailor Donald Duck    8>   9Drunken Sailor Donald Duck 10stage penalty          |
 |                                             11water 12strong 13earth                                             |
@@ -21,14 +21,13 @@ coml v1 20
 +------------------------------------------------------------------------------------------------------------+
 1=txt:%cls%
 2=txt:%stdcol%
-;2=txt:" << pen::bgcol(pen::kCyan) << "
 3=txt:" << pen::fgcol(pen::kYellow,true) << "
 
 ; header
-4=str:completedDisp/11/1
+4=str:completedInd/15/1
 5=str:aName/21/1/%emph%
 15=int:qNum/4/1/ << pen::bgcol(pen::kMagenta)
-16=int:sNum/3/1/ << pen::bgcol(pen::kMagenta)
+16=int:sNum/4/1/ << pen::bgcol(pen::kMagenta)
 
 ;table
 6=str:lStagePen/13/1

@@ -175,8 +175,13 @@ public:
             stop = true;
 
             render();
-            bool unused = false;
-            scrollQuest(ch,qNum,sNum,advQuest ? "++" : "=",pCombatInfo,unused);
+            if(advQuest)
+               completeQuest(ch,qNum,sNum,pCombatInfo,acct);
+            else
+            {
+               //bool unused = false;
+               //scrollQuest(ch,qNum,sNum,"=",pCombatInfo,unused);
+            }
          });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)
@@ -291,6 +296,34 @@ private:
          sNum = (*pNewNums)["stage#"].as<sst::mint>().get();
 
          stop = true;
+      }
+   }
+
+   void completeQuest(
+      net::iChannel& ch,
+      size_t& qNum,
+      size_t& sNum,
+      std::unique_ptr<sst::dict>& pCombatInfo,
+      std::unique_ptr<sst::dict>& acct)
+   {
+      ch.sendString("queryCombat");
+      {
+         sst::dict req;
+         req.add<sst::str>("type") = "quest";
+         req.add<sst::mint>("quest#") = qNum;
+         req.add<sst::mint>("stage#") = sNum;
+         req.add<sst::str>("mode") = "++!";
+         ch.sendSst(req);
+      }
+      std::string rsp = ch.recvString();
+      if(!rsp.empty())
+         m_error.redraw(rsp);
+      else
+      {
+         pCombatInfo.reset(ch.recvSst());
+         acct.reset(ch.recvSst());
+         qNum = (*acct)["current-quest"].as<sst::dict>()["quest"].as<sst::mint>().get();
+         sNum = (*acct)["current-quest"].as<sst::dict>()["stage"].as<sst::mint>().get();
       }
    }
 };

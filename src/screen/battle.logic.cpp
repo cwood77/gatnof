@@ -70,6 +70,11 @@ public:
 
       // run the combat on the server
       ch.sendString("combat");
+      {
+         std::stringstream questMoniker;
+         questMoniker << qNum << "-" << sNum;
+         ch.sendString(questMoniker.str());
+      }
       ch.sendSst(*pCombatInfo);
       std::unique_ptr<sst::dict> pBattleDetails(ch.recvSst());
       acct.reset(ch.recvSst());

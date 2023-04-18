@@ -11,6 +11,10 @@
    "line-up": [
 
    ],
+   "current-quest": {
+      "quest": 1,
+      "stage": 1,
+   },
    "quest-history": {
    },
    "line-up-bonus": 0,
