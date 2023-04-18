@@ -41,6 +41,7 @@ all: \
 	$(OUT_DIR)/release/test.exe
 	$(OUT_DIR)/debug/test.exe
 	$(OUT_DIR)/release/test.exe
+	cmd /c "test\test-coml.bat"
 
 #	speed-up frequent recompiles for COML changes
 #	$(OUT_DIR)/release/screen.dll \

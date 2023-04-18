@@ -12,13 +12,13 @@ class iObject {
 public:
    virtual ~iObject() {}
 
-   virtual void render(std::ostream& o) {}
+   virtual void render(std::ostream& o, size_t& jOffset) {}
    virtual void place(cui::pnt p) {}
 };
 
 class textObject : public iObject {
 public:
-   virtual void render(std::ostream& o) { o << payload; }
+   virtual void render(std::ostream& o, size_t&) { o << payload; }
 
    std::string payload;
 };

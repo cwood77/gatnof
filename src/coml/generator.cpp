@@ -65,7 +65,7 @@ void generator::genImage(streams& out)
             for(auto *pObj : objs)
             {
                pObj->place(cui::pnt(j+1-jOffset,i+m_ir.yOffset));
-               pObj->render(out.hpp());
+               pObj->render(out.hpp(),jOffset);
             }
             jOffset += n;
             j += (n-1);
