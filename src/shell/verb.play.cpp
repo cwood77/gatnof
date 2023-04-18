@@ -93,6 +93,12 @@ void playCommand::run(console::iLog& l)
    // return to normalcy
    _pen.str() << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::moveTo(cui::pnt(1,22)) << pen::showCursor();
    pChan->sendString("logout");
+
+   // dump animation info
+   l.writeLnVerbose("battle animation = %s",gState.doBattleAni ? "on" : "off");
+   l.writeLnVerbose("    delay (msec) = %d",gState.nMSec);
+   l.writeLnVerbose("    skip (count) = %d",gState.nSkip);
+   l.writeLnVerbose("[use keys +-0/ to affect]");
 }
 
 } // anonymous namespace

@@ -31,29 +31,29 @@ void delay::sleep()
       m_nCnt--;
 }
 
-void delayTweakKeystrokeMonitor::run(std::function<void(void)> f)
+void delayTweakKeystrokeMonitor::stop()
 {
-   cmn::osEvent stopSignal;
-   m_pStopSignal = &stopSignal;
-   cmn::threadController tc(*this);
-   tc.start();
-   f();
-   stopSignal.set();
-   tc.join();
+   m_stopSignal.set();
+   m_tc.join();
 }
 
 void delayTweakKeystrokeMonitor::run()
 {
    while(true)
    {
-      if(m_pStopSignal->isSet())
+      if(m_stopSignal.isSet())
          return;
       if(::kbhit())
       {
          char c = ::getch();
          if(c == '+')
          {
-            if(m_d.nSkip != 0)
+            if(m_d.nMSec == 0 && m_d.nSkip == 0)
+            {
+               m_d.nMSec = 1;
+               m_d.nSkip = 3;
+            }
+            else if(m_d.nSkip != 0)
                m_d.nSkip--;
             else
                m_d.nMSec++;
@@ -61,13 +61,33 @@ void delayTweakKeystrokeMonitor::run()
          }
          else if(c == '-')
          {
-            if(m_d.nMSec > 1)
+            if(m_d.nMSec == 0 && m_d.nSkip == 0)
+               ;
+            else if(m_d.nMSec > 1)
                m_d.nMSec--;
-            else
+            else if(m_d.nSkip < 3)
                m_d.nSkip++;
+            else
+            {
+               m_d.nMSec = 0;
+               m_d.nSkip = 0;
+            }
             m_wasTweaked = true;
          }
-         // swallow other keystrokes and ignore
+         else if(c == '0')
+         {
+            m_d.nMSec = 0;
+            m_d.nSkip = 0;
+            m_wasTweaked = true;
+         }
+         else
+         {
+            auto it = m_extra.find(c);
+            if(it != m_extra.end())
+               it->second();
+            else
+               ; // swallow other keystrokes and ignore
+         }
       }
    }
 }

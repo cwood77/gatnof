@@ -25,9 +25,13 @@ private:
 
 class delayTweakKeystrokeMonitor : private cmn::iThread {
 public:
-   explicit delayTweakKeystrokeMonitor(delay& d) : m_d(d), m_wasTweaked(false) {}
+   explicit delayTweakKeystrokeMonitor(delay& d)
+   : m_d(d), m_wasTweaked(false), m_tc(*this) {}
 
-   void run(std::function<void(void)> f);
+   void add(char k, std::function<void(void)> f) { m_extra[k] = f; }
+
+   void start() { m_tc.start(); }
+   void stop();
 
    bool wasTweaked() const { return m_wasTweaked; }
 
@@ -36,7 +40,9 @@ private:
 
    delay& m_d;
    bool m_wasTweaked;
-   cmn::osEvent *m_pStopSignal;
+   cmn::osEvent m_stopSignal;
+   cmn::threadController m_tc;
+   std::map<char,std::function<void(void)> > m_extra;
 };
 
 // a bunch of drawings that happen at the same time

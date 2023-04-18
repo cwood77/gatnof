@@ -25,6 +25,7 @@ public:
       auto& ch = svcMan->demand<net::iChannel>();
       auto& qNum = svcMan->demand<size_t>("selectedQuest");
       auto& sNum = svcMan->demand<size_t>("selectedStage");
+      auto& gState = svcMan->demand<shell::gameState>();
 
       // query stage info
       ch.sendString("queryCombat");
@@ -44,7 +45,7 @@ public:
       render();
 
       // header
-      m_pAcct.redraw(svcMan->demand<shell::gameState>().accountName);
+      m_pAcct.redraw(gState.accountName);
 
       // table - player chars
       {
@@ -75,7 +76,11 @@ public:
 
       // play back the battle details
       ani::delay d;
-      d.nMSec = 1;
+      d.nMSec = gState.nMSec;
+      d.nSkip = gState.nSkip;
+      ani::delayTweakKeystrokeMonitor tweaker(d);
+      tweaker.add('/',[&](){ gState.doBattleAni = !gState.doBattleAni; });
+      tweaker.start();
       auto& evts = (*pBattleDetails)["events"].as<sst::array>();
       for(size_t i=0;i<evts.size();i++)
       {
@@ -83,55 +88,58 @@ public:
          m_error.update(evt["spec"].as<sst::str>().get());
          auto isPlayer = evt["isPlayer"].as<sst::tf>().get();
 
-         ani::flipbook fb(d);
-         ani::sequencer seq(fb);
-         seq.simultaneous(
+         if(gState.doBattleAni)
          {
-            // lasso outline
-            [&](auto& c)
+            ani::flipbook fb(d);
+            ani::sequencer seq(fb);
+            seq.simultaneous(
             {
-               auto& row = m_table[evt["pIdx"].as<sst::mint>().get()];
-               cui::pnt pnt = isPlayer ? row.pName.getLoc() : row.oName.getLoc();
-               pnt.x-=2;
-               pnt.y-=1;
-               ani::outliner().outline(pnt,46,3,c);
-            },
-            // blink (manually)
-            [&](auto& c)
+               // lasso outline
+               [&](auto& c)
+               {
+                  auto& row = m_table[evt["pIdx"].as<sst::mint>().get()];
+                  cui::pnt pnt = isPlayer ? row.pName.getLoc() : row.oName.getLoc();
+                  pnt.x-=2;
+                  pnt.y-=1;
+                  ani::outliner().outline(pnt,46,3,c);
+               },
+               // blink (manually)
+               [&](auto& c)
+               {
+                  auto& row = m_table[evt["oIdx"].as<sst::mint>().get()];
+                  cui::pnt pnt = isPlayer ? row.oName.getLoc() : row.pName.getLoc();
+                  pnt.x-=2;
+                  pnt.y-=1;
+                  ani::prim::box(c.getFrame(0),pnt,46,3,pen::kMagenta);
+                  ani::prim::box(c.getFrame(30),pnt,46,3,pen::kBlue);
+                  ani::prim::box(c.getFrame(60),pnt,46,3,pen::kMagenta);
+                  ani::prim::box(c.getFrame(120),pnt,46,3,pen::kBlue);
+               }
+            });
+            seq.simultaneous(
             {
-               auto& row = m_table[evt["oIdx"].as<sst::mint>().get()];
-               cui::pnt pnt = isPlayer ? row.oName.getLoc() : row.pName.getLoc();
-               pnt.x-=2;
-               pnt.y-=1;
-               ani::prim::box(c.getFrame(0),pnt,46,3,pen::kMagenta);
-               ani::prim::box(c.getFrame(30),pnt,46,3,pen::kBlue);
-               ani::prim::box(c.getFrame(60),pnt,46,3,pen::kMagenta);
-               ani::prim::box(c.getFrame(120),pnt,46,3,pen::kBlue);
-            }
-         });
-         seq.simultaneous(
-         {
-            // clear
-            [&](auto& c)
-            {
-               auto& row = m_table[evt["pIdx"].as<sst::mint>().get()];
-               cui::pnt pnt = isPlayer ? row.pName.getLoc() : row.oName.getLoc();
-               pnt.x-=2;
-               pnt.y-=1;
-               ani::prim::box(c.getFrame(0),pnt,46,3,pen::kBlue);
-            },
-            [&](auto& c)
-            {
-               auto& row = m_table[evt["oIdx"].as<sst::mint>().get()];
-               cui::pnt pnt = isPlayer ? row.oName.getLoc() : row.pName.getLoc();
-               pnt.x-=2;
-               pnt.y-=1;
-               ani::prim::box(c.getFrame(0),pnt,46,3,pen::kBlue);
-            }
-         });
+               // clear
+               [&](auto& c)
+               {
+                  auto& row = m_table[evt["pIdx"].as<sst::mint>().get()];
+                  cui::pnt pnt = isPlayer ? row.pName.getLoc() : row.oName.getLoc();
+                  pnt.x-=2;
+                  pnt.y-=1;
+                  ani::prim::box(c.getFrame(0),pnt,46,3,pen::kBlue);
+               },
+               [&](auto& c)
+               {
+                  auto& row = m_table[evt["oIdx"].as<sst::mint>().get()];
+                  cui::pnt pnt = isPlayer ? row.oName.getLoc() : row.pName.getLoc();
+                  pnt.x-=2;
+                  pnt.y-=1;
+                  ani::prim::box(c.getFrame(0),pnt,46,3,pen::kBlue);
+               }
+            });
 
-         auto& pn = svcMan->demand<pen::object>();
-         ani::delayTweakKeystrokeMonitor(d).run([&](){ fb.run(pn); });
+            auto& pn = svcMan->demand<pen::object>();
+            fb.run(pn);
+         }
 
          // update guage
          auto& row = m_table[evt["oIdx"].as<sst::mint>().get()];
@@ -150,6 +158,9 @@ public:
             n.redraw(n.get());
          }
       }
+      tweaker.stop();
+      gState.nMSec = d.nMSec;
+      gState.nSkip = d.nSkip;
       auto& advQuest = svcMan->demand<bool>("advQuest");
       if((*pBattleDetails)["victory"].as<sst::tf>().get())
       {

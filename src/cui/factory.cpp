@@ -27,7 +27,7 @@ tcatExposeTypeAs(factory,iFactory);
 
 class userInput : public iUserInput {
 public:
-   virtual char getKey() { return ::getch(); }
+   virtual char getKey() { while(::kbhit()) { ::getch(); } return ::getch(); }
 };
 
 tcatExposeTypeAs(userInput,iUserInput);
