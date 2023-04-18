@@ -167,6 +167,22 @@ public:
    }
 };
 
+class detailCharSelector : public iCharSelector {
+public:
+   virtual void run(db::Char *c, cui::stringControl& error, bool& stop)
+   {
+      if(c == NULL)
+      {
+         error.redraw("No character selected");
+         return;
+      }
+
+      // TODO
+
+      stop = true;
+   }
+};
+
 class logic : private char_screen, public cui::iLogic {
 public:
    // required for diamond inheritance :(
@@ -195,6 +211,7 @@ public:
       iCharSorter *pSort = &rSort;
 
       inTeamCharSelector iTSelect;
+      detailCharSelector dSelect;
       iCharSelector *pSelect = &iTSelect;
 
       while(true)
@@ -274,6 +291,15 @@ public:
          handler.add(m_backBtn,[&](bool& stop){ stop = true; });
          handler.add(m_upBtn,[&](bool& stop){ pg--; stop = true; });
          handler.add(m_downBtn,[&](bool& stop){ pg++; stop = true; });
+         handler.add(m_selectModeBtn,[&](bool& stop)
+         {
+            selMode++;
+            int N = sizeof(gSelDisp) / sizeof(const char *);
+            if(selMode >= N)
+               selMode = 0;
+            pSelect = selMode ? (iCharSelector*)&dSelect : (iCharSelector*)&iTSelect;
+            m_selectModeDsp.redraw(gSelDisp[selMode]);
+         });
          handler.add(m_sortModeBtn,[&](bool& stop)
          {
             sortMode++;
