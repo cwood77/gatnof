@@ -210,7 +210,7 @@ private:
             indicator << (score[i].as<sst::tf>().get() ? "\xfb" : "x");
          indicator << "]";
       }
-      m_completedInd.update(indicator.str());
+      m_completedInd.redraw(indicator.str());
 
       // dim/undim go button
       auto& cQuest = acct["current-quest"].as<sst::dict>();

@@ -246,6 +246,7 @@ private:
 class iUserInput {
 public:
    virtual ~iUserInput() {}
+   virtual void flush() = 0;
    virtual char getKey() = 0;
 };
 
