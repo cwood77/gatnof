@@ -1,18 +1,18 @@
 coml v1 20
 1_2+-----------------------------------------------------------------+------------------------------------------+
-|                                                                 |                 ACCESSORY                |
+|                                                                 |                 405ACCESSORY                |
 |  100SSR 101Drunken Sailor Donald Duck                                 |                                    used? |
-|                                                                 |1000     o <nothing>                        |
-|   element: 102Water                        star:105 o 106******          |1001SSR oo Drunken Sailor Donald Duck   X   |
-|     caste: 103Corporate                   level: 107oo/oo             |1002SSR oo Drunken Sailor Donald Duck       |
+|                                                                 |1000       <nothing>                        |
+|   element: 102Water                        star:105 o 106******          |1001  404_400    401   402                             403  |
+|     caste: 103Corporate                   level: 107oo108             |1002SSR oo Drunken Sailor Donald Duck       |
 |  subcaste: 104Classics                                             |1003                                        |
 |                                                                 |1004                                        |
-|    attack: 200ooo-ooo + 201oo-oo = 202ooo-ooo                            |1005                                        |
-|   defense: ooo-ooo + oo-oo = ooo-ooo                            |1006                                        |
-|   agility: ooo-ooo + oo-oo = ooo-ooo                            |1007                                        |
+|    attack: 200ooo/ooo + 201oo-oo = 202ooo-ooo                            |1005                                        |
+|   defense: 203ooo-ooo + 204oo-oo = 205ooo-ooo                            |1006                                        |
+|   agility: 206ooo-ooo + 207oo-oo = 208ooo-ooo                            |1007                                        |
 |                                                                 |1008                                        |
-|  shard(s): ooo?oo                                               |1009                                        |
-|      gold: oo?oo                                                |1010                                        |
+|  shard(s): 300ooooo                                                |1009                                        |
+|      gold: 301ooooo                                                |1010                                        |
 |                                                                 |1011                                        |
 |                                                                 |1012                                        |
 |                                                                 +------------------------------------------+
@@ -32,15 +32,31 @@ coml v1 20
 105=int:starCnt/2/1
 106=str:starGlyph/6/1
 107=int:level/2/1
+108=txt:" << pen::fgcol(pen::kBlack,true) << "/60" << pen::fgcol(pen::kYellow) << "
 
 ; main form - stats
 200=int:atkBase/3/1
 201=int:atkEquip/2/1
 202=int:atkTotal/3/1
+203=int:defBase/3/1
+204=int:defEquip/2/1
+205=int:defTotal/3/1
+206=int:agilBase/3/1
+207=int:agilEquip/2/1
+208=int:agilTotal/3/1
+;209=txt:" << pen::fgcol(pen::kBlack,true) << "/200" << pen::fgcol(pen::kYellow) << "
 
 ; main form - currencies
+300=int:shards/5/1
+301=int:gold/5/1
 
 ; equip table
+400=str:eRarity/3/1
+401=int:quality/2/1
+402=str:eName/26/1
+403=str:used/1/1
+404=lst:table/12/1/400,401,402,403
+405=str:subtableTitle/9/1
 
 ; numbers (cosmetic only)
 1000=txt:0 
