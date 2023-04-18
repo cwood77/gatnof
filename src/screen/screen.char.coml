@@ -68,24 +68,3 @@ coml v1 20
 
 select options: team/detail
 sort options: rarity, caste, team+
-
-+-----------------------------------------------------------------+------------------------------------------+
-|                                                                 |              WEAPON  ooo/ooo             |
-|  SSR Drunken Sailor Donald Duck                                 |                                    used? |
-|                                                                 |0      o <nothing>                        |
-|   element: Water                        star: 6 ******          |1 SSR oo Drunken Sailor Donald Duck   X   |
-|     caste: Corporate                   level: oo/60             |2 SSR oo Drunken Sailor Donald Duck       |
-|  subcaste: Classics                                             |3                                         |
-|                                                                 |4                                         |
-|    attack: ooo/200 + oo/20 = ooo/210                            |5                                         |
-|   defense: ooo/200 + oo/20 = ooo/210                            |6                                         |
-|   agility: ooo/200 + oo/20 = ooo/210                            |7                                         |
-|                                                                 |8                                         |
-|  shard(s): ooo?oo                                               |9                                         |
-|      gold: oo?oo                                                |A                                         |
-|                                                                 |B                                         |
-|                                                                 |C                                         |
-|                                                                 +------------------------------------------+
-| Unknown command                                                                                            |
-| (l)evel-up   (s)tar-up   (u)p/(d)own   0-C select equip   (n)ext                                           |
-+------------------------------------------------------------------------------------------------------------+

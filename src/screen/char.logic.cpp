@@ -178,6 +178,9 @@ public:
       }
 
       // TODO
+      tcat::typePtr<cui::iFactory> sFac;
+      cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("charDetail"));
+      pL->run();
 
       stop = true;
    }

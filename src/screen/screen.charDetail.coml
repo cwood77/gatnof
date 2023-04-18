@@ -1,0 +1,67 @@
+coml v1 20
+1_2+-----------------------------------------------------------------+------------------------------------------+
+|                                                                 |                 ACCESSORY                |
+|  100SSR 101Drunken Sailor Donald Duck                                 |                                    used? |
+|                                                                 |1000     o <nothing>                        |
+|   element: 102Water                        star:105 o 106******          |1001SSR oo Drunken Sailor Donald Duck   X   |
+|     caste: 103Corporate                   level: 107oo/oo             |1002SSR oo Drunken Sailor Donald Duck       |
+|  subcaste: 104Classics                                             |1003                                        |
+|                                                                 |1004                                        |
+|    attack: 200ooo-ooo + 201oo-oo = 202ooo-ooo                            |1005                                        |
+|   defense: ooo-ooo + oo-oo = ooo-ooo                            |1006                                        |
+|   agility: ooo-ooo + oo-oo = ooo-ooo                            |1007                                        |
+|                                                                 |1008                                        |
+|  shard(s): ooo?oo                                               |1009                                        |
+|      gold: oo?oo                                                |1010                                        |
+|                                                                 |1011                                        |
+|                                                                 |1012                                        |
+|                                                                 +------------------------------------------+
+| 899Unknown command                                                                                            |
+| 900back   901level-up   902star-up   equip 903up904-down   905next equip                                                     |
++------------------------------------------------------------------------------------------------------------+
+; header
+1=txt:%cls%
+2=txt:" << pen::bgcol(pen::kCyan) << "
+
+; main form - general section
+100=str:rarity/3/1
+101=str:name/26/1
+102=str:element/5/1
+103=str:caste/27/1
+104=str:subcaste/27/1
+105=int:starCnt/2/1
+106=str:starGlyph/6/1
+107=int:level/2/1
+
+; main form - stats
+200=int:atkBase/3/1
+201=int:atkEquip/2/1
+202=int:atkTotal/3/1
+
+; main form - currencies
+
+; equip table
+
+; numbers (cosmetic only)
+1000=txt:0 
+1001=txt:1 
+1002=txt:2 
+1003=txt:3 
+1004=txt:4 
+1005=txt:5 
+1006=txt:6 
+1007=txt:7 
+1008=txt:8 
+1009=txt:9 
+1010=txt:A 
+1011=txt:B 
+1012=txt:C 
+
+; footer
+899=str:error/106/1/%error%
+900=btn:backBtn/4/1/(b)ack
+901=btn:levelUpBtn/8/1/(l)evel-up
+902=btn:starUpBtn/7/1/(s)tar-up
+903=btn:upBtn/2/1/(u)p
+904=btn:downBtn/5/1/\\(d)own
+905=btn:nextBtn/10/1/(n)ext equip

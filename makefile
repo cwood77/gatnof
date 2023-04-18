@@ -538,6 +538,7 @@ SCREEN_COML = \
 	src/screen/screen.attend.coml \
 	src/screen/screen.battle.coml \
 	src/screen/screen.char.coml \
+	src/screen/screen.charDetail.coml \
 	src/screen/screen.get.coml \
 	src/screen/screen.home.coml \
 	src/screen/screen.inbox.coml \
@@ -574,6 +575,7 @@ SCREEN_SRC = \
 	src/screen/attend.logic.cpp \
 	src/screen/battle.logic.cpp \
 	src/screen/char.logic.cpp \
+	src/screen/charDetail.logic.cpp \
 	src/screen/get.logic.cpp \
 	src/screen/home.logic.cpp \
 	src/screen/inbox.logic.cpp \
