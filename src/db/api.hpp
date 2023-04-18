@@ -3,27 +3,7 @@
 
 #include "../file/api.hpp"
 #include <cstring>
-
-// "items": [
-//    {
-//       "amt": 20,
-//       "type": 0
-//    },
-//    {
-//       "amt": 1,
-//       "type": 1
-//    }
-// ],
-// "chars": {
-//    "7": {
-//       "equip": [
-//          1
-//       ],
-//       "level": 3,
-//       "stars": 1,
-//       "type": 7
-//    }
-// },
+#include <list>
 
 namespace db {
 
@@ -34,12 +14,16 @@ enum rarities {
    kUr
 };
 
+const char *fmtRaritiesFixedWidth(rarities r);
+
 // e -> w -> f -> ...
 enum elements {
    kWater,
    kFire,
    kEarth
 };
+
+const char *fmtElementsFixedWidth(elements e);
 
 class equip {
 public:
@@ -82,11 +66,15 @@ class Char {
 public:
    Char(iDict& d, sst::dict& overlay, int teamBonus);
 
+   size_t getType();
+
    rarities rarity() { return m_pStatic->rarity; }
    elements element() { return m_pStatic->element; }
    std::string name() const { return m_pStatic->name; }
+   std::string caste() const { return m_pStatic->caste; }
+   std::string subcaste() const { return m_pStatic->subcaste; }
 
-   //size_t getStars();
+   size_t getStars();
    //void setStars(size_t v);
    size_t getLevel();
    //void setLevel(size_t v);
@@ -116,10 +104,16 @@ private:
    size_t m_baseStat;
 };
 
+std::string fmtStarsFixedWidth(size_t n);
+
 class teamBonusCalculator {
 public:
-   void addChar(Char& c);
-   void calculate(int& i);
+   void addChar(const staticChar& c) { m_chars.push_back(&c); }
+
+   int calculate();
+
+private:
+   std::list<const staticChar*> m_chars;
 };
 
 class indivBonusCalculator {

@@ -5,6 +5,7 @@
 #include "../net/api.hpp"
 #include "../tcatlib/api.hpp"
 #include "message.hpp"
+#include <functional>
 #include <list>
 #include <memory>
 
@@ -19,12 +20,15 @@ public:
    void addLiving(T& c)
    {
       for(auto& ch : chars)
-         c.insert(&ch);
+         if(ch.hp > 0)
+            c.insert(&ch);
    }
 
    db::Char& randomLiving()
    {
       std::vector<db::Char*> candidates = living();
+      if(candidates.size() == 0)
+         throw std::runtime_error("ISE");
       return *candidates[::rand() % candidates.size()];
    }
 
@@ -43,6 +47,14 @@ public:
          if(ch.hp > 0)
             candidates.push_back(&ch);
       return candidates;
+   }
+
+   bool all(std::function<bool(db::Char&)> f)
+   {
+      for(auto& ch : chars)
+         if(!f(ch))
+            return false;
+      return true;
    }
 };
 
@@ -80,6 +92,7 @@ public:
    explicit recorder(sst::dict& d) : m_d(d)
    {
       m_pArr = &m_d.add<sst::array>("events");
+      m_pAwards = &m_d.add<sst::array>("awards");
    }
 
    void recordAttack(bool player, size_t pIdx, size_t oIdx, long dmg,
@@ -93,14 +106,29 @@ public:
       entry.add<sst::str>("spec") = spec;
    }
 
+   void scoreAward(const std::string& condition, const std::string& boon, bool earned, bool alreadyHad)
+   {
+      auto& award = m_pAwards->append<sst::dict>();
+      award.add<sst::str>("condition") = condition;
+      award.add<sst::str>("boon") = boon;
+      award.add<sst::tf>("earned") = earned;
+      award.add<sst::tf>("alreadyHad") = alreadyHad;
+   }
+
    void setOutcome(bool victory)
    {
       m_d.add<sst::tf>("victory") = victory;
    }
 
+   bool wasVictory()
+   {
+      return m_d["victory"].as<sst::tf>().get();
+   }
+
 private:
    sst::dict& m_d;
    sst::array *m_pArr;
+   sst::array *m_pAwards;
 };
 
 } // namespace combat
@@ -116,7 +144,7 @@ public:
 
       // create db::Chars for each side
       combat::side pSide,oSide;
-      buildSide(*dbDict,*pReq,pSide); // lie!
+      buildSide(*dbDict,ctxt.pAcct->dict(),pSide);
       buildSide(*dbDict,*pReq,oSide);
       calculateIndivBonuses(*pReq,pSide,oSide);
       combat::targetTable targets;
@@ -156,8 +184,15 @@ public:
          }
       }
 
+      // grant a boon
+      log().writeLnTemp("scoring");
+      scoreVictory(*pReq,ctxt.pAcct->dict(),recorder.wasVictory(),pSide,recorder);
+
+      log().writeLnTemp("returning result SST");
       ch.sendSst(result);
+      log().writeLnTemp("returning player SST");
       ch.sendSst(ctxt.pAcct->dict());
+      log().writeLnTemp("returning");
    }
 
 private:
@@ -189,14 +224,14 @@ private:
    void takeTurn(db::Char& c, combat::targetTable& targets, combat::side& player, bool& killed, combat::recorder& recorder)
    {
       auto& enemies = targets.findOpposingSide(c);
-      bool isPlayerAttacker = (&enemies == &player);
+      bool isPlayerAttacker = (&enemies != &player);
 
       // randomly select target from opposing side
-      auto& target = targets.findOpposingSide(c).randomLiving();
+      auto& target = enemies.randomLiving();
       log().writeLnDebug(
          "[%s] (%s) attacks [%s]",
          c.name().c_str(),
-         (isPlayerAttacker ? "(player)" : "(cpu)"),
+         (isPlayerAttacker ? "(cpu)" : "(player)"),
          target.name().c_str()
       );
 
@@ -243,13 +278,21 @@ private:
       dmg += (::rand() % 10);
 
       log().writeLnDebug("DAMAGE is <%lld>",dmg);
-      recorder.recordAttack(
-         isPlayerAttacker,
-         c.userData, target.userData,
-         dmg, "" // TODO assumes no special attack
-      );
+      {
+         std::stringstream narration;
+         narration
+            << c.name() << " attacks " << target.name() << " for " << dmg << " point(s)";
+         recorder.recordAttack(
+            isPlayerAttacker,
+            c.userData, target.userData,
+            dmg, narration.str() // TODO assumes no special attack
+         );
+      }
 
-      target.hp -= dmg;
+      if(dmg <= target.hp)
+         target.hp -= dmg;
+      else
+         target.hp = 0;
       killed = (target.hp == 0);
    }
 
@@ -268,6 +311,54 @@ private:
       else if(diff >=   1) return 20;
       else if(diff >= -40) return 10;
       else return 0;
+   }
+
+   void scoreVictory(sst::dict& questInfo, sst::dict& acct, bool isVictory, combat::side& pSide, combat::recorder& r)
+   {
+      auto& awards = questInfo["awards"].as<sst::array>();
+      for(size_t i=0;i<awards.size();i++)
+      {
+         auto& award = awards[i].as<sst::dict>();
+         auto& condition = award["condition"].as<sst::str>().get();
+         auto& unit = award["unit"].as<sst::str>().get();
+         auto& amt = award["amt"].as<sst::mint>().get();
+
+         std::stringstream boon;
+         boon << amt << " " << unit;
+         bool grantBoon = false;
+
+         if(condition == "win")
+         {
+            bool earned = isVictory;
+            r.scoreAward("defeat all enemies",boon.str(),earned,false);
+            grantBoon = earned;
+         }
+         else if(condition == "all-alive")
+         {
+            bool earned = pSide.all([](auto& c){ return c.hp > 0; });
+            r.scoreAward("all members survive",boon.str(),earned,false);
+            grantBoon = earned;
+         }
+         else if(condition == "all-above-half")
+         {
+            bool earned = pSide.all([](auto& c){ return c.hp >= 50; });
+            r.scoreAward("all members at least 50% health",boon.str(),earned,false);
+            grantBoon = earned;
+         }
+         else
+            throw std::runtime_error("unsupported award condition");
+
+         if(grantBoon)
+         {
+            if(unit == "gold")
+            {
+               auto& field = acct["gold"].as<sst::mint>();
+               field = field.get() + amt;
+            }
+            else
+               throw std::runtime_error("unsupported award unit");
+         }
+      }
    }
 };
 

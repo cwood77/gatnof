@@ -1,0 +1,29 @@
+{
+   "num": 1,
+   "num-stages": 100,
+
+   "global-environs": {
+   },
+
+   # 2 of 1, 2 of 2, 2 of 3, 2 of 4, 2 of 5
+   # so not until stage 9 facing full parties
+   "enemy-party-size": {
+      "start": 1,
+      "every-N-inc": 10
+   },
+   "enemy-party-rarity": [
+      0,
+      0,
+      100,
+      0
+   ],
+   "enemy-party-level": {
+      "start": 1,
+      "every-N-inc": 0
+   },
+
+   "award-amts-1": {
+      "start": 1,
+      "every-N-inc": 1
+   },
+}

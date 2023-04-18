@@ -20,6 +20,7 @@ all: \
 	$(OUT_DIR)/debug/file.test.dll \
 	$(OUT_DIR)/debug/net.dll \
 	$(OUT_DIR)/debug/pen.test.dll \
+	$(OUT_DIR)/debug/questgen.exe \
 	$(OUT_DIR)/debug/screen.dll \
 	$(OUT_DIR)/debug/server.exe \
 	$(OUT_DIR)/debug/shell.exe \
@@ -33,13 +34,16 @@ all: \
 	$(OUT_DIR)/release/file.test.dll \
 	$(OUT_DIR)/release/net.dll \
 	$(OUT_DIR)/release/pen.test.dll \
-	$(OUT_DIR)/release/screen.dll \
+	$(OUT_DIR)/release/questgen.exe \
 	$(OUT_DIR)/release/server.exe \
 	$(OUT_DIR)/release/shell.exe \
 	$(OUT_DIR)/release/tcatbin.dll \
 	$(OUT_DIR)/release/test.exe
 	$(OUT_DIR)/debug/test.exe
 	$(OUT_DIR)/release/test.exe
+
+#	speed-up frequent recompiles for COML changes
+#	$(OUT_DIR)/release/screen.dll \
 
 # this tests don't really apply.... yet; maybe?
 # $(OUT_DIR)/debug/net.test.dll \
@@ -454,11 +458,15 @@ SERVER_SRC = \
 	src/server/listenThread.cpp \
 	src/server/main.cpp \
 	src/server/message.cpp \
-	src/server/msg.get.cpp \
+	src/server/msg.changeLineUp.cpp \
 	src/server/msg.combat.cpp \
+	src/server/msg.get.cpp \
 	src/server/msg.login.cpp \
 	src/server/msg.logout.cpp \
 	src/server/msg.queryCombat.cpp \
+	src/server/msg.querySummon.cpp \
+	src/server/msg.summon.cpp \
+	src/server/msg.toggleInTeam.cpp \
 	src/server/msg.update.cpp \
 	src/server/verb.compile.cpp \
 	src/server/verb.listen.cpp \
@@ -529,9 +537,15 @@ $(COML_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 SCREEN_COML = \
 	src/screen/screen.attend.coml \
 	src/screen/screen.battle.coml \
+	src/screen/screen.char.coml \
 	src/screen/screen.get.coml \
 	src/screen/screen.home.coml \
 	src/screen/screen.inbox.coml \
+	src/screen/screen.loseBattle.coml \
+	src/screen/screen.precombat.coml \
+	src/screen/screen.summon.coml \
+	src/screen/screen.summonResults.coml \
+	src/screen/screen.winBattle.coml \
 
 SCREEN_GEN = $(subst src,gen,$(patsubst %.coml,%.cpp,$(SCREEN_COML)))
 
@@ -559,10 +573,16 @@ $(SCREEN_RELEASE_GEN_OBJ): $(OBJ_DIR)/release/%.o: gen/%.cpp
 SCREEN_SRC = \
 	src/screen/attend.logic.cpp \
 	src/screen/battle.logic.cpp \
+	src/screen/char.logic.cpp \
 	src/screen/get.logic.cpp \
 	src/screen/home.logic.cpp \
 	src/screen/inbox.logic.cpp \
+	src/screen/loseBattle.logic.cpp \
 	src/screen/main.cpp \
+	src/screen/precombat.logic.cpp \
+	src/screen/summon.logic.cpp \
+	src/screen/summonResults.logic.cpp \
+	src/screen/winBattle.logic.cpp \
 
 SCREEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SCREEN_SRC)))
 
@@ -586,6 +606,38 @@ $(OUT_DIR)/release/screen.dll: $(SCREEN_RELEASE_OBJ) $(SCREEN_RELEASE_GEN_OBJ) $
 $(SCREEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp $(SCREEN_RELEASE_GEN_OBJ)
 	$(info $< --> $@)
 	@mkdir -p $(OBJ_DIR)/release/screen
+	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
+
+# ----------------------------------------------------------------------
+# questgen
+
+QUESTGEN_SRC = \
+	src/questgen/generator.cpp \
+	src/questgen/main.cpp \
+	src/questgen/verb.generate.cpp \
+
+QUESTGEN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(QUESTGEN_SRC)))
+
+$(OUT_DIR)/debug/questgen.exe: $(QUESTGEN_DEBUG_OBJ) $(OUT_DIR)/debug/tcatlib.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/debug
+	@$(LINK_CMD) -o $@ $(QUESTGEN_DEBUG_OBJ) $(DEBUG_LNK_FLAGS_POST) -Lbin/out/debug -ltcatlib
+
+$(QUESTGEN_DEBUG_OBJ): $(OBJ_DIR)/debug/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/debug/questgen
+	@$(COMPILE_CMD) $(DEBUG_CC_FLAGS) $< -o $@
+
+QUESTGEN_RELEASE_OBJ = $(subst src,$(OBJ_DIR)/release,$(patsubst %.cpp,%.o,$(QUESTGEN_SRC)))
+
+$(OUT_DIR)/release/questgen.exe: $(QUESTGEN_RELEASE_OBJ) $(OUT_DIR)/release/tcatlib.lib
+	$(info $< --> $@)
+	@mkdir -p $(OUT_DIR)/release
+	@$(LINK_CMD) -o $@ $(QUESTGEN_RELEASE_OBJ) $(RELEASE_LNK_FLAGS_POST) -Lbin/out/release -ltcatlib
+
+$(QUESTGEN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
+	$(info $< --> $@)
+	@mkdir -p $(OBJ_DIR)/release/questgen
 	@$(COMPILE_CMD) $(RELEASE_CC_FLAGS) $< -o $@
 
 # ----------------------------------------------------------------------

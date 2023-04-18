@@ -61,8 +61,8 @@ public:
 
          // handle user input
          cui::buttonHandler handler(error);
-         handler.add(backBtn,[&](auto& bnt, bool& stop){ stop = true; });
-         handler.add(openNextBtn,[&](auto& bnt, bool& stop)
+         handler.add(backBtn,[&](bool& stop){ stop = true; });
+         handler.add(openNextBtn,[&](bool& stop)
          {
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("get"));
             pL->run();
@@ -73,8 +73,8 @@ public:
 
             stop = true;
          });
-         auto& ans = handler.run(svcMan->demand<cui::iUserInput>());
-         if(&ans == &backBtn)
+         auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
+         if(ans == &backBtn)
             return;
       }
    }

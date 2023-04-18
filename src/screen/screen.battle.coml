@@ -1,34 +1,36 @@
 coml v1 20
 1_2+------------------------------------------------------------------------------------------------------------+
 | 3AlisterTheMagnificent                      --- F I G H T  ! ---                      4AlisterTheMagnificent |
-|     5                                                   6                                                    |
+|                                                                                                            |
+|       9_5Drunken Sailor Donald Duck      6XXXX------          7Drunken Sailor Donald Duck      8XXXX------       |
+|                                                                                                            |
+|                                                                                                            |
 |       Drunken Sailor Donald Duck      XXXX------          Drunken Sailor Donald Duck      XXXX------       |
 |                                                                                                            |
-|     +--------------------------------------------+      +--------------------------------------------+     |
-|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
-|     +--------------------------------------------+      +--------------------------------------------+     |
-|     +--------------------------------------------+      +--------------------------------------------+     |
-|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
-|     +--------------------------------------------+      +--------------------------------------------+     |
-|     7                                                    8                                                   |
+|                                                                                                            |
 |       Drunken Sailor Donald Duck      XXXX------          Drunken Sailor Donald Duck      XXXX------       |
 |                                                                                                            |
-|     +--------------------------------------------+      +--------------------------------------------+     |
-|     | Drunken Sailor Donald Duck      XXXX------ |      | Drunken Sailor Donald Duck      XXXX------ |     |
-|     +--------------------------------------------+      +--------------------------------------------+     |
 |                                                                                                            |
-| ========================================================================================================== |
+|       Drunken Sailor Donald Duck      XXXX------          Drunken Sailor Donald Duck      XXXX------       |
+|                                                                                                            |
+|                                                                                                            |
+|       Drunken Sailor Donald Duck      XXXX------          Drunken Sailor Donald Duck      XXXX------       |
+|                                                                                                            |
+|                                                                                                            |
+| 99                                                                                                           |
 +------------------------------------------------------------------------------------------------------------+
-1=txt:" << pen::fgcol(pen::kDefault) << pen::bgcol(pen::kDefault) << pen::clearScreen() << pen::moveTo(cui::pnt(1,1)) << "
-2=txt:" << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue) << "
-3=str:pName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
-4=str:oName/21/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kBlue)/
+1=txt:%cls%
+2=txt:%stdcol%
+3=str:pAcct/21/1/%emph%
+4=str:oAcct/21/1/%emph%
 
-5=str:p1/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
-6=str:o1/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
+5=str:pName/26/1
+6=guage:pGuage/10/1
+7=str:oName/26/1
+8=guage:oGuage/10/1
+9=lst:table/5/3/5,6,7,8
 
-7=str:p4/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
-8=str:o4/46/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kRed)
+99=str:error/106/1/%error%
 
 ; begin comments
 

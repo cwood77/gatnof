@@ -1,22 +1,48 @@
 #ifndef ___cui_ani___
 #define ___cui_ani___
 
+#include "../cmn/win32.hpp"
 #include "api.hpp"
+#include "pen.hpp"
 #include <functional>
 #include <list>
 #include <map>
-
-namespace pen { class object; }
 
 namespace ani {
 
 class delay {
 public:
-   delay() : nMSec(25) {}
+   delay() : nMSec(25), nSkip(0), m_nCnt(0) {}
 
-   size_t nMSec;
+   int nMSec;
+   int nSkip;
 
    void sleep();
+
+private:
+   int m_nCnt;
+};
+
+class delayTweakKeystrokeMonitor : private cmn::iThread {
+public:
+   explicit delayTweakKeystrokeMonitor(delay& d)
+   : m_d(d), m_wasTweaked(false), m_tc(*this) {}
+
+   void add(char k, std::function<void(void)> f) { m_extra[k] = f; }
+
+   void start() { m_tc.start(); }
+   void stop();
+
+   bool wasTweaked() const { return m_wasTweaked; }
+
+private:
+   virtual void run();
+
+   delay& m_d;
+   bool m_wasTweaked;
+   cmn::osEvent m_stopSignal;
+   cmn::threadController m_tc;
+   std::map<char,std::function<void(void)> > m_extra;
 };
 
 // a bunch of drawings that happen at the same time
@@ -64,6 +90,7 @@ class prim {
 public:
    static void lineLeftToRight(iCanvas& c, cui::pnt p, size_t l);
    static void lineRightToLeft(iCanvas& c, cui::pnt p, size_t l);
+   static void box(frame& f, cui::pnt ul, size_t l, size_t h, pen::colors bgcol);
 };
 
 class attendance {
@@ -74,24 +101,8 @@ public:
 
 class outliner {
 public:
-   explicit outliner(cui::control& c) : m_c(c) {}
-
-   void outline(iCanvas& c);
+   void outline(cui::pnt p, size_t l, size_t h, iCanvas& c);
    void restore(iCanvas& c);
-
-private:
-   cui::control& m_c;
-};
-
-class blinker {
-public:
-   explicit blinker(cui::control& c) : m_c(c) {}
-
-   void blink(iCanvas& c);
-   void restore(iCanvas& c);
-
-private:
-   cui::control& m_c;
 };
 
 } // namespace ani

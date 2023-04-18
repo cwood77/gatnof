@@ -13,6 +13,7 @@ void connectionThread::run()
       m_cmd = "";
       if(cmd.empty())
       {
+         log().writeLnDebug("waiting on new command");
          bool wasStopped = false;
          cmd = m_pChan->recvString(*m_pStopSignal,wasStopped);
          if(wasStopped)
@@ -22,6 +23,7 @@ void connectionThread::run()
 
       auto& mh = msgRegistry::get().demand(cmd);
       tie(mh).run(*m_pChan,ctxt);
+      log().writeLnDebug("done handling command");
    }
    log().writeLnVerbose("(%d) closing connection thread",::GetCurrentThreadId());
 }

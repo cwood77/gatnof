@@ -1,0 +1,16 @@
+coml v1 7@8
+1--------------------------------------------------------------------------------------------------------------
+                                                   VICTORY!                                                   
+                6_3X 4defeat all enemies                 5oo gold [already received]                               
+                X all members survive                oo gold [already received]                               
+                X all members at least oo- health    Drunken Sailor Donald Duck [already received]            
+                                             9<any key to dismiss>                                             
+--------------------------------------------------------------------------------------------------------------
+1=txt:" << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow) << "
+
+3=str:glyph/1/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+4=str:condition/31/1/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kYellow)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+5=str:boon/45/1/ << pen::fgcol(pen::kBlack,true) << pen::bgcol(pen::kYellow)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+6=lst:table/3/1/3,4,5
+
+9=str:prompt/20/1/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)

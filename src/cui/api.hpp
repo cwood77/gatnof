@@ -76,11 +76,11 @@ public:
    void erase();
    void setFormatMode(size_t i) { m_i = i; }
    size_t getFormatMode() const { return m_i; }
+   void formatText(std::ostream& o);
 
 protected:
    virtual void onInitialize() { erase(); }
 
-   void formatText(std::ostream& o);
    virtual void formatText1(std::ostream& o) {}
    virtual void formatText2(std::ostream& o) {}
    virtual void formatText3(std::ostream& o) {}
@@ -96,13 +96,28 @@ private:
 
 class stringControl : public control {
 public:
+   stringControl() : rightJustify(false) {}
+
    std::string get() { return m_cache; }
    void redraw(const std::string& v);
 
    void update(const std::string& v);
 
+   bool rightJustify;
+
 private:
    std::string m_cache;
+};
+
+class guageControl : public control {
+public:
+   int get() { return m_cache; }
+   void redraw(int v);
+
+   void update(int v);
+
+private:
+   int m_cache;
 };
 
 class iIntFormatter {
@@ -152,7 +167,8 @@ private:
 class buttonControl : public control {
 public:
    void setFaceText(const std::string& t);
-   void dim(const std::string& reason) { setFormatMode(2); m_dimReason = reason; }
+   void dim(const std::string& reason, bool shouldDim = true)
+   { setFormatMode(shouldDim ? 2 : 1); m_dimReason = reason; }
 
    bool isEnabled() const { return getFormatMode() == 1; }
    char getCmdKey() const { return m_cmd; }
@@ -181,6 +197,12 @@ public:
       m_rows.resize(nRows);
       for(size_t i=0;i<nRows;i++)
          m_rows[i].initialize(i);
+   }
+
+   void erase()
+   {
+      for(auto& r : m_rows)
+         r.erase();
    }
 
    size_t size() const { return m_rows.size(); }
@@ -227,20 +249,33 @@ public:
    virtual char getKey() = 0;
 };
 
+class userInputSyphon : public iUserInput { // TODO unused
+public:
+   explicit userInputSyphon(iUserInput& u) : m_inner(u) {}
+
+   void onKey(char c, std::function<void(void)> f);
+   virtual char getKey();
+
+private:
+   iUserInput& m_inner;
+   std::map<char,std::function<void(void)> > m_funcs;
+};
+
 class buttonHandler {
 public:
    explicit buttonHandler(stringControl& error) : m_error(error) {}
 
    // return true to stop
-   void add(buttonControl& b, std::function<void(buttonControl&,bool&)> f);
+   void add(buttonControl& b, std::function<void(bool&)> f);
+   void addCustom(char k, std::function<void(bool&)> f);
    void unimpled(buttonControl& b);
 
-   buttonControl &run(iUserInput& in);
+   buttonControl *run(iUserInput& in);
 
 private:
    stringControl& m_error;
    std::map<char,buttonControl*> m_btns;
-   std::map<char,std::function<void(buttonControl&,bool&)> > m_callbacks;
+   std::map<char,std::function<void(bool&)> > m_callbacks;
 };
 
 // --------------- hand-written top-levels

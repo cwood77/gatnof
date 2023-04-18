@@ -1,4 +1,4 @@
-#include "../../gen/screen/screen.get.hpp"
+#include "../../gen/screen/screen.loseBattle.hpp"
 #include "../cmn/autoPtr.hpp"
 #include "../cmn/service.hpp"
 #include "../cui/ani.hpp"
@@ -11,7 +11,7 @@
 
 namespace {
 
-class logic : private get_screen, public cui::iLogic {
+class logic : private loseBattle_screen, public cui::iLogic {
 public:
    // required for diamond inheritance :(
    virtual void release() { delete this; }
@@ -19,11 +19,9 @@ public:
    virtual void run(bool interactive)
    {
       tcat::typePtr<cmn::serviceManager> svcMan;
-      auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
-      auto& prize = (*acct)["inbox"].as<sst::array>()[0].as<sst::dict>();
 
       // animation
-      { // move to combat
+      if(0) { // move to combat
          ani::delay d;
          d.nMSec = 1;
          d.nSkip = 2;
@@ -46,6 +44,18 @@ public:
       // whole screen re-draw
       render();
 
+      // animate title
+      m_title.update("F"); ::Sleep(250);
+      m_title.update("FA"); ::Sleep(250);
+      m_title.update("FAI"); ::Sleep(250);
+      m_title.update("FAIL"); ::Sleep(250);
+      m_title.update("FAILU"); ::Sleep(250);
+      m_title.update("FAILUR"); ::Sleep(250);
+      m_title.update("FAILURE"); ::Sleep(250);
+
+      m_text0.update("Holly suggests:");
+      m_text1.update("take a power nap and try again");
+
       // static controls
       if(interactive)
          m_prompt.redraw("<any key to dismiss>");
@@ -55,15 +65,6 @@ public:
          m_prompt.redraw("     -- auto --     ");
       }
 
-      // dynamic controls
-      m_msg.redraw(prize["reason"].as<sst::str>().get());
-      {
-         std::stringstream stream;
-         stream << prize["amt"].as<sst::mint>().get() << " ";
-         stream << prize["unit"].as<sst::str>().get();
-         m_booty.redraw(stream.str());
-      }
-
       // handle user input
       svcMan->demand<cui::iUserInput>().getKey();
    }
@@ -71,7 +72,7 @@ public:
 
 class fac : public cui::plugInFactoryT<logic,cui::iLogic> {
 public:
-   fac() : cui::plugInFactoryT<logic,cui::iLogic>("get") {}
+   fac() : cui::plugInFactoryT<logic,cui::iLogic>("loseBattle") {}
 };
 
 tcatExposeTypeAs(fac,cui::iPlugInFactory);

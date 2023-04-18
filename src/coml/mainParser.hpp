@@ -47,6 +47,7 @@ private:
    void parseObjectLine(const std::string& line, bool& stop);
    void parseObject(const char*& pThumb, std::list<iObject*>& list);
    void parseControlObject(const char *pThumb, controlObject& o);
+   void cleanUpFormats(controlObject& o);
 
    ir& m_ir;
 };

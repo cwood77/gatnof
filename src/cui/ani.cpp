@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include "ani.hpp"
 #include "pen.hpp"
+#include <conio.h>
 #include <windows.h>
 
 namespace ani {
@@ -19,7 +20,77 @@ private:
 
 } // anonymous namespace
 
-void delay::sleep() { ::Sleep(nMSec); }
+void delay::sleep()
+{
+   if(m_nCnt == 0)
+   {
+      ::Sleep(nMSec);
+      m_nCnt = nSkip;
+   }
+   else
+      m_nCnt--;
+}
+
+void delayTweakKeystrokeMonitor::stop()
+{
+   m_stopSignal.set();
+   m_tc.join();
+}
+
+void delayTweakKeystrokeMonitor::run()
+{
+   while(true)
+   {
+      if(m_stopSignal.isSet())
+         return;
+      if(::kbhit())
+      {
+         char c = ::getch();
+         if(c == '+')
+         {
+            if(m_d.nMSec == 0 && m_d.nSkip == 0)
+            {
+               m_d.nMSec = 1;
+               m_d.nSkip = 3;
+            }
+            else if(m_d.nSkip != 0)
+               m_d.nSkip--;
+            else
+               m_d.nMSec++;
+            m_wasTweaked = true;
+         }
+         else if(c == '-')
+         {
+            if(m_d.nMSec == 0 && m_d.nSkip == 0)
+               ;
+            else if(m_d.nMSec > 1)
+               m_d.nMSec--;
+            else if(m_d.nSkip < 3)
+               m_d.nSkip++;
+            else
+            {
+               m_d.nMSec = 0;
+               m_d.nSkip = 0;
+            }
+            m_wasTweaked = true;
+         }
+         else if(c == '0')
+         {
+            m_d.nMSec = 0;
+            m_d.nSkip = 0;
+            m_wasTweaked = true;
+         }
+         else
+         {
+            auto it = m_extra.find(c);
+            if(it != m_extra.end())
+               it->second();
+            else
+               ; // swallow other keystrokes and ignore
+         }
+      }
+   }
+}
 
 void frame::run(pen::object& pn)
 {
@@ -113,6 +184,46 @@ void prim::lineRightToLeft(iCanvas& c, cui::pnt p, size_t l)
    }
 }
 
+void prim::box(frame& f, cui::pnt ul, size_t l, size_t h, pen::colors bgcol)
+{
+   if(l < 3)
+      throw std::runtime_error("l too small");
+   if(h < 3)
+      throw std::runtime_error("h too small");
+   f.add([=](auto& pObj)
+   {
+      // top
+      pObj.str()
+         << pen::moveTo(ul)
+         << pen::bgcol(bgcol)
+         << " ";
+      for(size_t i=0;i<l-2;i++)
+         pObj.str() << " ";
+      pObj.str() << " ";
+
+      // bottom
+      pObj.str()
+         << pen::moveTo(cui::pnt(ul.x,ul.y+h-1))
+         << pen::bgcol(bgcol)
+         << " ";
+      for(size_t i=0;i<l-2;i++)
+         pObj.str() << " ";
+      pObj.str() << " ";
+
+      // left
+      pObj.str()
+         << pen::moveTo(cui::pnt(ul.x,ul.y+1))
+         << pen::bgcol(bgcol)
+         << " ";
+
+      // right
+      pObj.str()
+         << pen::moveTo(cui::pnt(ul.x+l-1,ul.y+1))
+         << pen::bgcol(bgcol)
+         << " ";
+   });
+}
+
 void attendance::colorBox(iCanvas& c, size_t i)
 {
    c.getFrame(0).add([=](auto& pObj)
@@ -140,9 +251,9 @@ void attendance::drawConnection(iCanvas& c, size_t i)
    }
 }
 
-void outliner::outline(iCanvas& c)
+void outliner::outline(cui::pnt P, size_t l, size_t h, iCanvas& c)
 {
-   cui::pnt p = m_c.getLoc();
+   cui::pnt p = P;
    size_t iFrame=0;
 
    // tl corner
@@ -155,7 +266,7 @@ void outliner::outline(iCanvas& c)
    });
 
    // top
-   for(size_t i=0;i<m_c.getLength()-2;i++)
+   for(size_t i=0;i<l-2;i++)
    {
       c.getFrame(iFrame++).add([=](auto& pObj)
       {
@@ -167,7 +278,7 @@ void outliner::outline(iCanvas& c)
    }
 
    // tr corner
-   p = cui::pnt(p.x+m_c.getLength()-1,p.y);
+   p = cui::pnt(p.x+l-1,p.y);
    c.getFrame(iFrame++).add([=](auto& pObj)
    {
       pObj.str()
@@ -177,7 +288,7 @@ void outliner::outline(iCanvas& c)
    });
 
    // right
-   for(size_t i=0;i<m_c.getHeight()-2;i++)
+   for(size_t i=0;i<h-2;i++)
    {
       c.getFrame(iFrame++).add([=](auto& pObj)
       {
@@ -189,8 +300,8 @@ void outliner::outline(iCanvas& c)
    }
 
    // br corner
-   p = m_c.getLoc();
-   p = cui::pnt(p.x+m_c.getLength()-1,p.y+m_c.getHeight()-1);
+   p = P;
+   p = cui::pnt(p.x+l-1,p.y+h-1);
    c.getFrame(iFrame++).add([=](auto& pObj)
    {
       pObj.str()
@@ -200,9 +311,9 @@ void outliner::outline(iCanvas& c)
    });
 
    // bottom
-   p = m_c.getLoc();
-   p = cui::pnt(p.x+1,p.y+m_c.getHeight()-1);
-   for(size_t i=m_c.getLength()-3;;i--)
+   p = P;
+   p = cui::pnt(p.x+1,p.y+h-1);
+   for(size_t i=l-3;;i--)
    {
       c.getFrame(iFrame++).add([=](auto& pObj)
       {
@@ -216,8 +327,8 @@ void outliner::outline(iCanvas& c)
    }
 
    // bl corner
-   p = m_c.getLoc();
-   p = cui::pnt(p.x,p.y+m_c.getHeight()-1);
+   p = P;
+   p = cui::pnt(p.x,p.y+h-1);
    c.getFrame(iFrame++).add([=](auto& pObj)
    {
       pObj.str()
@@ -227,9 +338,9 @@ void outliner::outline(iCanvas& c)
    });
 
    // left
-   p = m_c.getLoc();
-   p = cui::pnt(p.x,p.y+m_c.getHeight()-2);
-   for(size_t i=m_c.getHeight()-3;;i--)
+   p = P;
+   p = cui::pnt(p.x,p.y+h-2);
+   for(size_t i=h-3;;i--)
    {
       c.getFrame(iFrame++).add([=](auto& pObj)
       {
@@ -241,10 +352,6 @@ void outliner::outline(iCanvas& c)
       if(i==0)
          break;
    }
-}
-
-void blinker::blink(iCanvas& c)
-{
 }
 
 } // namespace ani

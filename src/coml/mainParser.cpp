@@ -138,6 +138,7 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       list.push_back(pObj);
       pObj->baseType = "cui::stringControl";
       parseControlObject(pThumb+4,*pObj);
+      cleanUpFormats(*pObj);
    }
    else if(::strncmp(pThumb,"int:",4)==0)
    {
@@ -145,6 +146,15 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       list.push_back(pObj);
       pObj->baseType = "cui::intControl";
       parseControlObject(pThumb+4,*pObj);
+      cleanUpFormats(*pObj);
+   }
+   else if(::strncmp(pThumb,"guage:",6)==0)
+   {
+      auto *pObj = new controlObject();
+      list.push_back(pObj);
+      pObj->baseType = "cui::guageControl";
+      parseControlObject(pThumb+6,*pObj);
+      cleanUpFormats(*pObj);
    }
    else if(::strncmp(pThumb,"btn:",4)==0)
    {
@@ -165,6 +175,7 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       pObj->format3 = fmt3.b;
       pObj->format4 = fmt4.b;
       pObj->baseType = "cui::buttonControl";
+      cleanUpFormats(*pObj);
    }
    else if(::strncmp(pThumb,"lst:",4)==0)
    {
@@ -172,8 +183,8 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
       list.push_back(pObj);
       cmn::zeroedBlock<> name;
       cmn::zeroedBlock<> elts;
-      ::sscanf(pThumb,"lst:%[^/]/%d/%[^/]",
-         name.b,&(pObj->height),elts.b);
+      ::sscanf(pThumb,"lst:%[^/]/%d/%d/%[^/]",
+         name.b,&(pObj->height),&(pObj->rowHeight),elts.b);
       pObj->name = name.b;
       pObj->baseType = "cui::listControl";
 
@@ -188,6 +199,8 @@ void mainParser::parseObject(const char*& pThumb, std::list<iObject*>& list)
             pThumb++;
          pObj->elts.push_back(x);
       }
+
+      cleanUpFormats(*pObj);
    }
    else
    {
@@ -202,11 +215,27 @@ void mainParser::parseControlObject(const char *pThumb, controlObject& o)
    cmn::zeroedBlock<> name;
    cmn::zeroedBlock<> fmt1;
    cmn::zeroedBlock<> fmt2;
-   ::sscanf(pThumb,"%[^/]/%d/%d/%[^/]/%[^/]/",
-      name.b,&(o.length),&(o.height),fmt1.b,fmt2.b);
+   cmn::zeroedBlock<> fmt3;
+   cmn::zeroedBlock<> fmt4;
+   ::sscanf(pThumb,"%[^/]/%d/%d/%[^/]/%[^/]/%[^/]/%[^/]",
+      name.b,&(o.length),&(o.height),fmt1.b,fmt2.b,fmt3.b,fmt4.b);
    o.name = name.b;
    o.format1 = fmt1.b;
    o.format2 = fmt2.b;
+   o.format3 = fmt3.b;
+   o.format4 = fmt4.b;
+}
+
+void mainParser::cleanUpFormats(controlObject& o)
+{
+   if(o.format1 == ".")
+      o.format1 = "";
+   if(o.format2 == ".")
+      o.format2 = "";
+   if(o.format3 == ".")
+      o.format3 = "";
+   if(o.format4 == ".")
+      o.format4 = "";
 }
 
 } // namespace coml

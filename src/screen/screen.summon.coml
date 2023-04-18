@@ -1,0 +1,43 @@
+coml v1 20
+1_2+------------------------------------------------------------------------------------------------------------+
+|                                                   3SUMMON2                                                   |
+|                                                                                                            |
+|       4                                         8-----------     9-----------      10-----------                |
+|        Normal Summon                              Draw o         Draw oo         Draw Max                  |
+|        oo gems: oo% R, oo% SR, oo% SSR                                           ooo draws                 |
+|                                                                                                            |
+|       5                                                                                                     |
+|        UR Summon                                                                                           |
+|        ooo gems: oo% SR, oh% SSR oo% UR                                                                    |
+|                                                                                                            |
+|       6                                                                                                     |
+|        Caste Summon                                                                                        |
+|        oo gems: oo% R, oo% SR, oo% SSR                                                                     |
+|                                                                           7            2                     |
+|                                                                           7   102Summon   2                     |
+|                                                                           7            2                     |
+| 99                                                                                                           |
+| 98back   100change type   101change amt                                                                            |
++------------------------------------------------------------------------------------------------------------+
+1=txt:%cls%
+2=txt:%stdcol%
+3=txt:" << pen::fgcol(pen::kYellow,true) << "
+7=txt:" << pen::bgcol(pen::kMagenta) << "
+
+4=str:norm/34/4/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+5=str:ur/34/4/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+6=str:caste/34/4/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+
+8=str:draw1/11/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+9=str:draw10/11/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+10=str:drawMax/11/3/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kBlue)/ << pen::fgcol(pen::kYellow,true) << pen::bgcol(pen::kYellow)
+
+99=str:error/106/1/%error%
+98=btn:backBtn/4/1/(b)ack
+100=btn:chgSumBtn/13/1/change (t)ype
+101=btn:chgAmtBtn/10/1/change (a)mt
+102=btn:summonBtn/6/1/(S)ummon/ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kMagenta) / << pen::fgcol(pen::kWhite) << pen::bgcol(pen::kMagenta)
+
+; begin comments
+
+summon button - bright yellow on bright green

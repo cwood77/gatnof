@@ -28,7 +28,12 @@ public:
          gems.setFormatter(
             *new cui::hugeValueIntFormatter());
       });
-      auto& gold = pScr->demand<cui::stringControl>("gold");
+      auto& gold = pScr->demand<cui::intControl>("gold");
+      gold.userInitialize([&]()
+      {
+         gold.setFormatter(
+            *new cui::hugeValueIntFormatter());
+      });
       auto& inboxHint = pScr->demand<cui::intControl>("inboxHint");
       inboxHint.userInitialize([&]()
       {
@@ -43,13 +48,18 @@ public:
       // fetch buttons
       auto& inboxBtn = pScr->demand<cui::buttonControl>("inboxBtn");
       auto& summonBtn = pScr->demand<cui::buttonControl>("summonBtn");
+      auto& charBtn = pScr->demand<cui::buttonControl>("charBtn");
       auto& questBtn = pScr->demand<cui::buttonControl>("questBtn");
       auto& arenaBtn = pScr->demand<cui::buttonControl>("arenaBtn");
       auto& exitBtn = pScr->demand<cui::buttonControl>("exitBtn");
-      summonBtn.dim("not yet implemented");
+      arenaBtn.dim("not yet implemented");
 
       while(true)
       {
+         // allow fighting
+         bool canFight = ((*acct)["line-up"].as<sst::array>().size() > 0);
+         questBtn.dim("add at least one character to line-up first",!canFight);
+
          // whole screen re-draw
          pScr->render();
 
@@ -74,28 +84,34 @@ public:
 
          // dynamic controls
          gems.redraw((*acct)["gems"].as<sst::mint>().get());
-         gold.redraw((*acct)["gold"].as<sst::str>().get());
+         gold.redraw((*acct)["gold"].as<sst::mint>().get());
          auto nInbox = (*acct)["inbox"].as<sst::array>().size();
          if(nInbox > 0)
             inboxHint.redraw(nInbox);
 
          // handle user input
          cui::buttonHandler handler(error);
-         handler.add(inboxBtn,[&](auto& bnt, bool& stop)
+         handler.add(inboxBtn,[&](bool& stop)
          {
             cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("inbox"));
             pL->run();
             stop = true; // redraw home
          });
-         handler.add(summonBtn,[&](auto& bnt, bool&){ });
-         handler.add(arenaBtn,[&](auto& bnt, bool& stop)
+         handler.add(summonBtn,[&](bool& stop)
          {
-            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("summon"));
             pL->run();
             stop = true; // redraw home
          });
-         handler.add(questBtn,[&](auto& bnt, bool& stop)
+         handler.add(charBtn,[&](bool& stop)
          {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("char"));
+            pL->run();
+            stop = true; // redraw home
+         });
+         handler.add(arenaBtn,[&](bool& stop)
+         {
+            {
             // TODO TEST!
             ch.sendString("queryCombat");
             {
@@ -111,10 +127,28 @@ public:
             ch.sendSst(*pCombatInfo);
             delete ch.recvSst(); // throw it away
             delete ch.recvSst(); // throw it away
+            }
+            {
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("battle"));
+            pL->run();
+            stop = true; // redraw home
+            }
          });
-         handler.add(exitBtn,[&](auto& bnt, bool& stop){ stop = true; });
-         auto& ans = handler.run(svcMan->demand<cui::iUserInput>());
-         if(&ans == &exitBtn)
+         handler.add(questBtn,[&](bool& stop)
+         {
+            size_t qNum = 1;
+            cmn::autoService<size_t> _qNumSvc(*svcMan,qNum,"selectedQuest");
+            size_t sNum = 1;
+            cmn::autoService<size_t> _sNumSvc(*svcMan,sNum,"selectedStage");
+
+            cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("precombat"));
+            pL->run();
+
+            stop = true; // redraw home
+         });
+         handler.add(exitBtn,[&](bool& stop){ stop = true; });
+         auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
+         if(ans == &exitBtn)
             return;
       }
    }

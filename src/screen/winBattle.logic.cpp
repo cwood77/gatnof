@@ -1,4 +1,4 @@
-#include "../../gen/screen/screen.get.hpp"
+#include "../../gen/screen/screen.winBattle.hpp"
 #include "../cmn/autoPtr.hpp"
 #include "../cmn/service.hpp"
 #include "../cui/ani.hpp"
@@ -11,7 +11,7 @@
 
 namespace {
 
-class logic : private get_screen, public cui::iLogic {
+class logic : private winBattle_screen, public cui::iLogic {
 public:
    // required for diamond inheritance :(
    virtual void release() { delete this; }
@@ -19,8 +19,7 @@ public:
    virtual void run(bool interactive)
    {
       tcat::typePtr<cmn::serviceManager> svcMan;
-      auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
-      auto& prize = (*acct)["inbox"].as<sst::array>()[0].as<sst::dict>();
+      auto& battleDetails = svcMan->demand<sst::dict>("battleDetails");
 
       // animation
       { // move to combat
@@ -46,22 +45,46 @@ public:
       // whole screen re-draw
       render();
 
+      // dynamic controls
+      {
+         auto& awards = battleDetails["awards"].as<sst::array>();
+         for(size_t i=0;i<awards.size();i++)
+         {
+            auto& award = awards[i].as<sst::dict>();
+            m_table[i].condition.update(award["condition"].as<sst::str>().get());
+            m_table[i].boon.update(award["boon"].as<sst::str>().get());
+         }
+      }
+
+      // animate boons
+      {
+         auto& awards = battleDetails["awards"].as<sst::array>();
+         for(size_t i=0;i<awards.size();i++)
+         {
+            ::Sleep(1000);
+
+            auto& award = awards[i].as<sst::dict>();
+            bool earned = award["earned"].as<sst::tf>().get();
+
+            m_table[i].glyph.redraw(earned ? "\xfb" : "x");
+            if(earned)
+            {
+               m_table[i].condition.setFormatMode(2);
+               m_table[i].condition.redraw(award["condition"].as<sst::str>().get());
+               m_table[i].boon.setFormatMode(2);
+               m_table[i].boon.redraw(award["boon"].as<sst::str>().get());
+            }
+         }
+      }
+
       // static controls
+      ::Sleep(1000);
       if(interactive)
          m_prompt.redraw("<any key to dismiss>");
       else
       {
          m_prompt.setFormatMode(2);
          m_prompt.redraw("     -- auto --     ");
-      }
-
-      // dynamic controls
-      m_msg.redraw(prize["reason"].as<sst::str>().get());
-      {
-         std::stringstream stream;
-         stream << prize["amt"].as<sst::mint>().get() << " ";
-         stream << prize["unit"].as<sst::str>().get();
-         m_booty.redraw(stream.str());
       }
 
       // handle user input
@@ -71,7 +94,7 @@ public:
 
 class fac : public cui::plugInFactoryT<logic,cui::iLogic> {
 public:
-   fac() : cui::plugInFactoryT<logic,cui::iLogic>("get") {}
+   fac() : cui::plugInFactoryT<logic,cui::iLogic>("winBattle") {}
 };
 
 tcatExposeTypeAs(fac,cui::iPlugInFactory);

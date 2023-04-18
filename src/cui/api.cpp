@@ -60,12 +60,50 @@ void stringControl::redraw(const std::string& v)
    // write
    str << pen::moveTo(getLoc());
    formatText(str);
+   if(rightJustify)
+      str << std::string(getLength() - v.length(), ' ');
    str << v;
 
    m_cache = v;
 }
 
 void stringControl::update(const std::string& v)
+{
+   if(v != m_cache)
+      redraw(v);
+}
+
+void guageControl::redraw(int v)
+{
+   tcat::typePtr<cmn::serviceManager> svcMan;
+   auto& str = svcMan->demand<pen::object>().str();
+
+   str << pen::moveTo(getLoc());
+
+   size_t x = v / 10;
+   if(x == 0 && v != 0)
+      x++;
+   if(x == 0)
+      str << pen::fgcol(pen::kBlack,true);
+   else if(x >= 7)
+      str << pen::fgcol(pen::kGreen);
+   else if(x <= 3)
+      str << pen::fgcol(pen::kRed);
+   else
+      str << pen::fgcol(pen::kYellow);
+
+   if(x == 0)
+      str << pen::block(2,3) << "DEAD" << pen::block(2,3);
+   else
+   {
+      str << pen::block(0,x);
+      str << pen::block(2,10-x);
+   }
+
+   m_cache = v;
+}
+
+void guageControl::update(int v)
 {
    if(v != m_cache)
       redraw(v);
@@ -106,6 +144,8 @@ std::string maxValueIntFormatter::formatValue(int v, size_t l) const
    // a 3 digit display has a max value of 2 9's
    // >= 100 means display the max value
    // l == 1 is illegal because there's no room for the +
+   if(l < 2)
+      throw std::runtime_error("l too small");
 
    int maxValue = 10;
    for(size_t i=0;i<(l-2);i++)
@@ -252,33 +292,51 @@ void basicScreen::publishObject(const std::string& id, iObject& o)
    pObj = &o;
 }
 
-void buttonHandler::add(buttonControl& b, std::function<void(buttonControl&,bool&)> f)
+void buttonHandler::add(buttonControl& b, std::function<void(bool&)> f)
 {
    m_btns[b.getCmdKey()] = &b;
    m_callbacks[b.getCmdKey()] = f;
 }
 
-void buttonHandler::unimpled(buttonControl& b)
+void buttonHandler::addCustom(char k, std::function<void(bool&)> f)
 {
-   add(b,[&](auto&,bool&){ m_error.redraw("Unimplemented"); });
+   m_callbacks[k] = f;
 }
 
-buttonControl &buttonHandler::run(iUserInput& in)
+void buttonHandler::unimpled(buttonControl& b)
+{
+   add(b,[&](bool&){ m_error.redraw("Unimplemented"); });
+}
+
+buttonControl *buttonHandler::run(iUserInput& in)
 {
    while(true)
    {
       auto k = in.getKey();
+      auto cit = m_callbacks.find(k);
       auto bit = m_btns.find(k);
       if(bit == m_btns.end())
-         m_error.redraw("Unrecognized command");
+      {
+         if(cit != m_callbacks.end())
+         {
+            // custom
+            bool stop = false;
+            m_callbacks[k](stop);
+            if(stop)
+               return NULL;
+         }
+         else
+            m_error.redraw("Unrecognized command");
+      }
       else
       {
+         // buttom
          if(bit->second->isEnabled())
          {
             bool stop = false;
-            m_callbacks[k](*bit->second,stop);
+            m_callbacks[k](stop);
             if(stop)
-               return *bit->second;
+               return bit->second;
          }
          else
             m_error.redraw(bit->second->getDimReason());
