@@ -4,12 +4,12 @@ coml v1 20
 |  100SSR 101Drunken Sailor Donald Duck                                 |                                    used? |
 |                                                                 |1000       <nothing>                        |
 |   element: 102Water                        star:105 o 106******          |1001  404_400    401   402                             403  |
-|     caste: 103Corporate                   level: 107oo108             |1002SSR oo Drunken Sailor Donald Duck       |
+|     caste: 103Corporate                   level: 107oo3/60_2             |1002SSR oo Drunken Sailor Donald Duck       |
 |  subcaste: 104Classics                                             |1003                                        |
 |                                                                 |1004                                        |
-|    attack: 200ooo/ooo + 201oo-oo = 202ooo-ooo                            |1005                                        |
-|   defense: 203ooo-ooo + 204oo-oo = 205ooo-ooo                            |1006                                        |
-|   agility: 206ooo-ooo + 207oo-oo = 208ooo-ooo                            |1007                                        |
+|    attack: 199ooo3/200 2+ 201oo3/20 2= 202ooo3/200 2                           |1005                                        |
+|   defense: 203ooo3/200 2+ 204oo3/20 2= 205ooo3/200 2                           |1006                                        |
+|   agility: 206ooo3/200 2+ 207oo3/20 2= 208ooo3/200 2                           |1007                                        |
 |                                                                 |1008                                        |
 |  shard(s): 300ooooo                                                |1009                                        |
 |      gold: 301ooooo                                                |1010                                        |
@@ -19,9 +19,15 @@ coml v1 20
 | 899Unknown command                                                                                            |
 | 900back   901level-up   902star-up   equip 903up904-down   905next equip                                                     |
 +------------------------------------------------------------------------------------------------------------+
-; header
+; common labels
+20=lbl:20
+60=lbl:60
+200=lbl:200
+
+; header/styles
 1=txt:%cls%
-2=txt:" << pen::bgcol(pen::kCyan) << "
+2=txt:%stdcol%
+3=txt:" << pen::fgcol(pen::kBlack,true) << "
 
 ; main form - general section
 100=str:rarity/3/1
@@ -32,10 +38,9 @@ coml v1 20
 105=int:starCnt/2/1
 106=str:starGlyph/6/1
 107=int:level/2/1
-108=txt:" << pen::fgcol(pen::kBlack,true) << "/60" << pen::fgcol(pen::kYellow) << "
 
 ; main form - stats
-200=int:atkBase/3/1
+199=int:atkBase/3/1
 201=int:atkEquip/2/1
 202=int:atkTotal/3/1
 203=int:defBase/3/1
