@@ -14,6 +14,7 @@ public:
 
    virtual void render(std::ostream& o, int& jOffset) {}
    virtual void place(cui::pnt p) {}
+   virtual size_t getShadow() { return 0; }
 };
 
 class textObject : public iObject {
@@ -38,6 +39,7 @@ public:
    : length(0), height(0), pnt(0,0), isTableElt(false) {}
 
    virtual void place(cui::pnt p) { pnt = p; }
+   virtual size_t getShadow() { return length; }
 
    std::string baseType;
    std::string name;
@@ -59,6 +61,8 @@ public:
 class listControlObject : public controlObject {
 public:
    listControlObject() : rowHeight(0) {}
+
+   virtual size_t getShadow() { return 0; }
 
    int rowHeight;
    std::vector<size_t> elts;
