@@ -25,14 +25,25 @@ public:
    db::rarities draw();
 };
 
+class awardStrategy {
+public:
+   size_t min;
+   size_t max;
+   std::string strategy;
+   rarityOdds dist;
+};
+
 class stageData {
 public:
    explicit stageData(size_t numStages);
 
-   std::vector<size_t> partySize;
-   rarityOdds          partyRarity;
-   std::vector<size_t> partyLevel;
-   std::vector<size_t> awardAmts1;
+   std::vector<size_t>         partySize;
+   rarityOdds                  partyRarity;
+   std::vector<size_t>         partyLevel;
+   std::vector<size_t>         awardAmts1;
+   std::vector<awardStrategy*> award3;
+
+   std::list<awardStrategy> _award3Strats;
 };
 
 class stageGenerator : public cmn::subobject {
@@ -44,6 +55,8 @@ private:
    void writeStages(stageData& data);
    void writeStage(size_t i, stageData& data);
    void writeAwards(sst::dict& stage, size_t i, stageData& data);
+   void writeAward3(sst::array& awards, size_t i, stageData& data);
+   size_t pickItem(db::rarities r);
    void writeParty(sst::dict& stage, size_t i, stageData& data);
    size_t pickChar(std::set<size_t>& usedChars, stageData& data);
 

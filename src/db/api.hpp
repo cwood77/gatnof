@@ -32,6 +32,8 @@ enum equipTypes {
    kAccessory
 };
 
+const char *fmtEquipTypes(equipTypes e);
+
 class equip {
 public:
    rarities rarity;
@@ -67,6 +69,7 @@ public:
    virtual const staticChar& findChar(size_t id) = 0;
    virtual size_t numChars() const = 0;
    virtual const equip& findItem(size_t id) = 0;
+   virtual void getItemRange(size_t& first, size_t& count) = 0;
    virtual const staticStat& findStat() = 0;
 };
 

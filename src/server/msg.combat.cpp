@@ -334,48 +334,91 @@ private:
       {
          auto& award = awards[i].as<sst::dict>();
          auto& condition = award["condition"].as<sst::str>().get();
-         auto& unit = award["unit"].as<sst::str>().get();
-         auto& amt = award["amt"].as<sst::mint>().get();
 
-         std::stringstream boon;
-         boon << amt << " " << unit;
+         auto boon = buildBoonNarration(award);
          bool alreadyHad = alreadyGot(qHistory,questMoniker,i);
          bool earned = false;
 
          if(condition == "win")
          {
             earned = isVictory;
-            r.scoreAward("defeat all enemies",boon.str(),earned,alreadyHad);
+            r.scoreAward("defeat all enemies",boon,earned,alreadyHad);
          }
          else if(condition == "all-alive")
          {
             earned = pSide.all([](auto& c){ return c.hp > 0; });
-            r.scoreAward("all members survive",boon.str(),earned,alreadyHad);
+            r.scoreAward("all members survive",boon,earned,alreadyHad);
          }
          else if(condition == "all-above-half")
          {
             earned = pSide.all([](auto& c){ return c.hp >= 50; });
-            r.scoreAward("all members at least 50% health",boon.str(),earned,alreadyHad);
+            r.scoreAward("all members at least 50% health",boon,earned,alreadyHad);
          }
          else
             throw std::runtime_error("unsupported award condition");
          earnings.push_back(earned);
 
-         bool grantBoon = earned && !alreadyHad;
-         if(grantBoon)
-         {
-            if(unit == "gold")
-            {
-               auto& field = acct["gold"].as<sst::mint>();
-               field = field.get() + amt;
-            }
-            else
-               throw std::runtime_error("unsupported award unit");
-         }
+         if(earned && !alreadyHad)
+            grantBoon(award,acct);
       }
 
       if(isVictory)
          updateQuestHistory(qHistory,questMoniker,earnings);
+   }
+
+   std::string buildBoonNarration(sst::dict& award)
+   {
+      auto& unit = award["unit"].as<sst::str>().get();
+      std::stringstream boon;
+
+      if(unit == "equip")
+      {
+         auto id = award["id"].as<sst::mint>().get();
+
+         tcat::typePtr<db::iDict> dbDict;
+         auto& e = dbDict->findItem(id);
+
+         boon << e.name << " (" << db::fmtEquipTypes(e.type) << ")";
+      }
+      else
+      {
+         auto& amt = award["amt"].as<sst::mint>().get();
+         boon << amt << " " << unit;
+      }
+
+      return boon.str();
+   }
+
+   void grantBoon(sst::dict& award, sst::dict& acct)
+   {
+      auto& unit = award["unit"].as<sst::str>().get();
+
+      if(unit == "equip")
+      {
+         auto id = award["id"].as<sst::mint>().get();
+         std::stringstream sKey;
+         sKey << id;
+         auto& inven = acct["items"].as<sst::dict>();
+         if(inven.has(sKey.str()))
+         {
+            auto& cnt = inven[sKey.str()].as<sst::dict>()["amt"].as<sst::mint>();
+            cnt = cnt.get() + 1;
+         }
+         else
+         {
+            auto& item = inven.add<sst::dict>(sKey.str());
+            item.add<sst::mint>("amt") = 1;
+            item.add<sst::mint>("type") = id;
+         }
+      }
+      else if(unit == "gold")
+      {
+         auto& amt = award["amt"].as<sst::mint>().get();
+         auto& field = acct["gold"].as<sst::mint>();
+         field = field.get() + amt;
+      }
+      else
+         throw std::runtime_error("unsupported award unit");
    }
 
    void updateQuestHistory(sst::dict& qHistory, const std::string& questMoniker, const std::vector<bool>& earnings)

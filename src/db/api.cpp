@@ -138,6 +138,7 @@ public:
    virtual const staticChar& findChar(size_t id);
    virtual size_t numChars() const;
    virtual const equip& findItem(size_t id);
+   virtual void getItemRange(size_t& first, size_t& count);
    virtual const staticStat& findStat() { return gStats; }
 };
 
@@ -165,6 +166,13 @@ const equip& staticDict::findItem(size_t id)
    if(id >= nCnt)
       throw std::runtime_error("equip range out of bounds");
    return gEquip[id];
+}
+
+void staticDict::getItemRange(size_t& first, size_t& count)
+{
+   static const size_t nCnt = sizeof(gEquip) / sizeof(equip);
+   first = kReservedCharRange;
+   count = nCnt;
 }
 
 tcatExposeTypeAs(staticDict,iDict);

@@ -26,4 +26,23 @@
       "start": 1,
       "every-N-inc": 1
    },
+
+   "award-3": [
+      {
+         "min": 1,
+         "max": 49,
+         "strategy": "scaleAward1"
+      },
+      {
+         "min": 50,
+         "max": 100,
+         "strategy": "rndItem",
+         "dist": [
+            60,
+            40,
+            0,
+            0,
+         ]
+      }
+   ],
 }

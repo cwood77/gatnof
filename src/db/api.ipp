@@ -10,6 +10,12 @@ inline const char *fmtElementsFixedWidth(elements e)
    return strs[e];
 }
 
+inline const char *fmtEquipTypes(equipTypes e)
+{
+   static const char *strs[] = { "weapon", "armor", "boots", "accessory" };
+   return strs[e];
+}
+
 inline size_t staticStat::getBase(rarities r, size_t lvl) const
 {
    return (coef[r].m * lvl) + coef[r].b;
