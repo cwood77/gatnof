@@ -10,6 +10,103 @@
 
 namespace {
 
+class equipInst {
+public:
+   equipInst() : pE(NULL), charType(-1) {}
+   const db::equip *pE;
+   int charType;
+};
+
+class equipSorter {
+public:
+   typedef equipInst *elt_t;
+   bool operator()(const elt_t& pLhs, const elt_t& pRhs) const
+   {
+      return pLhs < pRhs;
+   }
+};
+
+class equipList {
+public:
+   std::vector<equipInst>           vec;
+   std::set<equipInst*,equipSorter> set;
+
+   void clear() { set.clear(); vec.clear(); }
+   void sort() { for(auto& x : vec) set.insert(&x); }
+};
+
+class equipListBuilder {
+public:
+   explicit equipListBuilder(equipList& l) : m_el(l) {}
+
+   void rebuild(db::iDict& dbDict, sst::dict& acct, db::equipTypes filter, size_t myCharType)
+   {
+      m_el.clear();
+      createLookupTable(acct,(size_t)filter,myCharType);
+      createList(dbDict,acct,filter);
+      m_el.sort();
+   }
+
+private:
+   void createLookupTable(sst::dict& acct, size_t equipSlot, size_t myCharType)
+   {
+      auto& Chars = acct["chars"].as<sst::dict>().asMap();
+      for(auto it=Chars.begin();it!=Chars.end();++it)
+      {
+         auto& Char = it->second->as<sst::dict>();
+         auto& equip = Char["equip"].as<sst::array>();
+         auto val = equip[equipSlot].as<sst::mint>().get();
+         if(val)
+         {
+            auto type = Char["type"].as<sst::mint>().get();
+            m_table[val].insert(type == myCharType ? -2 : type);
+         }
+      }
+   }
+
+   void createList(db::iDict& dbDict, sst::dict& acct, db::equipTypes filter)
+   {
+      size_t first, count;
+      dbDict.getItemRange(first,count);
+
+      auto& inven = acct["items"].as<sst::dict>().asMap();
+      for(auto it=inven.begin();it!=inven.end();++it)
+      {
+         auto type = it->second->as<sst::dict>()["type"].as<sst::mint>().get();
+         if(! (first <= type && type < (first+count)) )
+            continue; // not an item (e.g. maybe a shard?)
+
+         auto& e = dbDict.findItem(type);
+         if(e.type != filter)
+            continue;
+
+         auto cnt = it->second->as<sst::dict>()["amt"].as<sst::mint>().get();
+         for(size_t i=0;i<cnt;i++)
+            createItem(type,e);
+      }
+   }
+
+   void createItem(size_t i, const db::equip& e)
+   {
+      // create item
+      m_el.vec.push_back(equipInst());
+      auto& entry = m_el.vec.back();
+      entry.pE = &e;
+
+      // associate with a char, if necessary
+      auto& waiting = m_table[i];
+      if(waiting.size())
+      {
+         entry.charType = *waiting.begin();
+         waiting.erase(entry.charType);
+      }
+   }
+
+   equipList& m_el;
+   //       items => chars using them
+   std::map<size_t,std::set<size_t> > m_table;
+};
+
 class logic : private charDetail_screen, public cui::iLogic {
 public:
    logic()
@@ -30,11 +127,6 @@ public:
       // whole screen re-draw
       render();
 
-      // select / sort equip panel
-
-      // draw equip panel
-      m_subtableTitle.update(" WEAPON  ");
-
       while(true)
       {
          // grab the char that's been selected by my parent
@@ -44,6 +136,13 @@ public:
          drawBasicCharFields();
          drawStats();
          drawCurrencies();
+
+         // select / sort equip panel
+         equipListBuilder(m_eList).rebuild(*m_dbDict,*m_acct,db::kBoots,m_char->getType());
+
+         // draw equip panel
+         m_subtableTitle.update("  BOOTS  ");
+         drawEquip(pg);
 
          // handle user input
          cui::buttonHandler handler(m_error);
@@ -166,6 +265,33 @@ private:
       m_gold.update((*m_acct)["gold"].as<sst::mint>().get());
    }
 
+   void drawEquip(long pg)
+   {
+      const size_t N = m_table.size();
+      size_t nSkip = N * pg;
+
+      size_t i=0;
+      for(auto *pElt : m_eList.set)
+      {
+         if(i < nSkip)
+         {
+            nSkip--;
+            continue;
+         }
+
+         if(i == N)
+            break;
+
+         auto& row = m_table[i];
+         row.eRarity.update(db::fmtRaritiesFixedWidth(pElt->pE->rarity));
+         row.quality.update(pElt->pE->quality);
+         row.eName.update(pElt->pE->name);
+         row.used.update(pElt->charType == -1 ? "" : "X");
+
+         i++;
+      }
+   }
+
    void boostChar(const std::string& mode, bool& stop)
    {
       std::stringstream sKey;
@@ -194,6 +320,8 @@ private:
 
    tcat::typePtr<db::iDict> m_dbDict;
    std::unique_ptr<db::Char> m_char;
+
+   equipList m_eList;
 };
 
 class fac : public cui::plugInFactoryT<logic,cui::iLogic> {
