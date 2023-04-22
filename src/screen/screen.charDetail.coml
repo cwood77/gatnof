@@ -2,8 +2,8 @@ coml v1 20
 1_2+-----------------------------------------------------------------+------------------------------------------+
 |                                                                 |                 405ACCESSORY                |
 |  100SSR 101Drunken Sailor Donald Duck                                 |                                    used? |
-|                                                                 |1000       <nothing>                        |
-|   element: 102Water                        star:105 o 106******          |1001  404_400    401   402                             403  |
+|                                                                 |1000  404_400    401   402                             403  |
+|   element: 102Water                        star:105 o 106******          |1001                                        |
 |     caste: 103Corporate                   level: 107oo3/60_2             |1002SSR oo Drunken Sailor Donald Duck       |
 |  subcaste: 104Classics                                             |1003                                        |
 |                                                                 |1004                                        |
@@ -57,9 +57,9 @@ coml v1 20
 ; equip table
 400=str:eRarity/3/1
 401=int:quality/2/1
-402=str:eName/26/1
+402=str:eName/26/1/./ << pen::fgcol(pen::kYellow) << pen::bgcol(pen::kMagenta)
 403=str:used/1/1
-404=lst:table/12/1/400,401,402,403
+404=lst:table/13/1/400,401,402,403
 405=str:subtableTitle/9/1/%emph%
 
 ; numbers (cosmetic only)

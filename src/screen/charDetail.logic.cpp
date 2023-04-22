@@ -12,9 +12,14 @@ namespace {
 
 class equipInst {
 public:
-   equipInst() : pE(NULL), charType(-1) {}
+   equipInst() : eId(0), pE(NULL), charType(-1) {}
+
+   size_t eId;
    const db::equip *pE;
    int charType;
+
+   bool isEquipped() const { return charType == -2; }
+   bool inUse() const { return charType >= 0; }
 };
 
 class equipSorter {
@@ -22,6 +27,34 @@ public:
    typedef equipInst *elt_t;
    bool operator()(const elt_t& pLhs, const elt_t& pRhs) const
    {
+      // nothing first
+      bool LisNothing = (pLhs->pE == NULL);
+      bool RisNothing = (pRhs->pE == NULL);
+      if(LisNothing != RisNothing) return LisNothing;
+      // NB: guard pE against null by making sure _both_ aren't
+      // nothing
+      if(LisNothing) return false;
+
+      // quality
+      if(pLhs->pE->quality != pRhs->pE->quality)
+         return pLhs->pE->quality > pRhs->pE->quality;
+
+      // name
+      auto nameCmp = ::strcmp(pLhs->pE->name,pRhs->pE->name);
+      if(nameCmp != 0)
+         return nameCmp < 0;
+
+      // mine
+      bool LisEquipped = pLhs->isEquipped();
+      bool RisEquipped = pRhs->isEquipped();
+      if(LisEquipped != RisEquipped) return LisEquipped;
+
+      // in use
+      bool LinUse = pLhs->inUse();
+      bool RinUse = pRhs->inUse();
+      if(LinUse != RinUse) return LinUse;
+
+      // fallback
       return pLhs < pRhs;
    }
 };
@@ -42,14 +75,19 @@ public:
    void rebuild(db::iDict& dbDict, sst::dict& acct, db::equipTypes filter, size_t myCharType)
    {
       m_el.clear();
-      createLookupTable(acct,(size_t)filter,myCharType);
+
+      bool iAmEquipped = createLookupTable(acct,(size_t)filter,myCharType);
       createList(dbDict,acct,filter);
+      createNothingValue(!iAmEquipped);
+
       m_el.sort();
    }
 
 private:
-   void createLookupTable(sst::dict& acct, size_t equipSlot, size_t myCharType)
+   bool createLookupTable(sst::dict& acct, size_t equipSlot, size_t myCharType)
    {
+      bool sawMyCharType = false;
+
       auto& Chars = acct["chars"].as<sst::dict>().asMap();
       for(auto it=Chars.begin();it!=Chars.end();++it)
       {
@@ -59,9 +97,14 @@ private:
          if(val)
          {
             auto type = Char["type"].as<sst::mint>().get();
-            m_table[val].insert(type == myCharType ? -2 : type);
+            const bool isMyCharType = (type == myCharType);
+            m_table[val].insert(isMyCharType ? -2 : type);
+            if(isMyCharType)
+               sawMyCharType = true;
          }
       }
+
+      return sawMyCharType;
    }
 
    void createList(db::iDict& dbDict, sst::dict& acct, db::equipTypes filter)
@@ -91,6 +134,7 @@ private:
       // create item
       m_el.vec.push_back(equipInst());
       auto& entry = m_el.vec.back();
+      entry.eId = i;
       entry.pE = &e;
 
       // associate with a char, if necessary
@@ -100,6 +144,14 @@ private:
          entry.charType = *waiting.begin();
          waiting.erase(entry.charType);
       }
+   }
+
+   void createNothingValue(bool isEquipped)
+   {
+      m_el.vec.push_back(equipInst());
+      auto& entry = m_el.vec.back();
+      if(isEquipped)
+         entry.charType = -2;
    }
 
    equipList& m_el;
@@ -121,11 +173,11 @@ public:
    {
       long pg = 0;
 
-      // setup int formatting
-      setupControls();
-
       // whole screen re-draw
       render();
+
+      // setup int formatting
+      setupControls();
 
       while(true)
       {
@@ -146,19 +198,19 @@ public:
 
          // handle user input
          cui::buttonHandler handler(m_error);
-         handler.addCustom('0',[&](bool& stop){  });
-         handler.addCustom('1',[&](bool& stop){  });
-         handler.addCustom('2',[&](bool& stop){  });
-         handler.addCustom('3',[&](bool& stop){  });
-         handler.addCustom('4',[&](bool& stop){  });
-         handler.addCustom('5',[&](bool& stop){  });
-         handler.addCustom('6',[&](bool& stop){  });
-         handler.addCustom('7',[&](bool& stop){  });
-         handler.addCustom('8',[&](bool& stop){  });
-         handler.addCustom('9',[&](bool& stop){  });
-         handler.addCustom('A',[&](bool& stop){  });
-         handler.addCustom('B',[&](bool& stop){  });
-         handler.addCustom('C',[&](bool& stop){  });
+         handler.addCustom('0',[&](bool& stop){ equip( 0,stop); });
+         handler.addCustom('1',[&](bool& stop){ equip( 1,stop); });
+         handler.addCustom('2',[&](bool& stop){ equip( 2,stop); });
+         handler.addCustom('3',[&](bool& stop){ equip( 3,stop); });
+         handler.addCustom('4',[&](bool& stop){ equip( 4,stop); });
+         handler.addCustom('5',[&](bool& stop){ equip( 5,stop); });
+         handler.addCustom('6',[&](bool& stop){ equip( 6,stop); });
+         handler.addCustom('7',[&](bool& stop){ equip( 7,stop); });
+         handler.addCustom('8',[&](bool& stop){ equip( 8,stop); });
+         handler.addCustom('9',[&](bool& stop){ equip( 9,stop); });
+         handler.addCustom('A',[&](bool& stop){ equip(10,stop); });
+         handler.addCustom('B',[&](bool& stop){ equip(11,stop); });
+         handler.addCustom('C',[&](bool& stop){ equip(12,stop); });
          handler.add(m_backBtn,[&](bool& stop){ stop = true; });
          handler.add(m_levelUpBtn,[&](bool& stop) { boostChar("level-up",stop); });
          handler.add(m_starUpBtn,[&](bool& stop) { boostChar("star-up",stop); });
@@ -196,6 +248,10 @@ private:
 
       leftJustifyHugeIntCtl(m_shards);
       leftJustifyHugeIntCtl(m_gold);
+
+      const size_t N = m_table.size();
+      for(size_t i=0;i<N;i++)
+         rightJustifyMaxIntCtl(m_table[i].quality);
    }
 
    void rightJustifyMaxIntCtl(cui::intControl& c)
@@ -269,7 +325,10 @@ private:
    {
       const size_t N = m_table.size();
       size_t nSkip = N * pg;
+      m_upBtn.dim("already at first page",nSkip==0);
+      m_upBtn.redraw();
 
+      m_eMap.clear();
       size_t i=0;
       for(auto *pElt : m_eList.set)
       {
@@ -283,13 +342,76 @@ private:
             break;
 
          auto& row = m_table[i];
-         row.eRarity.update(db::fmtRaritiesFixedWidth(pElt->pE->rarity));
-         row.quality.update(pElt->pE->quality);
-         row.eName.update(pElt->pE->name);
-         row.used.update(pElt->charType == -1 ? "" : "X");
+         row.eName.setFormatMode(pElt->isEquipped() ? 2 : 1);
+         if(pElt->pE)
+         {
+            row.eRarity.update(db::fmtRaritiesFixedWidth(pElt->pE->rarity));
+            row.quality.redraw(pElt->pE->quality);
+            row.eName.redraw(pElt->pE->name);
+            row.used.update(pElt->inUse() ? "X" : "");
+         }
+         else
+         {
+            row.eRarity.update("");
+            row.quality.update(0);
+            row.eName.redraw("<Nothing>");
+            row.used.update("");
+         }
+         row.eName.setFormatMode(1);
+         m_eMap[i] = pElt;
 
          i++;
       }
+
+      m_downBtn.dim("already at last page",i!=N);
+      m_downBtn.redraw();
+
+      for(;i<N;i++)
+      {
+         auto& row = m_table[i];
+         row.eRarity.update("");
+         row.quality.erase();
+         row.eName.redraw("");
+         row.used.update("");
+      }
+   }
+
+   void equip(size_t idx, bool& stop)
+   {
+      auto it = m_eMap.find(idx);
+      if(it == m_eMap.end())
+      {
+         m_error.redraw("invalid equipment selection");
+         return;
+      }
+
+      if(it->second->inUse())
+      {
+         m_error.redraw("equipment in use by another character");
+         return;
+      }
+
+      std::stringstream sKey;
+      sKey << m_char->getType();
+
+      sst::dict req;
+      req.add<sst::str>("char") = sKey.str();
+      req.add<sst::str>("action") = "change-equip";
+      req.add<sst::mint>("item") = it->second->eId;
+      req.add<sst::mint>("item-type") = 2;
+
+      auto& ch = m_svcMan->demand<net::iChannel>();
+      ch.sendString("boostChar");
+      ch.sendSst(req);
+
+      auto err = ch.recvString();
+      if(err.empty())
+      {
+         m_acct.reset(ch.recvSst());
+         stop = true;
+      }
+      else
+         m_error.redraw(err);
    }
 
    void boostChar(const std::string& mode, bool& stop)
@@ -322,6 +444,7 @@ private:
    std::unique_ptr<db::Char> m_char;
 
    equipList m_eList;
+   std::map<size_t,equipInst*> m_eMap;
 };
 
 class fac : public cui::plugInFactoryT<logic,cui::iLogic> {

@@ -25,6 +25,12 @@ public:
          levelUp(charOverlay,error,ctxt.pAcct->dict());
       else if(mode == "star-up")
          starUp(charOverlay,error,ctxt.pAcct->dict());
+      else if(mode == "change-equip")
+      {
+         auto itemId = (*pReq)["item"].as<sst::mint>().get();
+         auto itemType = (*pReq)["item-type"].as<sst::mint>().get();
+         changeEquip(charOverlay,error,ctxt.pAcct->dict(),itemId,itemType);
+      }
       else
          throw std::runtime_error("ISE");
 
@@ -80,8 +86,10 @@ private:
       }
    }
 
-   void boost(sst::mint& stat, sst::mint& currency, size_t cnt, std::string& error)
+   void changeEquip(sst::dict& Char, std::string&, sst::dict&, size_t itemId, size_t itemType)
    {
+      auto& slot = Char["equip"].as<sst::array>()[itemType].as<sst::mint>();
+      slot = itemId;
    }
 };
 
