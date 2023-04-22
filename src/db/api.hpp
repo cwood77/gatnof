@@ -25,9 +25,17 @@ enum elements {
 
 const char *fmtElementsFixedWidth(elements e);
 
+enum equipTypes {
+   kWeapon,
+   kArmor,
+   kBoots,
+   kAccessory
+};
+
 class equip {
 public:
    rarities rarity;
+   equipTypes type;
    size_t quality;
    const char *name;
 };
