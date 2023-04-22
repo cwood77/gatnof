@@ -79,6 +79,8 @@ public:
    size_t getLevel();
    //void setLevel(size_t v);
 
+   size_t getStat(bool special, const equip *pE) const;
+
    size_t atk(bool special) const { return getStat(special,getWeapon()); }
    size_t def() const             { return getStat(false,  getArmor()); }
    size_t agil() const            { return getStat(false,  getBoot()); }
@@ -95,7 +97,6 @@ public:
 
 private:
    void configureEquip(iDict& d);
-   size_t getStat(bool special, const equip *pE) const;
    size_t applyBonus(size_t x) const;
 
    sst::dict& m_overlay;

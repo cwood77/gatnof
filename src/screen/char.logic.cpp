@@ -177,7 +177,9 @@ public:
          return;
       }
 
-      // TODO
+      tcat::typePtr<cmn::serviceManager> svcMan;
+      size_t cType = c->getType();
+      cmn::autoService<size_t> _char(*svcMan,cType,"selectedChar");
       tcat::typePtr<cui::iFactory> sFac;
       cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("charDetail"));
       pL->run();

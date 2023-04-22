@@ -45,6 +45,19 @@ inline size_t Char::getLevel()
    return m_overlay["level"].as<sst::mint>().get();
 }
 
+inline size_t Char::getStat(bool special, const equip *pE) const
+{
+   size_t x = m_baseStat;
+
+   if(pE)
+      x += pE->quality;
+
+   if(special)
+      x += (::rand() % 20);
+
+   return applyBonus(x);
+}
+
 inline void Char::configureEquip(iDict& d)
 {
    ::memset(&m_equip,0,sizeof(m_equip));
@@ -66,19 +79,6 @@ inline void Char::configureEquip(iDict& d)
    id = e[3].as<sst::mint>().get();
    if(id)
       m_equip[3] = &d.findItem(id);
-}
-
-inline size_t Char::getStat(bool special, const equip *pE) const
-{
-   size_t x = m_baseStat;
-
-   if(pE)
-      x += pE->quality;
-
-   if(special)
-      x += (::rand() % 20);
-
-   return applyBonus(x);
 }
 
 inline size_t Char::applyBonus(size_t x) const

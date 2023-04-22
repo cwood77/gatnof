@@ -6,12 +6,22 @@
 #include "../test/api.hpp"
 #include "api.hpp"
 
+testDefineTest(cui_trustingIntFormatter)
+{
+   cui::trustingIntFormatter sut;
+   a.assertTrue(sut.formatValue(1,3)    == "1");
+   a.assertTrue(sut.formatValue(12,3)   == "12");
+   a.assertTrue(sut.formatValue(99,3)   == "99");
+   a.assertTrue(sut.formatValue(100,3)  == "100");
+   a.assertTrue(sut.formatValue(1000,3) == "99+");
+}
+
 testDefineTest(cui_maxValueIntFormatter)
 {
    cui::maxValueIntFormatter sut;
-   a.assertTrue(sut.formatValue(1,3) == "1");
-   a.assertTrue(sut.formatValue(12,3) == "12");
-   a.assertTrue(sut.formatValue(99,3) == "99");
+   a.assertTrue(sut.formatValue(1,3)   == "1");
+   a.assertTrue(sut.formatValue(12,3)  == "12");
+   a.assertTrue(sut.formatValue(99,3)  == "99");
    a.assertTrue(sut.formatValue(100,3) == "99+");
 }
 

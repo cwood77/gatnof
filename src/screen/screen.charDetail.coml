@@ -19,7 +19,7 @@ coml v1 20
 | 899Unknown command                                                                                            |
 | 900back   901level-up   902star-up   equip 903up904-down   905next equip                                                     |
 +------------------------------------------------------------------------------------------------------------+
-; common labels
+; reusable labels
 20=lbl:20
 60=lbl:60
 200=lbl:200
@@ -31,29 +31,28 @@ coml v1 20
 
 ; main form - general section
 100=str:rarity/3/1
-101=str:name/26/1
-102=str:element/5/1
-103=str:caste/27/1
-104=str:subcaste/27/1
-105=int:starCnt/2/1
-106=str:starGlyph/6/1
-107=int:level/2/1
+101=str:name/26/1/%emph%
+102=str:element/5/1/%emph%
+103=str:caste/27/1/%emph%
+104=str:subcaste/27/1/%emph%
+105=int:starCnt/2/1/%emph%
+106=str:starGlyph/6/1/%emph%
+107=int:level/2/1/%emph%
 
 ; main form - stats
-199=int:atkBase/3/1
-201=int:atkEquip/2/1
-202=int:atkTotal/3/1
-203=int:defBase/3/1
-204=int:defEquip/2/1
-205=int:defTotal/3/1
-206=int:agilBase/3/1
-207=int:agilEquip/2/1
-208=int:agilTotal/3/1
-;209=txt:" << pen::fgcol(pen::kBlack,true) << "/200" << pen::fgcol(pen::kYellow) << "
+199=int:atkBase/3/1/%emph%
+201=int:atkEquip/2/1/%emph%
+202=int:atkTotal/3/1/%emph%
+203=int:defBase/3/1/%emph%
+204=int:defEquip/2/1/%emph%
+205=int:defTotal/3/1/%emph%
+206=int:agilBase/3/1/%emph%
+207=int:agilEquip/2/1/%emph%
+208=int:agilTotal/3/1/%emph%
 
 ; main form - currencies
-300=int:shards/5/1
-301=int:gold/5/1
+300=int:shards/5/1/%emph%
+301=int:gold/5/1/%emph%
 
 ; equip table
 400=str:eRarity/3/1
@@ -61,7 +60,7 @@ coml v1 20
 402=str:eName/26/1
 403=str:used/1/1
 404=lst:table/12/1/400,401,402,403
-405=str:subtableTitle/9/1
+405=str:subtableTitle/9/1/%emph%
 
 ; numbers (cosmetic only)
 1000=txt:0 

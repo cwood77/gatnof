@@ -136,13 +136,40 @@ public:
    void setFormatter(iIntFormatter& f) { m_pFmt.reset(&f); }
 
 private:
+   bool m_neverDrawn;
    int m_cache;
    std::unique_ptr<iIntFormatter> m_pFmt;
+};
+
+class trustingIntFormatter : public iIntFormatter {
+public:
+   virtual std::string formatValue(int v, size_t l) const;
 };
 
 class maxValueIntFormatter : public iIntFormatter {
 public:
    virtual std::string formatValue(int v, size_t l) const;
+};
+
+class hugeValueIntFormatter : public iIntFormatter {
+public:
+   virtual std::string formatValue(int v, size_t l) const;
+
+private:
+   std::string abbreviate(
+      const std::string& s, size_t nBeforeDot, size_t l, char unit) const;
+};
+
+class justifyingIntFormatter : public iIntFormatter {
+public:
+   justifyingIntFormatter(bool right, iIntFormatter& next)
+   : m_pNext(&next), m_right(right) {}
+
+   virtual std::string formatValue(int v, size_t l) const;
+
+private:
+   std::unique_ptr<iIntFormatter> m_pNext;
+   bool m_right;
 };
 
 class bracketedIntFormatter : public iIntFormatter {
@@ -153,15 +180,6 @@ public:
 
 private:
    std::unique_ptr<iIntFormatter> m_pNext;
-};
-
-class hugeValueIntFormatter : public iIntFormatter {
-public:
-   virtual std::string formatValue(int v, size_t l) const;
-
-private:
-   std::string abbreviate(
-      const std::string& s, size_t nBeforeDot, size_t l, char unit) const;
 };
 
 class buttonControl : public control {

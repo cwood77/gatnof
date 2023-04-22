@@ -39,7 +39,8 @@ public:
       {
          inboxHint.setFormatter(
             *new cui::bracketedIntFormatter(
-               *new cui::maxValueIntFormatter()));
+               *new cui::justifyingIntFormatter(/*right*/true,
+                  *new cui::maxValueIntFormatter())));
       });
       auto& error = pScr->demand<cui::stringControl>("error");
       auto& ip = pScr->demand<cui::stringControl>("ip");
