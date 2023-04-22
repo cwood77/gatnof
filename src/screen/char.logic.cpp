@@ -200,7 +200,7 @@ public:
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
 
       const char *gSelDisp[] = { "line-up", "detail " };
-      int selMode = 0;
+      int selMode = 1;
 
       const char *gSortDisp[] = { "rarity", "caste " };
       int sortMode = 0;

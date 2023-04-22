@@ -163,6 +163,7 @@ class logic : private charDetail_screen, public cui::iLogic {
 public:
    logic()
    : m_acct(m_svcMan->demand<std::unique_ptr<sst::dict> >())
+   , m_equipFilter(db::kWeapon)
    {
    }
 
@@ -179,6 +180,15 @@ public:
       // setup int formatting
       setupControls();
 
+      static const char *subtableTitles[] = {
+         "  WEAPON ",
+         "  ARMOR  ",
+         "  BOOTS  ",
+         "ACCESSORY"
+      };
+      static const size_t subtableTitleCnt = sizeof(subtableTitles) / sizeof(const char *);
+      m_subtableTitle.update(subtableTitles[m_equipFilter]);
+
       while(true)
       {
          // grab the char that's been selected by my parent
@@ -190,10 +200,9 @@ public:
          drawCurrencies();
 
          // select / sort equip panel
-         equipListBuilder(m_eList).rebuild(*m_dbDict,*m_acct,db::kBoots,m_char->getType());
+         equipListBuilder(m_eList).rebuild(*m_dbDict,*m_acct,m_equipFilter,m_char->getType());
 
          // draw equip panel
-         m_subtableTitle.update("  BOOTS  ");
          drawEquip(pg);
 
          // handle user input
@@ -216,15 +225,18 @@ public:
          handler.add(m_starUpBtn,[&](bool& stop) { boostChar("star-up",stop); });
          handler.add(m_upBtn,[&](bool& stop){ pg--; stop = true; });
          handler.add(m_downBtn,[&](bool& stop){ pg++; stop = true; });
-         // equip next
+         handler.add(m_nextBtn,[&](bool& stop)
+         {
+            m_equipFilter = (db::equipTypes)((int)m_equipFilter + 1);
+            if(m_equipFilter >= subtableTitleCnt)
+               m_equipFilter = (db::equipTypes)0;
+            m_subtableTitle.update(subtableTitles[m_equipFilter]);
+            pg = 0;
+            stop = true;
+         });
          auto *ans = handler.run(m_svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)
             return;
-
-         // whole screen re-draw
-         //render();
-         // instead, just clear equip panel
-         // erase error?
       }
    }
 
@@ -398,7 +410,7 @@ private:
       req.add<sst::str>("char") = sKey.str();
       req.add<sst::str>("action") = "change-equip";
       req.add<sst::mint>("item") = it->second->eId;
-      req.add<sst::mint>("item-type") = 2;
+      req.add<sst::mint>("item-type") = m_equipFilter;
 
       auto& ch = m_svcMan->demand<net::iChannel>();
       ch.sendString("boostChar");
@@ -443,6 +455,7 @@ private:
    tcat::typePtr<db::iDict> m_dbDict;
    std::unique_ptr<db::Char> m_char;
 
+   db::equipTypes m_equipFilter;
    equipList m_eList;
    std::map<size_t,equipInst*> m_eMap;
 };

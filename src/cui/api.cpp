@@ -111,7 +111,7 @@ void guageControl::update(int v)
 
 intControl::intControl()
 : m_neverDrawn(true)
-, m_pFmt(new maxValueIntFormatter())
+, m_pFmt(new trustingIntFormatter())
 {
 }
 
