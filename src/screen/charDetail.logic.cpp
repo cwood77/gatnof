@@ -61,13 +61,8 @@ public:
          handler.addCustom('B',[&](bool& stop){  });
          handler.addCustom('C',[&](bool& stop){  });
          handler.add(m_backBtn,[&](bool& stop){ stop = true; });
-         handler.add(m_levelUpBtn,[&](bool& stop)
-         {
-            // message the server
-            // receive updates (or error)
-            stop = true; // redraw
-         });
-         // star up
+         handler.add(m_levelUpBtn,[&](bool& stop) { boostChar("level-up",stop); });
+         handler.add(m_starUpBtn,[&](bool& stop) { boostChar("star-up",stop); });
          handler.add(m_upBtn,[&](bool& stop){ pg--; stop = true; });
          handler.add(m_downBtn,[&](bool& stop){ pg++; stop = true; });
          // equip next
@@ -169,6 +164,29 @@ private:
          m_shards.update(inven[sKey.str()].as<sst::dict>()["amt"].as<sst::mint>().get());
 
       m_gold.update((*m_acct)["gold"].as<sst::mint>().get());
+   }
+
+   void boostChar(const std::string& mode, bool& stop)
+   {
+      std::stringstream sKey;
+      sKey << m_char->getType();
+
+      sst::dict req;
+      req.add<sst::str>("char") = sKey.str();
+      req.add<sst::str>("action") = mode;
+
+      auto& ch = m_svcMan->demand<net::iChannel>();
+      ch.sendString("boostChar");
+      ch.sendSst(req);
+
+      auto err = ch.recvString();
+      if(err.empty())
+      {
+         m_acct.reset(ch.recvSst());
+         stop = true;
+      }
+      else
+         m_error.redraw(err);
    }
 
    tcat::typePtr<cmn::serviceManager> m_svcMan;
