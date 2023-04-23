@@ -66,7 +66,9 @@ public:
       }
 
       // handle user input
-      svcMan->demand<cui::iUserInput>().getKey();
+      auto& in = svcMan->demand<cui::iUserInput>();
+      in.flush();
+      in.getKey();
    }
 };
 

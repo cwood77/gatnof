@@ -41,6 +41,7 @@ all: \
 	$(OUT_DIR)/release/test.exe
 	$(OUT_DIR)/debug/test.exe
 	$(OUT_DIR)/release/test.exe
+	@cmd /c "test\test-coml.bat"
 
 #	speed-up frequent recompiles for COML changes
 #	$(OUT_DIR)/release/screen.dll \
@@ -458,6 +459,7 @@ SERVER_SRC = \
 	src/server/listenThread.cpp \
 	src/server/main.cpp \
 	src/server/message.cpp \
+	src/server/msg.boostChar.cpp \
 	src/server/msg.changeLineUp.cpp \
 	src/server/msg.combat.cpp \
 	src/server/msg.get.cpp \
@@ -538,6 +540,7 @@ SCREEN_COML = \
 	src/screen/screen.attend.coml \
 	src/screen/screen.battle.coml \
 	src/screen/screen.char.coml \
+	src/screen/screen.charDetail.coml \
 	src/screen/screen.get.coml \
 	src/screen/screen.home.coml \
 	src/screen/screen.inbox.coml \
@@ -574,6 +577,7 @@ SCREEN_SRC = \
 	src/screen/attend.logic.cpp \
 	src/screen/battle.logic.cpp \
 	src/screen/char.logic.cpp \
+	src/screen/charDetail.logic.cpp \
 	src/screen/get.logic.cpp \
 	src/screen/home.logic.cpp \
 	src/screen/inbox.logic.cpp \

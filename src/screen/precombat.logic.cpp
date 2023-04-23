@@ -36,10 +36,14 @@ public:
       }
       while(true)
       {
+         // footer
+         m_error.update("");
+
          // header
          m_aName.redraw(svcMan->demand<shell::gameState>().accountName);
          m_qNum.redraw(qNum);
          m_sNum.redraw(sNum);
+         updateForOldQuests(*acct,qNum,sNum);
 
          // opponent info
          auto teamBonus = (*pCombatInfo)["line-up-bonus"].as<sst::mint>().get();
@@ -175,8 +179,13 @@ public:
             stop = true;
 
             render();
-            bool unused = false;
-            scrollQuest(ch,qNum,sNum,advQuest ? "++" : "=",pCombatInfo,unused);
+            if(advQuest)
+               completeQuest(ch,qNum,sNum,pCombatInfo,acct);
+            else
+            {
+               //bool unused = false;
+               //scrollQuest(ch,qNum,sNum,"=",pCombatInfo,unused);
+            }
          });
          auto *ans = handler.run(svcMan->demand<cui::iUserInput>());
          if(ans == &m_backBtn)
@@ -185,6 +194,36 @@ public:
    }
 
 private:
+   void updateForOldQuests(sst::dict& acct, size_t qNum, size_t sNum)
+   {
+      // show/hide past performance
+      std::stringstream questMoniker;
+      questMoniker << qNum << "-" << sNum;
+
+      std::stringstream indicator;
+      auto& qHistory = acct["quest-history"].as<sst::dict>();
+      if(qHistory.has(questMoniker.str()))
+      {
+         auto& score = qHistory[questMoniker.str()].as<sst::dict>()["score"].as<sst::array>();
+         indicator << "[completed ";
+         for(size_t i=0;i<score.size();i++)
+            indicator << (score[i].as<sst::tf>().get() ? "\xfb" : "x");
+         indicator << "]";
+      }
+      m_completedInd.redraw(indicator.str());
+
+      // dim/undim go button
+      auto& cQuest = acct["current-quest"].as<sst::dict>();
+
+      const bool isFutureQuest =
+         cQuest["quest"].as<sst::mint>().get() < qNum ||
+            (cQuest["quest"].as<sst::mint>().get() == qNum &&
+             cQuest["stage"].as<sst::mint>().get() < sNum);
+
+      m_goBtn.dim("you must complete quests in order",isFutureQuest);
+      m_goBtn.redraw();
+   }
+
    void handleLineUpReorder(std::unique_ptr<sst::dict>& acct, bool& stop)
    {
       size_t lineUpSize = (*acct)["line-up"].as<sst::array>().size();
@@ -291,6 +330,34 @@ private:
          sNum = (*pNewNums)["stage#"].as<sst::mint>().get();
 
          stop = true;
+      }
+   }
+
+   void completeQuest(
+      net::iChannel& ch,
+      size_t& qNum,
+      size_t& sNum,
+      std::unique_ptr<sst::dict>& pCombatInfo,
+      std::unique_ptr<sst::dict>& acct)
+   {
+      ch.sendString("queryCombat");
+      {
+         sst::dict req;
+         req.add<sst::str>("type") = "quest";
+         req.add<sst::mint>("quest#") = qNum;
+         req.add<sst::mint>("stage#") = sNum;
+         req.add<sst::str>("mode") = "++!";
+         ch.sendSst(req);
+      }
+      std::string rsp = ch.recvString();
+      if(!rsp.empty())
+         m_error.redraw(rsp);
+      else
+      {
+         pCombatInfo.reset(ch.recvSst());
+         acct.reset(ch.recvSst());
+         qNum = (*acct)["current-quest"].as<sst::dict>()["quest"].as<sst::mint>().get();
+         sNum = (*acct)["current-quest"].as<sst::dict>()["stage"].as<sst::mint>().get();
       }
    }
 };

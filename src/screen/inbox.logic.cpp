@@ -26,7 +26,8 @@ public:
       {
          count.setFormatter(
             *new cui::bracketedIntFormatter(
-               *new cui::maxValueIntFormatter()));
+               *new cui::justifyingIntFormatter(/*right*/true,
+                  *new cui::maxValueIntFormatter())));
       });
       auto& table = pScr->demand<cui::listControl<inbox_table_row_ctl> >("table");
       auto& error = pScr->demand<cui::stringControl>("error");

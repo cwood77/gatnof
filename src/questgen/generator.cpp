@@ -43,6 +43,7 @@ stageData::stageData(size_t numStages)
    partySize.resize(numStages);
    partyLevel.resize(numStages);
    awardAmts1.resize(numStages);
+   award3.resize(numStages);
 }
 
 void stageGenerator::writeToDisk(size_t questNum, stageData& data)
@@ -103,11 +104,51 @@ void stageGenerator::writeAwards(sst::dict& stage, size_t i, stageData& data)
    second.add<sst::mint>("amt") = 5 * data.awardAmts1[i];
    second.add<sst::tf>("repeatable") = true;
 
+   writeAward3(awards,i,data);
+}
+
+void stageGenerator::writeAward3(sst::array& awards, size_t i, stageData& data)
+{
    auto& third = awards.append<sst::dict>();
    third.add<sst::str>("condition") = "all-above-half";
-   third.add<sst::str>("unit") = "gold";
-   third.add<sst::mint>("amt") = 1;
    third.add<sst::tf>("repeatable") = false;
+
+   auto& strat = *data.award3[i];
+
+   if(strat.strategy == "scaleAward1")
+   {
+      third.add<sst::str>("unit") = "gold";
+      third.add<sst::mint>("amt") = 10 * data.awardAmts1[i];
+   }
+   else if(strat.strategy == "rndItem")
+   {
+      auto r = strat.dist.draw();
+      auto i = pickItem(r);
+      third.add<sst::str>("unit") = "equip";
+      third.add<sst::mint>("id") = i;
+   }
+   else
+      throw std::runtime_error("award3 strategy unknown");
+}
+
+size_t stageGenerator::pickItem(db::rarities r)
+{
+   tcat::typePtr<db::iDict> dbDict;
+   size_t first,count;
+   dbDict->getItemRange(first,count);
+
+   cmn::runawayLoopCheck lChk;
+   while(true)
+   {
+      lChk.sanityCheck();
+      auto iEquip = (::rand() % count) + first;
+
+      auto& equip = dbDict->findItem(iEquip);
+      if(equip.rarity != r)
+         continue;
+
+      return iEquip;
+   }
 }
 
 void stageGenerator::writeParty(sst::dict& stage, size_t i, stageData& data)

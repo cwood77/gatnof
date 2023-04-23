@@ -25,9 +25,19 @@ enum elements {
 
 const char *fmtElementsFixedWidth(elements e);
 
+enum equipTypes {
+   kWeapon,
+   kArmor,
+   kBoots,
+   kAccessory
+};
+
+const char *fmtEquipTypes(equipTypes e);
+
 class equip {
 public:
    rarities rarity;
+   equipTypes type;
    size_t quality;
    const char *name;
 };
@@ -59,6 +69,7 @@ public:
    virtual const staticChar& findChar(size_t id) = 0;
    virtual size_t numChars() const = 0;
    virtual const equip& findItem(size_t id) = 0;
+   virtual void getItemRange(size_t& first, size_t& count) = 0;
    virtual const staticStat& findStat() = 0;
 };
 
@@ -79,6 +90,8 @@ public:
    size_t getLevel();
    //void setLevel(size_t v);
 
+   size_t getStat(bool special, const equip *pE) const;
+
    size_t atk(bool special) const { return getStat(special,getWeapon()); }
    size_t def() const             { return getStat(false,  getArmor()); }
    size_t agil() const            { return getStat(false,  getBoot()); }
@@ -95,7 +108,6 @@ public:
 
 private:
    void configureEquip(iDict& d);
-   size_t getStat(bool special, const equip *pE) const;
    size_t applyBonus(size_t x) const;
 
    sst::dict& m_overlay;

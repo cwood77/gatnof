@@ -51,8 +51,11 @@ public:
          for(size_t i=0;i<awards.size();i++)
          {
             auto& award = awards[i].as<sst::dict>();
+            auto boonFullName = award["boon"].as<sst::str>().get();
+            if(award["alreadyHad"].as<sst::tf>().get())
+               boonFullName += " [already received]";
             m_table[i].condition.update(award["condition"].as<sst::str>().get());
-            m_table[i].boon.update(award["boon"].as<sst::str>().get());
+            m_table[i].boon.update(boonFullName);
          }
       }
 
@@ -71,8 +74,13 @@ public:
             {
                m_table[i].condition.setFormatMode(2);
                m_table[i].condition.redraw(award["condition"].as<sst::str>().get());
-               m_table[i].boon.setFormatMode(2);
-               m_table[i].boon.redraw(award["boon"].as<sst::str>().get());
+
+               bool already = award["alreadyHad"].as<sst::tf>().get();
+               if(!already)
+               {
+                  m_table[i].boon.setFormatMode(2);
+                  m_table[i].boon.redraw(award["boon"].as<sst::str>().get());
+               }
             }
          }
       }
@@ -88,7 +96,9 @@ public:
       }
 
       // handle user input
-      svcMan->demand<cui::iUserInput>().getKey();
+      auto& in = svcMan->demand<cui::iUserInput>();
+      in.flush();
+      in.getKey();
    }
 };
 

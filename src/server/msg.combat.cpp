@@ -140,6 +140,7 @@ public:
       tcat::typePtr<db::iDict> dbDict;
       sst::dict result;
       combat::recorder recorder(result);
+      auto questMoniker = ch.recvString();
       std::unique_ptr<sst::dict> pReq(ch.recvSst());
 
       // create db::Chars for each side
@@ -184,9 +185,11 @@ public:
          }
       }
 
-      // grant a boon
       log().writeLnTemp("scoring");
-      scoreVictory(*pReq,ctxt.pAcct->dict(),recorder.wasVictory(),pSide,recorder);
+      scoreVictory(
+         *pReq,
+         ctxt.pAcct->dict(),questMoniker,
+         recorder.wasVictory(),pSide,recorder);
 
       log().writeLnTemp("returning result SST");
       ch.sendSst(result);
@@ -313,51 +316,129 @@ private:
       else return 0;
    }
 
-   void scoreVictory(sst::dict& questInfo, sst::dict& acct, bool isVictory, combat::side& pSide, combat::recorder& r)
+   bool alreadyGot(sst::dict& qHistory, const std::string& questMoniker, size_t iAward)
    {
+      if(!qHistory.has(questMoniker))
+         return false;
+
+      auto& score = qHistory[questMoniker].as<sst::dict>()["score"].as<sst::array>();
+      return score[iAward].as<sst::tf>().get();
+   }
+
+   void scoreVictory(sst::dict& questInfo, sst::dict& acct, const std::string& questMoniker, bool isVictory, combat::side& pSide, combat::recorder& r)
+   {
+      auto& qHistory = acct["quest-history"].as<sst::dict>();
       auto& awards = questInfo["awards"].as<sst::array>();
+      std::vector<bool> earnings;
       for(size_t i=0;i<awards.size();i++)
       {
          auto& award = awards[i].as<sst::dict>();
          auto& condition = award["condition"].as<sst::str>().get();
-         auto& unit = award["unit"].as<sst::str>().get();
-         auto& amt = award["amt"].as<sst::mint>().get();
 
-         std::stringstream boon;
-         boon << amt << " " << unit;
-         bool grantBoon = false;
+         auto boon = buildBoonNarration(award);
+         bool alreadyHad = alreadyGot(qHistory,questMoniker,i);
+         bool earned = false;
 
          if(condition == "win")
          {
-            bool earned = isVictory;
-            r.scoreAward("defeat all enemies",boon.str(),earned,false);
-            grantBoon = earned;
+            earned = isVictory;
+            r.scoreAward("defeat all enemies",boon,earned,alreadyHad);
          }
          else if(condition == "all-alive")
          {
-            bool earned = pSide.all([](auto& c){ return c.hp > 0; });
-            r.scoreAward("all members survive",boon.str(),earned,false);
-            grantBoon = earned;
+            earned = pSide.all([](auto& c){ return c.hp > 0; });
+            r.scoreAward("all members survive",boon,earned,alreadyHad);
          }
          else if(condition == "all-above-half")
          {
-            bool earned = pSide.all([](auto& c){ return c.hp >= 50; });
-            r.scoreAward("all members at least 50% health",boon.str(),earned,false);
-            grantBoon = earned;
+            earned = pSide.all([](auto& c){ return c.hp >= 50; });
+            r.scoreAward("all members at least 50% health",boon,earned,alreadyHad);
          }
          else
             throw std::runtime_error("unsupported award condition");
+         earnings.push_back(earned);
 
-         if(grantBoon)
+         if(earned && !alreadyHad)
+            grantBoon(award,acct);
+      }
+
+      if(isVictory)
+         updateQuestHistory(qHistory,questMoniker,earnings);
+   }
+
+   std::string buildBoonNarration(sst::dict& award)
+   {
+      auto& unit = award["unit"].as<sst::str>().get();
+      std::stringstream boon;
+
+      if(unit == "equip")
+      {
+         auto id = award["id"].as<sst::mint>().get();
+
+         tcat::typePtr<db::iDict> dbDict;
+         auto& e = dbDict->findItem(id);
+
+         boon << e.name << " (" << db::fmtEquipTypes(e.type) << ")";
+      }
+      else
+      {
+         auto& amt = award["amt"].as<sst::mint>().get();
+         boon << amt << " " << unit;
+      }
+
+      return boon.str();
+   }
+
+   void grantBoon(sst::dict& award, sst::dict& acct)
+   {
+      auto& unit = award["unit"].as<sst::str>().get();
+
+      if(unit == "equip")
+      {
+         auto id = award["id"].as<sst::mint>().get();
+         std::stringstream sKey;
+         sKey << id;
+         auto& inven = acct["items"].as<sst::dict>();
+         if(inven.has(sKey.str()))
          {
-            if(unit == "gold")
-            {
-               auto& field = acct["gold"].as<sst::mint>();
-               field = field.get() + amt;
-            }
-            else
-               throw std::runtime_error("unsupported award unit");
+            auto& cnt = inven[sKey.str()].as<sst::dict>()["amt"].as<sst::mint>();
+            cnt = cnt.get() + 1;
          }
+         else
+         {
+            auto& item = inven.add<sst::dict>(sKey.str());
+            item.add<sst::mint>("amt") = 1;
+            item.add<sst::mint>("type") = id;
+         }
+      }
+      else if(unit == "gold")
+      {
+         auto& amt = award["amt"].as<sst::mint>().get();
+         auto& field = acct["gold"].as<sst::mint>();
+         field = field.get() + amt;
+      }
+      else
+         throw std::runtime_error("unsupported award unit");
+   }
+
+   void updateQuestHistory(sst::dict& qHistory, const std::string& questMoniker, const std::vector<bool>& earnings)
+   {
+      if(!qHistory.has(questMoniker))
+      {
+         // new quest
+         auto& thisQuest = qHistory.add<sst::dict>(questMoniker);
+         auto& score = thisQuest.add<sst::array>("score");
+         for(auto earned : earnings)
+            score.append<sst::tf>() = earned;
+      }
+      else
+      {
+         // old quest
+         auto& thisQuest = qHistory[questMoniker].as<sst::dict>();
+         auto& score = thisQuest["score"].as<sst::array>();
+         for(size_t i=0;i<earnings.size();i++)
+            if(!score[i].as<sst::tf>().get())
+               score[i].as<sst::tf>() = earnings[i];
       }
    }
 };

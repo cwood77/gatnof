@@ -110,7 +110,8 @@ void guageControl::update(int v)
 }
 
 intControl::intControl()
-: m_pFmt(new maxValueIntFormatter())
+: m_neverDrawn(true)
+, m_pFmt(new trustingIntFormatter())
 {
 }
 
@@ -127,13 +128,29 @@ void intControl::redraw(int v)
    formatText(str);
    str << m_pFmt->formatValue(v,getLength());
 
+   m_neverDrawn = false;
    m_cache = v;
 }
 
 void intControl::update(int v)
 {
-   if(v != m_cache)
+   if(m_neverDrawn || v != m_cache)
       redraw(v);
+}
+
+std::string trustingIntFormatter::formatValue(int v, size_t l) const
+{
+   std::stringstream stream;
+   stream << v;
+   std::string s = stream.str();
+
+   if(s.length() > l)
+   {
+      // sad path
+      s = std::string(l-1,'9');
+      s += "+";
+   }
+   return s;
 }
 
 std::string maxValueIntFormatter::formatValue(int v, size_t l) const
@@ -221,13 +238,28 @@ std::string hugeValueIntFormatter::abbreviate(const std::string& s, size_t nBefo
    return stream.str();
 }
 
+std::string justifyingIntFormatter::formatValue(int v, size_t l) const
+{
+   auto num = m_pNext->formatValue(v,l);
+   size_t nPad = l - num.length();
+
+   std::stringstream stream;
+   if(m_right)
+      stream << std::string(nPad,' ');
+   stream << num;
+   if(!m_right)
+      stream << std::string(nPad,' ');
+
+   return stream.str();
+}
+
 std::string bracketedIntFormatter::formatValue(int v, size_t l) const
 {
    auto num = m_pNext->formatValue(v,l-2);
-   size_t nPad = l - num.length() - 2;
 
    std::stringstream stream;
-   stream << "[" << std::string(nPad,' ') << num << "]";
+   stream << "[" << num << "]";
+
    return stream.str();
 }
 

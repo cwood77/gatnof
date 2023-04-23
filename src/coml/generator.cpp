@@ -52,12 +52,15 @@ void generator::genImage(streams& out)
       out.hpp() << "      pn.str() << \"";
 
       bool lastWasDigit = false;
-      size_t jOffset = 0;
+      int jOffset = 0;
+      size_t nShadow = 0;
       auto& line = m_ir.lines[i+1];
       for(size_t j=0;j!=line.length();j++)
       {
          if(::isdigit(line.c_str()[j]))
          {
+            if(nShadow)
+               throw std::runtime_error("shadow not consumed before next object!");
             int id = 0;
             int n = 0;
             ::sscanf(line.c_str()+j,"%d%n",&id,&n);
@@ -65,7 +68,8 @@ void generator::genImage(streams& out)
             for(auto *pObj : objs)
             {
                pObj->place(cui::pnt(j+1-jOffset,i+m_ir.yOffset));
-               pObj->render(out.hpp());
+               pObj->render(out.hpp(),jOffset);
+               nShadow += pObj->getShadow();
             }
             jOffset += n;
             j += (n-1);
@@ -78,7 +82,13 @@ void generator::genImage(streams& out)
          }
          else
          {
-            out.hpp() << std::string(1,line.c_str()[j]);
+            if(nShadow)
+            {
+               out.hpp() << " ";
+               nShadow--;
+            }
+            else
+               out.hpp() << std::string(1,line.c_str()[j]);
             lastWasDigit = false;
          }
       }

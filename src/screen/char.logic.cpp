@@ -167,6 +167,27 @@ public:
    }
 };
 
+class detailCharSelector : public iCharSelector {
+public:
+   virtual void run(db::Char *c, cui::stringControl& error, bool& stop)
+   {
+      if(c == NULL)
+      {
+         error.redraw("No character selected");
+         return;
+      }
+
+      tcat::typePtr<cmn::serviceManager> svcMan;
+      size_t cType = c->getType();
+      cmn::autoService<size_t> _char(*svcMan,cType,"selectedChar");
+      tcat::typePtr<cui::iFactory> sFac;
+      cmn::autoReleasePtr<cui::iLogic> pL(&sFac->create<cui::iLogic>("charDetail"));
+      pL->run();
+
+      stop = true;
+   }
+};
+
 class logic : private char_screen, public cui::iLogic {
 public:
    // required for diamond inheritance :(
@@ -179,7 +200,7 @@ public:
       auto& acct = svcMan->demand<std::unique_ptr<sst::dict> >();
 
       const char *gSelDisp[] = { "line-up", "detail " };
-      int selMode = 0;
+      int selMode = 1;
 
       const char *gSortDisp[] = { "rarity", "caste " };
       int sortMode = 0;
@@ -195,6 +216,7 @@ public:
       iCharSorter *pSort = &rSort;
 
       inTeamCharSelector iTSelect;
+      detailCharSelector dSelect;
       iCharSelector *pSelect = &iTSelect;
 
       while(true)
@@ -274,6 +296,15 @@ public:
          handler.add(m_backBtn,[&](bool& stop){ stop = true; });
          handler.add(m_upBtn,[&](bool& stop){ pg--; stop = true; });
          handler.add(m_downBtn,[&](bool& stop){ pg++; stop = true; });
+         handler.add(m_selectModeBtn,[&](bool& stop)
+         {
+            selMode++;
+            int N = sizeof(gSelDisp) / sizeof(const char *);
+            if(selMode >= N)
+               selMode = 0;
+            pSelect = selMode ? (iCharSelector*)&dSelect : (iCharSelector*)&iTSelect;
+            m_selectModeDsp.redraw(gSelDisp[selMode]);
+         });
          handler.add(m_sortModeBtn,[&](bool& stop)
          {
             sortMode++;

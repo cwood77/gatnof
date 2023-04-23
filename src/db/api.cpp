@@ -5,6 +5,23 @@
 
 namespace db {
 
+static const size_t kReservedCharRange = 9000;
+
+static const equip gEquip[] = {
+   { kR,   kWeapon,     1, "Folding chair"              },
+   { kR,   kWeapon,     5, "Hugs"                       },
+   { kSr,  kWeapon,    10, "Nail clippers"              },
+   { kSsr, kWeapon,    15, "Rusty butterknife"          },
+   { kUr,  kWeapon,    20, "Dirty underwear on a stick" },
+   { kR,   kArmor,      1, "Revealing swimsuit"         },
+   { kSsr, kArmor,     10, "Saran wrap"                 },
+   { kUr,  kArmor,     20, "Tin foil hat"               },
+   { kR,   kBoots,      1, "Penny loafers"              },
+   { kSsr, kBoots,     10, "Scuba flippers"             },
+   { kUr,  kBoots,     20, "Pleather chaps"             },
+   //{ kSsr, kAccessory, 20, ""          },
+};
+
 static const staticChar gChars[] = {
    { kR,   kEarth, "Corporate",  "Classics",     "Anime",      "Cannibal mickey mouse",      "spec" },
    { kSr,  kEarth, "Corporate",  "Classics",     "Anime",      "Drunken sailor Donald Duck", "spec" },
@@ -120,15 +137,10 @@ class staticDict : public iDict {
 public:
    virtual const staticChar& findChar(size_t id);
    virtual size_t numChars() const;
-   virtual const equip& findItem(size_t id) { throw 3.14; }
+   virtual const equip& findItem(size_t id);
+   virtual void getItemRange(size_t& first, size_t& count);
    virtual const staticStat& findStat() { return gStats; }
 };
-
-size_t staticDict::numChars() const
-{
-   static const size_t nCnt = sizeof(gChars) / sizeof(staticChar);
-   return nCnt;
-}
 
 const staticChar& staticDict::findChar(size_t id)
 {
@@ -136,6 +148,31 @@ const staticChar& staticDict::findChar(size_t id)
    if(id >= nCnt)
       throw std::runtime_error("char range out of bounds");
    return gChars[id];
+}
+
+size_t staticDict::numChars() const
+{
+   static const size_t nCnt = sizeof(gChars) / sizeof(staticChar);
+   return nCnt;
+}
+
+const equip& staticDict::findItem(size_t id)
+{
+   if(id < kReservedCharRange)
+      throw std::runtime_error("char id passed to findItem");
+
+   id -= kReservedCharRange; // rebase
+   static const size_t nCnt = sizeof(gEquip) / sizeof(equip);
+   if(id >= nCnt)
+      throw std::runtime_error("equip range out of bounds");
+   return gEquip[id];
+}
+
+void staticDict::getItemRange(size_t& first, size_t& count)
+{
+   static const size_t nCnt = sizeof(gEquip) / sizeof(equip);
+   first = kReservedCharRange;
+   count = nCnt;
 }
 
 tcatExposeTypeAs(staticDict,iDict);
